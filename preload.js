@@ -31,4 +31,7 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
   load:   (id)       => ipcRenderer.invoke('zeroai:load',   { app: appId(), id }),
   list:   ()         => ipcRenderer.invoke('zeroai:list',   { app: appId() }),
   remove: (id)       => ipcRenderer.invoke('zeroai:remove', { app: appId(), id }),
+  // Proprietary project files (custom extension, only readable in this app):
+  saveFile: (data, name) => ipcRenderer.invoke('zeroai:saveFile', { app: appId(), data, name }),
+  openFile: ()           => ipcRenderer.invoke('zeroai:openFile', { app: appId() }),
 })

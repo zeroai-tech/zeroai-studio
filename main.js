@@ -6,7 +6,7 @@
 // no per-app rebuild needed — and we can attach security headers per app
 // (e.g. COOP/COEP for zaipy's Pyodide later). One window, switch between apps.
 
-const { app, BrowserWindow, protocol, shell, ipcMain } = require('electron')
+const { app, BrowserWindow, protocol, shell, ipcMain, dialog } = require('electron')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 
@@ -131,6 +131,43 @@ ipcMain.handle('zeroai:list', async (_e, { app: a }) => {
 })
 ipcMain.handle('zeroai:remove', async (_e, { app: a, id }) => {
   try { await fs.unlink(path.join(projectsDir(a), safeId(id) + '.json')); return { ok: true } } catch { return { ok: false } }
+})
+
+// ── Proprietary project files (only readable in ZeroAI Studio) ───────────────
+// Custom per-app extension + an encoded container with a magic header, so the
+// files aren't plain JSON and other programs won't open them.
+const FILE_EXT = { zerospark: 'zspark', zaisim: 'zsim', zaiblock: 'zblock', zaipy: 'zpy', zaicad: 'zcad' }
+const MAGIC = 'ZEROAI/v1\n'
+const encodeProject = (a, data) => MAGIC + Buffer.from(JSON.stringify({ app: a, savedAt: Date.now(), data })).toString('base64')
+function decodeProject(buf) {
+  const s = buf.toString('utf8')
+  if (!s.startsWith(MAGIC)) throw new Error('Not a ZeroAI project file')
+  return JSON.parse(Buffer.from(s.slice(MAGIC.length), 'base64').toString('utf8'))
+}
+ipcMain.handle('zeroai:saveFile', async (e, { app: a, data, name }) => {
+  const ext = FILE_EXT[a] || 'zeroai'
+  const win = BrowserWindow.fromWebContents(e.sender)
+  const { canceled, filePath } = await dialog.showSaveDialog(win, {
+    title: 'Save project',
+    defaultPath: `${(name || 'My Project').replace(/[\/\\:]/g, '-')}.${ext}`,
+    filters: [{ name: 'ZeroAI Project', extensions: [ext] }],
+  })
+  if (canceled || !filePath) return { ok: false, canceled: true }
+  await fs.writeFile(filePath, encodeProject(a, data))
+  return { ok: true, path: filePath }
+})
+ipcMain.handle('zeroai:openFile', async (e, { app: a }) => {
+  const ext = FILE_EXT[a] || 'zeroai'
+  const win = BrowserWindow.fromWebContents(e.sender)
+  const { canceled, filePaths } = await dialog.showOpenDialog(win, {
+    title: 'Open project', properties: ['openFile'],
+    filters: [{ name: 'ZeroAI Project', extensions: [ext] }],
+  })
+  if (canceled || !filePaths || !filePaths.length) return { ok: false, canceled: true }
+  try {
+    const p = decodeProject(await fs.readFile(filePaths[0]))
+    return { ok: true, app: p.app, data: p.data, path: filePaths[0] }
+  } catch (err) { return { ok: false, error: err.message } }
 })
 
 app.whenReady().then(() => {
