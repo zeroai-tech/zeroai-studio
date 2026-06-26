@@ -1,0 +1,13 @@
+{
+  "name": "zeroai-studio",
+  "version": "0.1.0",
+  "description": "ZeroAI Studio — the STEM suite as one installable desktop app (Electron). Proof of concept.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "bundle:zerospark": "rm -rf apps/zerospark && cp -r ../zerospark/dist apps/zerospark"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}

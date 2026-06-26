@@ -1,0 +1,10 @@
+node_modules/
+dist/
+out/
+# bundled app builds (artifacts — regenerate with `npm run bundle:<app>`)
+apps/zerospark/
+apps/zaiblock/
+apps/zaipy/
+apps/zaisim/
+apps/zaicad/
+.DS_Store

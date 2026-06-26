@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZeroAI Studio</title>
+<style>
+  :root{ --acc:#8f7bff; --acc2:#5c9eff; --mut:#9aa1c4; --line:#272c55 }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e7e9f3;
+    background:radial-gradient(120% 80% at 85% -10%,#2c1f59 0%,#141734 45%,#0a0c15 100%) fixed;
+    display:flex;flex-direction:column;min-height:100vh;-webkit-user-select:none;user-select:none}
+  header{display:flex;align-items:center;gap:12px;padding:26px 40px}
+  .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 24px -4px var(--acc)}
+  header b{font-size:20px;letter-spacing:-.01em}
+  header .v{color:var(--mut);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-left:4px}
+  .hero{padding:18px 40px 6px}
+  .hero h1{font-size:34px;margin:0 0 6px;letter-spacing:-.02em}
+  .hero p{color:var(--mut);margin:0;font-size:15px;max-width:620px;line-height:1.5}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:28px 40px 40px}
+  .card{position:relative;border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(20,23,52,.55);
+    cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s;overflow:hidden}
+  .card:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 16px 40px -20px rgba(143,123,255,.7)}
+  .card .ic{font-size:30px}
+  .card h3{margin:12px 0 4px;font-size:17px}
+  .card p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.45}
+  .card .grade{margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+  .card.soon{cursor:default;opacity:.5}
+  .card.soon:hover{transform:none;border-color:var(--line);box-shadow:none}
+  .badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    color:#0a0c15;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:999px;padding:3px 9px}
+  .badge.s{background:none;color:var(--mut);border:1px solid var(--line)}
+  footer{margin-top:auto;padding:16px 40px;color:var(--mut);font-size:12px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+  <header><span class="mark"></span><b>ZeroAI Studio</b><span class="v">v0.1 · POC</span></header>
+  <div class="hero">
+    <h1>Your STEM suite — one desktop app.</h1>
+    <p>Five classroom apps, installable, offline-capable, on Windows · macOS · Linux. Pick an app to launch it inside the Studio.</p>
+  </div>
+  <div class="grid" id="grid"></div>
+  <footer>Runs the bundled apps locally over <code>app://</code> — no browser, no server. A ZeroAI product.</footer>
+
+<script>
+  const apps = [
+    { id:'zerospark', ic:'⚡', name:'ZeroSpark', desc:'Electronics through play — blocks, XP, levels.', grade:'Grades 1–6', ready:true },
+    { id:'zaiblock',  ic:'🧩', name:'ZaiBlock',  desc:'Block coding — games, animations, stories.',  grade:'Grades 4–8', ready:false },
+    { id:'zaipy',     ic:'🐍', name:'ZaiPy',     desc:'Real Python IDE with an AI tutor.',           grade:'Grades 7–12', ready:false },
+    { id:'zaisim',    ic:'🔌', name:'ZaiSim',    desc:'Electronics & Arduino simulator.',            grade:'Grades 7–12', ready:false },
+    { id:'zaicad',    ic:'🧊', name:'ZaiCAD',    desc:'3D design & making, export to print.',        grade:'Grades 7–12', ready:false },
+  ]
+  const grid = document.getElementById('grid')
+  for (const a of apps) {
+    const el = document.createElement('div')
+    el.className = 'card' + (a.ready ? '' : ' soon')
+    el.innerHTML = `<span class="badge ${a.ready?'':'s'}">${a.ready?'Ready':'Soon'}</span>
+      <div class="ic">${a.ic}</div><h3>${a.name}</h3><p>${a.desc}</p><div class="grade">${a.grade}</div>`
+    if (a.ready) el.onclick = () => { location.href = 'app://' + a.id + '/index.html' }
+    grid.appendChild(el)
+  }
+</script>
+</body>
+</html>
