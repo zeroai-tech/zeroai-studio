@@ -8,3 +8,4 @@ apps/zaipy/
 apps/zaisim/
 apps/zaicad/
 .DS_Store
+studio.config.json

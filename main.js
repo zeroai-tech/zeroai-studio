@@ -6,11 +6,27 @@
 // no per-app rebuild needed — and we can attach security headers per app
 // (e.g. COOP/COEP for zaipy's Pyodide later). One window, switch between apps.
 
-const { app, BrowserWindow, protocol, shell } = require('electron')
+const { app, BrowserWindow, protocol, shell, ipcMain } = require('electron')
 const fs = require('node:fs/promises')
 const path = require('node:path')
 
 const APPS_DIR = path.join(__dirname, 'apps')
+
+// Shared suite config (one Supabase project across all 5 apps). Kept in a
+// gitignored studio.config.json so the (public, client-side) anon key isn't
+// committed. Injected into every app via preload → no per-app .env needed.
+let SUITE_CONFIG = {}
+try { SUITE_CONFIG = require('./studio.config.json') } catch { /* runs offline-only without it */ }
+const CONFIG_ARG = '--zeroai-config=' + Buffer.from(JSON.stringify(SUITE_CONFIG)).toString('base64')
+
+// Where offline projects are stored (per app).
+const projectsDir = (appId) => path.join(app.getPath('userData'), 'projects', appId.replace(/[^a-z0-9_-]/gi, ''))
+
+// Strip the web-only chrome so the apps feel native, not like a website.
+const DEWEBIFY_CSS = `
+  a[href*="wa.me"], a[href*="api.whatsapp"], a[href*="whatsapp.com"],
+  .whatsapp-float, [class*="whatsapp" i], [id*="whatsapp" i] { display: none !important; }
+`
 
 const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
@@ -65,15 +81,47 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1280, height: 840, minWidth: 900, minHeight: 600,
     backgroundColor: '#0a0c15', title: 'ZeroAI Studio',
-    webPreferences: { contextIsolation: true },
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
+      additionalArguments: [CONFIG_ARG],
+    },
   })
   win.loadURL('app://studio/index.html')
+  // After each app loads, strip web-only chrome so it feels native.
+  win.webContents.on('did-finish-load', () => { win.webContents.insertCSS(DEWEBIFY_CSS).catch(() => {}) })
   // External links (e.g. an app's "← Suite" link to the website) open in the OS browser.
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('http')) { shell.openExternal(url); return { action: 'deny' } }
     return { action: 'allow' }
   })
 }
+
+// ── Offline project storage (IPC) ───────────────────────────────────────────
+const safeId = (s) => String(s || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 80) || 'untitled'
+ipcMain.handle('zeroai:save', async (_e, { app: a, id, data }) => {
+  const dir = projectsDir(a); await fs.mkdir(dir, { recursive: true })
+  const pid = safeId(id)
+  await fs.writeFile(path.join(dir, pid + '.json'), JSON.stringify({ id: pid, savedAt: Date.now(), data }, null, 2))
+  return { ok: true, id: pid }
+})
+ipcMain.handle('zeroai:load', async (_e, { app: a, id }) => {
+  try { return JSON.parse(await fs.readFile(path.join(projectsDir(a), safeId(id) + '.json'), 'utf8')) }
+  catch { return null }
+})
+ipcMain.handle('zeroai:list', async (_e, { app: a }) => {
+  try {
+    const dir = projectsDir(a)
+    const files = (await fs.readdir(dir)).filter((f) => f.endsWith('.json'))
+    return Promise.all(files.map(async (f) => {
+      const j = JSON.parse(await fs.readFile(path.join(dir, f), 'utf8'))
+      return { id: j.id, savedAt: j.savedAt, name: j.data?.name ?? j.id }
+    }))
+  } catch { return [] }
+})
+ipcMain.handle('zeroai:remove', async (_e, { app: a, id }) => {
+  try { await fs.unlink(path.join(projectsDir(a), safeId(id) + '.json')); return { ok: true } } catch { return { ok: false } }
+})
 
 app.whenReady().then(() => {
   protocol.handle('app', handle)
