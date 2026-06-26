@@ -83,6 +83,7 @@ function createWindow() {
     backgroundColor: '#0a0c15', title: 'ZeroAI Studio',
     webPreferences: {
       contextIsolation: true,
+      sandbox: false,                 // preload needs Node (Buffer/require) to inject the shared config
       preload: path.join(__dirname, 'preload.js'),
       additionalArguments: [CONFIG_ARG],
     },
