@@ -23,9 +23,18 @@ const CONFIG_ARG = '--zeroai-config=' + Buffer.from(JSON.stringify(SUITE_CONFIG)
 const projectsDir = (appId) => path.join(app.getPath('userData'), 'projects', appId.replace(/[^a-z0-9_-]/gi, ''))
 
 // Strip the web-only chrome so the apps feel native, not like a website.
+// (!important beats the apps' inline styles, so this works without per-app edits.)
 const DEWEBIFY_CSS = `
   a[href*="wa.me"], a[href*="api.whatsapp"], a[href*="whatsapp.com"],
   .whatsapp-float, [class*="whatsapp" i], [id*="whatsapp" i] { display: none !important; }
+
+  /* Native-feel dialogs: kill the website-style heavy dark dim + blur that every
+     modal overlay (Gallery, Quiz, Combo map, Save, …) uses as a full-screen scrim. */
+  div[style*="position: fixed"][style*="inset: 0"][style*="rgba(0, 0, 0"] {
+    background: rgba(6, 8, 20, 0.40) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 `
 
 const MIME = {
