@@ -89,8 +89,17 @@ function createWindow() {
     },
   })
   win.loadURL('app://studio/index.html')
-  // After each app loads, strip web-only chrome so it feels native.
-  win.webContents.on('did-finish-load', () => { win.webContents.insertCSS(DEWEBIFY_CSS).catch(() => {}) })
+  // After each app loads, strip web-only chrome so it feels native + forward errors.
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.insertCSS(DEWEBIFY_CSS).catch(() => {})
+    win.webContents.executeJavaScript(
+      "window.addEventListener('error',e=>console.log('JS-ERROR: '+((e.error&&e.error.stack)||e.message)));" +
+      "window.addEventListener('unhandledrejection',e=>console.log('PROMISE-REJECT: '+((e.reason&&e.reason.stack)||e.reason)));"
+    ).catch(() => {})
+  })
+  // Forward renderer console + crashes to the terminal/log so we can debug.
+  win.webContents.on('console-message', (_e, _lvl, message) => { if (/error|fail|cannot|undefined|null/i.test(message)) console.log('[renderer]', message) })
+  win.webContents.on('render-process-gone', (_e, d) => console.log('[render-process-gone]', d.reason))
   // External links (e.g. an app's "← Suite" link to the website) open in the OS browser.
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('http')) { shell.openExternal(url); return { action: 'deny' } }
