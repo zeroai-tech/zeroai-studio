@@ -1,16 +1,51 @@
 {
   "name": "zeroai-studio",
-  "version": "0.1.0",
-  "description": "ZeroAI Studio — the STEM suite as one installable desktop app (Electron). Proof of concept.",
+  "version": "0.2.0",
+  "description": "ZeroAI Studio — install the STEM suite like Adobe Creative Cloud (pick what you want).",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "bundle:zerospark": "rm -rf apps/zerospark && cp -r ../zerospark/dist apps/zerospark"
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac dmg",
+    "dist:win": "electron-builder --win nsis",
+    "dist:linux": "electron-builder --linux deb"
   },
   "devDependencies": {
-    "electron": "^33.2.0"
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
     "adm-zip": "^0.5.17"
+  },
+  "build": {
+    "appId": "tech.zeroai.studio",
+    "productName": "ZeroAI Studio",
+    "copyright": "© ZeroAI Technologies",
+    "directories": { "output": "release", "buildResources": "build" },
+    "files": [
+      "main.js",
+      "preload.js",
+      "apps/**/*",
+      "studio.config.json",
+      "package.json"
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.education",
+      "icon": "build/icon.png",
+      "artifactName": "ZeroAI-Studio-${version}-${arch}.${ext}"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png",
+      "artifactName": "ZeroAI-Studio-Setup-${version}.${ext}"
+    },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true },
+    "linux": {
+      "target": "deb",
+      "icon": "build/icon.png",
+      "category": "Education",
+      "artifactName": "ZeroAI-Studio-${version}.${ext}"
+    }
   }
 }
