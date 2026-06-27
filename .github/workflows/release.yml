@@ -1,0 +1,60 @@
+name: Build installers
+
+# Push a version tag (e.g. v0.2.1) → builds .dmg + .exe + .deb on each OS and
+# attaches them to the GitHub Release for that tag. Or run manually to test
+# (artifacts are downloadable from the run).
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            script: dist:mac
+          - os: windows-latest
+            script: dist:win
+          - os: ubuntu-latest
+            script: dist:linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Provide shared config (public anon key)
+        run: node scripts/fetch-config.cjs
+
+      - run: npm ci
+
+      - name: Build installer
+        run: npm run ${{ matrix.script }}
+
+      - name: Upload build artifacts (downloadable from this run)
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-${{ matrix.os }}
+          path: |
+            release/*.dmg
+            release/*.exe
+            release/*.deb
+          if-no-files-found: ignore
+
+      - name: Attach to the GitHub Release (on a tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.dmg
+            release/*.exe
+            release/*.deb

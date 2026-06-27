@@ -30,7 +30,7 @@
       "package.json"
     ],
     "mac": {
-      "target": "dmg",
+      "target": [{ "target": "dmg", "arch": ["x64", "arm64"] }],
       "category": "public.app-category.education",
       "icon": "build/icon.png",
       "artifactName": "ZeroAI-Studio-${version}-${arch}.${ext}"
