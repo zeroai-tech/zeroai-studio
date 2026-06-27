@@ -1,0 +1,55 @@
+{
+  "updated": "2026-06-27",
+  "apps": [
+    {
+      "id": "zerospark",
+      "name": "ZeroSpark",
+      "icon": "⚡",
+      "desc": "Electronics through play — snap blocks, earn XP, level up.",
+      "grade": "Grades 1–6",
+      "version": "1.0.0",
+      "size": 205189,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.0.0/zerospark.zip"
+    },
+    {
+      "id": "zaisim",
+      "name": "ZaiSim",
+      "icon": "🔌",
+      "desc": "Electronics & Arduino simulator — build circuits, write real code.",
+      "grade": "Grades 7–12",
+      "version": "1.0.0",
+      "size": 604965,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.0.0/zaisim.zip"
+    },
+    {
+      "id": "zaiblock",
+      "name": "ZaiBlock",
+      "icon": "🧩",
+      "desc": "Block coding — build games, animations and stories.",
+      "grade": "Grades 4–8",
+      "version": "1.0.0",
+      "size": 620775,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.0.0/zaiblock.zip"
+    },
+    {
+      "id": "zaipy",
+      "name": "ZaiPy",
+      "icon": "🐍",
+      "desc": "A real Python IDE in the browser, with an AI tutor.",
+      "grade": "Grades 7–12",
+      "version": "1.0.0",
+      "size": 186258,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.0.0/zaipy.zip"
+    },
+    {
+      "id": "zaicad",
+      "name": "ZaiCAD",
+      "icon": "🧊",
+      "desc": "3D design & making — model real objects, export to print.",
+      "grade": "Grades 7–12",
+      "version": "1.0.0",
+      "size": 526380,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.0.0/zaicad.zip"
+    }
+  ]
+}
