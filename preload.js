@@ -35,3 +35,12 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
   saveFile: (data, name) => ipcRenderer.invoke('zeroai:saveFile', { app: appId(), data, name }),
   openFile: ()           => ipcRenderer.invoke('zeroai:openFile', { app: appId() }),
 })
+
+// Manager API (used by the Studio launcher to install/uninstall apps on demand).
+contextBridge.exposeInMainWorld('studio', {
+  catalog:   ()    => ipcRenderer.invoke('studio:catalog'),
+  install:   (app) => ipcRenderer.invoke('studio:install', app),
+  uninstall: (id)  => ipcRenderer.invoke('studio:uninstall', { id }),
+  open:      (id)  => { location.href = 'app://' + id + '/index.html' },
+  onProgress: (cb) => ipcRenderer.on('studio:progress', (_e, d) => cb(d)),
+})

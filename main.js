@@ -8,9 +8,47 @@
 
 const { app, BrowserWindow, protocol, shell, ipcMain, dialog } = require('electron')
 const fs = require('node:fs/promises')
+const fss = require('node:fs')
 const path = require('node:path')
+const https = require('node:https')
+const AdmZip = require('adm-zip')
 
-const APPS_DIR = path.join(__dirname, 'apps')
+// The manager UI ("studio") ships inside the app. The 5 STEM apps are NOT bundled —
+// they install on demand from the catalog into the user's data dir (Adobe-CC model).
+const APPS_DIR = path.join(__dirname, 'apps')                                   // bundled: studio manager only
+const INSTALL_DIR = () => path.join(app.getPath('userData'), 'installed-apps')  // installed apps live here
+const MANIFEST_URL = process.env.ZEROAI_MANIFEST ||
+  'https://raw.githubusercontent.com/zeroai-tech/zeroai-studio/main/manifest.json'
+const installedDbPath = () => path.join(app.getPath('userData'), 'installed.json')
+async function readInstalled() { try { return JSON.parse(await fs.readFile(installedDbPath(), 'utf8')) } catch { return {} } }
+async function writeInstalled(db) { await fs.writeFile(installedDbPath(), JSON.stringify(db, null, 2)) }
+
+// GET JSON / download with redirect-following (GitHub release assets redirect to S3).
+function getJSON(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'ZeroAI-Studio' } }, res => {
+      if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location) { res.resume(); return resolve(getJSON(res.headers.location)) }
+      if (res.statusCode !== 200) { res.resume(); return reject(new Error('HTTP ' + res.statusCode)) }
+      let d = ''; res.on('data', c => d += c); res.on('end', () => { try { resolve(JSON.parse(d)) } catch (e) { reject(e) } })
+    }).on('error', reject)
+  })
+}
+function download(url, dest, onProgress, redirects = 0) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': 'ZeroAI-Studio' } }, res => {
+      if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location && redirects < 6) {
+        res.resume(); return resolve(download(res.headers.location, dest, onProgress, redirects + 1))
+      }
+      if (res.statusCode !== 200) { res.resume(); return reject(new Error('HTTP ' + res.statusCode)) }
+      const total = parseInt(res.headers['content-length'] || '0', 10); let done = 0
+      const file = fss.createWriteStream(dest)
+      res.on('data', c => { done += c.length; if (total) onProgress?.(done / total) })
+      res.pipe(file)
+      file.on('finish', () => file.close(() => resolve()))
+      file.on('error', reject)
+    }).on('error', reject)
+  })
+}
 
 // Shared suite config (one Supabase project across all 5 apps). Kept in a
 // gitignored studio.config.json so the (public, client-side) anon key isn't
@@ -61,7 +99,8 @@ async function handle(req) {
   let rel = decodeURIComponent(url.pathname) || '/'
   if (rel === '/' || rel.endsWith('/')) rel += 'index.html'
 
-  const baseDir = path.join(APPS_DIR, host)
+  // 'studio' is the bundled manager; every other host is an installed app on disk.
+  const baseDir = host === 'studio' ? path.join(APPS_DIR, 'studio') : path.join(INSTALL_DIR(), host)
   const filePath = path.normalize(path.join(baseDir, rel))
   if (!filePath.startsWith(baseDir)) return new Response('forbidden', { status: 403 })
 
@@ -109,12 +148,42 @@ function createWindow() {
   // Forward renderer console + crashes to the terminal/log so we can debug.
   win.webContents.on('console-message', (_e, _lvl, message) => { if (/error|fail|cannot|undefined|null/i.test(message)) console.log('[renderer]', message) })
   win.webContents.on('render-process-gone', (_e, d) => console.log('[render-process-gone]', d.reason))
-  // External links (e.g. an app's "← Suite" link to the website) open in the OS browser.
+  // An app's "← Suite" link → back to the Studio manager (not the marketing site).
+  const backToStudio = (url) => /stem\.zeroaitech\.tech/.test(url)
+  win.webContents.on('will-navigate', (e, url) => {
+    if (backToStudio(url)) { e.preventDefault(); win.loadURL('app://studio/index.html') }
+  })
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('http')) { shell.openExternal(url); return { action: 'deny' } }
+    if (backToStudio(url)) { win.loadURL('app://studio/index.html'); return { action: 'deny' } }
+    if (url.startsWith('http')) { shell.openExternal(url); return { action: 'deny' } }  // other external links → OS browser
     return { action: 'allow' }
   })
 }
+
+// ── App catalog: install / uninstall on demand (Adobe-CC model) ──────────────
+ipcMain.handle('studio:catalog', async () => {
+  let apps = []
+  try { apps = (await getJSON(MANIFEST_URL)).apps || [] }
+  catch (e) { return { ok: false, error: 'Could not reach the catalog: ' + e.message, apps: [], installed: await readInstalled() } }
+  return { ok: true, apps, installed: await readInstalled() }
+})
+ipcMain.handle('studio:install', async (e, { id, url, version }) => {
+  try {
+    await fs.mkdir(INSTALL_DIR(), { recursive: true })
+    const tmp = path.join(app.getPath('temp'), `${id}-${Date.now()}.zip`)
+    await download(url, tmp, pct => e.sender.send('studio:progress', { id, pct }))
+    const dir = path.join(INSTALL_DIR(), id)
+    await fs.rm(dir, { recursive: true, force: true }); await fs.mkdir(dir, { recursive: true })
+    new AdmZip(tmp).extractAllTo(dir, true)
+    await fs.unlink(tmp).catch(() => {})
+    const db = await readInstalled(); db[id] = { version, installedAt: Date.now() }; await writeInstalled(db)
+    return { ok: true }
+  } catch (err) { return { ok: false, error: err.message } }
+})
+ipcMain.handle('studio:uninstall', async (_e, { id }) => {
+  try { await fs.rm(path.join(INSTALL_DIR(), id), { recursive: true, force: true }); const db = await readInstalled(); delete db[id]; await writeInstalled(db); return { ok: true } }
+  catch (err) { return { ok: false, error: err.message } }
+})
 
 // ── Offline project storage (IPC) ───────────────────────────────────────────
 const safeId = (s) => String(s || '').replace(/[^a-z0-9_-]/gi, '').slice(0, 80) || 'untitled'

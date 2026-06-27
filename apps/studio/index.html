@@ -5,61 +5,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ZeroAI Studio</title>
 <style>
-  :root{ --acc:#8f7bff; --acc2:#5c9eff; --mut:#9aa1c4; --line:#272c55 }
+  :root{ --acc:#8f7bff; --acc2:#5c9eff; --mut:#9aa1c4; --line:#272c55; --ok:#3ad29f; --warn:#ffb454 }
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
   body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e7e9f3;
     background:radial-gradient(120% 80% at 85% -10%,#2c1f59 0%,#141734 45%,#0a0c15 100%) fixed;
     display:flex;flex-direction:column;min-height:100vh;-webkit-user-select:none;user-select:none}
-  header{display:flex;align-items:center;gap:12px;padding:26px 40px}
+  header{display:flex;align-items:center;gap:12px;padding:24px 40px 6px}
   .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 24px -4px var(--acc)}
   header b{font-size:20px;letter-spacing:-.01em}
   header .v{color:var(--mut);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-left:4px}
-  .hero{padding:18px 40px 6px}
-  .hero h1{font-size:34px;margin:0 0 6px;letter-spacing:-.02em}
-  .hero p{color:var(--mut);margin:0;font-size:15px;max-width:620px;line-height:1.5}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;padding:28px 40px 40px}
-  .card{position:relative;border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(20,23,52,.55);
-    cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s;overflow:hidden}
-  .card:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 16px 40px -20px rgba(143,123,255,.7)}
+  header .spacer{flex:1}
+  .refresh{background:none;border:1px solid var(--line);color:var(--mut);border-radius:9px;padding:6px 12px;cursor:pointer;font-size:13px}
+  .refresh:hover{color:#fff;border-color:var(--acc)}
+  .hero{padding:8px 40px 4px}
+  .hero h1{font-size:30px;margin:0 0 4px;letter-spacing:-.02em}
+  .hero p{color:var(--mut);margin:0;font-size:14px;max-width:640px}
+  #msg{margin:10px 40px 0;padding:9px 14px;border-radius:10px;font-size:13px;display:none}
+  #msg.err{display:block;background:rgba(255,90,110,.1);border:1px solid #6b2f44;color:#ffd9e2}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;padding:24px 40px 40px}
+  .card{position:relative;border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(20,23,52,.55);display:flex;flex-direction:column;gap:6px}
   .card .ic{font-size:30px}
-  .card h3{margin:12px 0 4px;font-size:17px}
-  .card p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.45}
-  .card .grade{margin-top:12px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
-  .card.soon{cursor:default;opacity:.5}
-  .card.soon:hover{transform:none;border-color:var(--line);box-shadow:none}
-  .badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-    color:#0a0c15;background:linear-gradient(135deg,var(--acc),var(--acc2));border-radius:999px;padding:3px 9px}
-  .badge.s{background:none;color:var(--mut);border:1px solid var(--line)}
+  .card h3{margin:8px 0 2px;font-size:17px}
+  .card .desc{margin:0;color:var(--mut);font-size:12.5px;line-height:1.45;min-height:34px}
+  .card .meta{font-size:10.5px;color:var(--mut);margin-top:4px;display:flex;gap:8px;align-items:center}
+  .pill{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px}
+  .pill.installed{background:rgba(58,210,159,.15);color:var(--ok)}
+  .pill.avail{border:1px solid var(--line);color:var(--mut)}
+  .row{display:flex;gap:8px;margin-top:12px}
+  .btn{flex:1;border:none;border-radius:10px;padding:9px 10px;font-size:13px;font-weight:700;cursor:pointer}
+  .btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
+  .btn.ghost{background:rgba(255,255,255,.06);color:#e7e9f3;border:1px solid var(--line)}
+  .btn.danger{background:rgba(255,90,110,.12);color:#ff8aa0;border:1px solid #6b2f44;flex:0 0 auto}
+  .btn:disabled{opacity:.5;cursor:default}
+  .prog{height:6px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:12px;display:none}
+  .prog.show{display:block}
+  .prog > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .15s}
   footer{margin-top:auto;padding:16px 40px;color:var(--mut);font-size:12px;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
-  <header><span class="mark"></span><b>ZeroAI Studio</b><span class="v">v0.1 · POC</span></header>
+  <header><span class="mark"></span><b>ZeroAI Studio</b><span class="v">v0.2</span>
+    <span class="spacer"></span><button class="refresh" id="refresh">↻ Refresh catalog</button>
+  </header>
   <div class="hero">
-    <h1>Your STEM suite — one desktop app.</h1>
-    <p>Five classroom apps, installable, offline-capable, on Windows · macOS · Linux. Pick an app to launch it inside the Studio.</p>
+    <h1>Your apps, your choice.</h1>
+    <p>Install only the apps you need — add or remove them any time. They download on demand and run right here, offline.</p>
   </div>
+  <div id="msg"></div>
   <div class="grid" id="grid"></div>
-  <footer>Runs the bundled apps locally over <code>app://</code> — no browser, no server. A ZeroAI product.</footer>
+  <footer>Apps install to this computer on demand. A ZeroAI product.</footer>
 
 <script>
-  const apps = [
-    { id:'zerospark', ic:'⚡', name:'ZeroSpark', desc:'Electronics through play — blocks, XP, levels.', grade:'Grades 1–6', ready:true },
-    { id:'zaiblock',  ic:'🧩', name:'ZaiBlock',  desc:'Block coding — games, animations, stories.',  grade:'Grades 4–8', ready:false },
-    { id:'zaipy',     ic:'🐍', name:'ZaiPy',     desc:'Real Python IDE with an AI tutor.',           grade:'Grades 7–12', ready:false },
-    { id:'zaisim',    ic:'🔌', name:'ZaiSim',    desc:'Electronics & Arduino simulator.',            grade:'Grades 7–12', ready:false },
-    { id:'zaicad',    ic:'🧊', name:'ZaiCAD',    desc:'3D design & making, export to print.',        grade:'Grades 7–12', ready:false },
-  ]
-  const grid = document.getElementById('grid')
-  for (const a of apps) {
-    const el = document.createElement('div')
-    el.className = 'card' + (a.ready ? '' : ' soon')
-    el.innerHTML = `<span class="badge ${a.ready?'':'s'}">${a.ready?'Ready':'Soon'}</span>
-      <div class="ic">${a.ic}</div><h3>${a.name}</h3><p>${a.desc}</p><div class="grade">${a.grade}</div>`
-    if (a.ready) el.onclick = () => { location.href = 'app://' + a.id + '/index.html' }
-    grid.appendChild(el)
+  const grid = document.getElementById('grid'), msg = document.getElementById('msg')
+  let catalog = { apps: [], installed: {} }
+
+  // download progress → update the right card's bar
+  window.studio.onProgress(({ id, pct }) => {
+    const bar = document.querySelector(`[data-prog="${id}"] > i`)
+    if (bar) bar.style.width = Math.round(pct * 100) + '%'
+  })
+
+  function card(a) {
+    const inst = catalog.installed[a.id]
+    const outdated = inst && a.version && inst.version !== a.version
+    const el = document.createElement('div'); el.className = 'card'
+    el.innerHTML = `
+      <span class="pill ${inst ? 'installed' : 'avail'}" style="position:absolute;top:14px;right:14px">${inst ? 'Installed' : 'Available'}</span>
+      <div class="ic">${a.icon || '📦'}</div>
+      <h3>${a.name}</h3>
+      <p class="desc">${a.desc || ''}</p>
+      <div class="meta">${a.grade ? a.grade + ' · ' : ''}v${a.version || '?'}${a.size ? ' · ' + (a.size/1048576).toFixed(1) + ' MB' : ''}</div>
+      <div class="prog" data-prog="${a.id}"><i></i></div>
+      <div class="row"></div>`
+    const row = el.querySelector('.row'), prog = el.querySelector('.prog')
+    if (inst) {
+      const open = mk('Open', 'primary', () => window.studio.open(a.id))
+      const un = mk('🗑', 'danger', () => doUninstall(a))
+      row.append(open, un)
+      if (outdated) row.prepend(mk('Update', 'ghost', () => doInstall(a, prog, row)))
+    } else {
+      row.append(mk('Install', 'primary', () => doInstall(a, prog, row)))
+    }
+    return el
   }
+  function mk(label, cls, onclick) { const b = document.createElement('button'); b.className = 'btn ' + cls; b.textContent = label; b.onclick = onclick; return b }
+
+  async function doInstall(a, prog, row) {
+    if (!a.url) { return flash('No download URL for ' + a.name) }
+    row.querySelectorAll('button').forEach(b => b.disabled = true)
+    prog.classList.add('show'); prog.querySelector('i').style.width = '0%'
+    const res = await window.studio.install({ id: a.id, url: a.url, version: a.version })
+    if (res.ok) { await refresh() } else { flash('Install failed: ' + (res.error || '')); row.querySelectorAll('button').forEach(b => b.disabled = false); prog.classList.remove('show') }
+  }
+  async function doUninstall(a) {
+    if (!confirm('Remove ' + a.name + ' from this computer?')) return
+    const res = await window.studio.uninstall(a.id)
+    if (res.ok) await refresh(); else flash('Uninstall failed: ' + (res.error || ''))
+  }
+  function flash(t) { msg.textContent = '⚠ ' + t; msg.className = 'err' }
+
+  async function refresh() {
+    msg.className = ''; grid.innerHTML = '<div style="color:var(--mut);padding:8px">Loading catalog…</div>'
+    const res = await window.studio.catalog()
+    catalog = { apps: res.apps || [], installed: res.installed || {} }
+    if (!res.ok) flash(res.error || 'Catalog unavailable — showing installed apps only.')
+    grid.innerHTML = ''
+    // show available apps; if catalog failed, still show installed ones
+    const apps = catalog.apps.length ? catalog.apps
+      : Object.keys(catalog.installed).map(id => ({ id, name: id, version: catalog.installed[id].version }))
+    if (!apps.length) { grid.innerHTML = '<div style="color:var(--mut);padding:8px">No apps available. Check your connection and Refresh.</div>'; return }
+    for (const a of apps) grid.appendChild(card(a))
+  }
+  document.getElementById('refresh').onclick = refresh
+  refresh()
 </script>
 </body>
 </html>
