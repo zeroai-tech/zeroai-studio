@@ -8,8 +8,8 @@
     "start": "electron .",
     "dist": "electron-builder --publish never",
     "dist:mac": "electron-builder --mac --publish never",
-    "dist:win": "electron-builder --win nsis --publish never",
-    "dist:linux": "electron-builder --linux deb --publish never"
+    "dist:win": "electron-builder --win --publish never",
+    "dist:linux": "electron-builder --linux --publish never"
   },
   "devDependencies": {
     "electron": "^33.2.0",
@@ -37,16 +37,19 @@
       "artifactName": "ZeroAI-Studio-${version}-${arch}.${ext}"
     },
     "win": {
-      "target": "nsis",
+      "target": [{ "target": "nsis", "arch": ["x64", "arm64", "ia32"] }],
       "icon": "build/icon.png",
       "artifactName": "ZeroAI-Studio-Setup-${version}.${ext}"
     },
     "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true },
     "linux": {
-      "target": "deb",
+      "target": [
+        { "target": "AppImage", "arch": ["x64", "arm64"] },
+        { "target": "deb", "arch": ["x64", "arm64"] }
+      ],
       "icon": "build/icon.png",
       "category": "Education",
-      "artifactName": "ZeroAI-Studio-${version}.${ext}"
+      "artifactName": "ZeroAI-Studio-${version}-${arch}.${ext}"
     }
   }
 }

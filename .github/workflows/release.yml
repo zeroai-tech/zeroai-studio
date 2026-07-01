@@ -47,6 +47,7 @@ jobs:
           path: |
             release/*.dmg
             release/*.exe
+            release/*.AppImage
             release/*.deb
           if-no-files-found: ignore
 
@@ -57,4 +58,5 @@ jobs:
           files: |
             release/*.dmg
             release/*.exe
+            release/*.AppImage
             release/*.deb
