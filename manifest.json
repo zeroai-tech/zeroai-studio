@@ -8,9 +8,9 @@
       "desc": "Electronics through play — snap blocks, earn XP, level up.",
       "grade": "Grades 1–6",
       "version": "1.2.0",
-      "size": 217036,
+      "size": 217051,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zerospark.zip",
-      "sha256": "4295e764030545ddbd97236df58ae59f449683f0d92c1446ee75968dabcd6ba3"
+      "sha256": "d1eb6440790762446f01b6567fc25653ede1a3ae3e2ac327b0c92360fb3f0802"
     },
     {
       "id": "zaisim",
@@ -19,9 +19,9 @@
       "desc": "Electronics & Arduino simulator — build circuits, write real code.",
       "grade": "Grades 7–12",
       "version": "1.2.0",
-      "size": 605004,
+      "size": 605026,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaisim.zip",
-      "sha256": "5d494645d9e45c659ddc1fe98bdb577fc13a203999c438f8257d78c4bccff1c9"
+      "sha256": "6a7881378dea6ba896a4fce31a31ca3b5689be18c41c617ebcd7ca69e881d611"
     },
     {
       "id": "zaiblock",
@@ -30,9 +30,9 @@
       "desc": "Block coding — build games, animations and stories.",
       "grade": "Grades 4–8",
       "version": "1.2.0",
-      "size": 622112,
+      "size": 622136,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaiblock.zip",
-      "sha256": "69169025b6df31301e297bb116b2eddee6694faef645a24bb9ea84e38bd17e0a"
+      "sha256": "b78b735c1d8bdf21e3dab28a3ad5714f945cac93a2b484437ee6b28b70049d3c"
     },
     {
       "id": "zaipy",
@@ -41,9 +41,9 @@
       "desc": "A real Python IDE in the browser, with an AI tutor.",
       "grade": "Grades 7–12",
       "version": "1.2.0",
-      "size": 187386,
+      "size": 187388,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaipy.zip",
-      "sha256": "bef7d95952a00faf0f52d8ac9f406d28f2b73df9af73b72061b01930a21716fa"
+      "sha256": "1695d52127d78780b3711c96b051c03f49173c5cdd4b911794358354979b83e9"
     },
     {
       "id": "zaicad",
@@ -52,9 +52,9 @@
       "desc": "3D design & making — model real objects, export to print.",
       "grade": "Grades 7–12",
       "version": "1.2.0",
-      "size": 530971,
+      "size": 530982,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaicad.zip",
-      "sha256": "265ecdf5eb502789a681094c242755bff206990cb78ef0636ce0e9d306b2b4e5"
+      "sha256": "74ec82451337b14269a52f0ed5c4c3dc502c5f408202de9a7eea0d4c389ba382"
     }
   ]
 }
