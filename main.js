@@ -138,6 +138,16 @@ function createWindow() {
     },
   })
   win.loadURL('app://studio/index.html')
+  // Native window title tracks the current app.
+  win.webContents.on('did-navigate', (_e, url) => {
+    try {
+      const host = new URL(url).hostname
+      const entry = SUITE_APPS.find(a => a.id === host)
+      win.setTitle(entry ? `${entry.name} — ZeroAI Studio` : 'ZeroAI Studio')
+    } catch { /* keep current title */ }
+  })
+  // The apps set document.title for the browser; in the shell the native title wins.
+  win.on('page-title-updated', (e) => e.preventDefault())
   // After each app loads, strip web-only chrome so it feels native + forward errors.
   win.webContents.on('did-finish-load', () => {
     win.webContents.insertCSS(DEWEBIFY_CSS).catch(() => {})
@@ -329,7 +339,18 @@ ipcMain.handle('zeroai:openFile', async (e, { app: a }) => {
   } catch (err) { return { ok: false, error: err.message } }
 })
 
-// Native application menu — About, update check, and the standard roles.
+// Native application menu — the suite behaves like a real desktop app:
+// switch apps with ⌘1–⌘5, jump home with ⌘0, standard Edit/View/Window roles.
+const SUITE_APPS = [
+  { id: 'zerospark', name: 'ZeroSpark' },
+  { id: 'zaiblock', name: 'ZaiBlock' },
+  { id: 'zaisim', name: 'ZaiSim' },
+  { id: 'zaipy', name: 'ZaiPy' },
+  { id: 'zaicad', name: 'ZaiCAD' },
+]
+const focusedWin = () => BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+const goTo = (host) => focusedWin()?.loadURL(`app://${host}/index.html`)
+
 function buildMenu() {
   const releases = 'https://github.com/zeroai-tech/zeroai-studio/releases/latest'
   const template = [
@@ -342,13 +363,41 @@ function buildMenu() {
         { type: 'separator' }, { role: 'quit' },
       ],
     }] : []),
+    {
+      label: 'File',
+      submenu: [
+        { label: 'Home (App Library)', accelerator: 'CmdOrCtrl+0', click: () => goTo('studio') },
+        { type: 'separator' },
+        // Project files are owned by each app's own File menu (⌘S there saves
+        // .zspark/.zsim/… through the proprietary-file IPC); this stays app-agnostic.
+        { role: 'close' },
+        ...(process.platform === 'darwin' ? [] : [{ role: 'quit' }]),
+      ],
+    },
     { role: 'editMenu' },
+    {
+      label: 'Apps',
+      submenu: [
+        ...SUITE_APPS.map((a, i) => ({
+          label: a.name,
+          accelerator: `CmdOrCtrl+${i + 1}`,
+          click: async () => {
+            const db = await readInstalled()
+            if (db[a.id]) goTo(a.id)
+            else goTo('studio')          // not installed → the library, where Install lives
+          },
+        })),
+        { type: 'separator' },
+        { label: 'Manage Apps…', click: () => goTo('studio') },
+      ],
+    },
     { role: 'viewMenu' },
     { role: 'windowMenu' },
     {
       role: 'help',
       submenu: [
         { label: 'ZeroAI Website', click: () => shell.openExternal('https://zeroaitech.tech') },
+        { label: 'Support', click: () => shell.openExternal('mailto:support@zeroaitech.tech') },
         { label: 'Check for Updates…', click: () => shell.openExternal(releases) },
       ],
     },

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-03",
+  "updated": "2026-07-04",
   "apps": [
     {
       "id": "zerospark",
@@ -7,10 +7,10 @@
       "icon": "⚡",
       "desc": "Electronics through play — snap blocks, earn XP, level up.",
       "grade": "Grades 1–6",
-      "version": "1.1.0",
-      "size": 216515,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.1.0/zerospark.zip",
-      "sha256": "ca2d4a0eea738036cd59a93748e355a332aa7f719b35b062bd78e8d930f3b563"
+      "version": "1.2.0",
+      "size": 217036,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zerospark.zip",
+      "sha256": "4295e764030545ddbd97236df58ae59f449683f0d92c1446ee75968dabcd6ba3"
     },
     {
       "id": "zaisim",
@@ -18,10 +18,10 @@
       "icon": "🔌",
       "desc": "Electronics & Arduino simulator — build circuits, write real code.",
       "grade": "Grades 7–12",
-      "version": "1.1.0",
-      "size": 604965,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.1.0/zaisim.zip",
-      "sha256": "e47fd3f106045ff60dbd962c07e8c0cbabd9f7124835eab4d63359f9de2636e1"
+      "version": "1.2.0",
+      "size": 605004,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaisim.zip",
+      "sha256": "5d494645d9e45c659ddc1fe98bdb577fc13a203999c438f8257d78c4bccff1c9"
     },
     {
       "id": "zaiblock",
@@ -29,10 +29,10 @@
       "icon": "🧩",
       "desc": "Block coding — build games, animations and stories.",
       "grade": "Grades 4–8",
-      "version": "1.1.0",
-      "size": 620775,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.1.0/zaiblock.zip",
-      "sha256": "e52d72adb62c41db5406afafb100a3a89b8fa3b07804875effd694d1e343c269"
+      "version": "1.2.0",
+      "size": 622112,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaiblock.zip",
+      "sha256": "69169025b6df31301e297bb116b2eddee6694faef645a24bb9ea84e38bd17e0a"
     },
     {
       "id": "zaipy",
@@ -40,10 +40,10 @@
       "icon": "🐍",
       "desc": "A real Python IDE in the browser, with an AI tutor.",
       "grade": "Grades 7–12",
-      "version": "1.1.0",
-      "size": 186258,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.1.0/zaipy.zip",
-      "sha256": "edfb724508ef4309174c1c881d3617df0729e3ff81632f33ccdaeeeb1789e8f3"
+      "version": "1.2.0",
+      "size": 187386,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaipy.zip",
+      "sha256": "bef7d95952a00faf0f52d8ac9f406d28f2b73df9af73b72061b01930a21716fa"
     },
     {
       "id": "zaicad",
@@ -51,10 +51,10 @@
       "icon": "🧊",
       "desc": "3D design & making — model real objects, export to print.",
       "grade": "Grades 7–12",
-      "version": "1.1.0",
-      "size": 526380,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.1.0/zaicad.zip",
-      "sha256": "a5786ca5558bc82e649287a0600981022ceba3ab4636bf30497cacd72e51d760"
+      "version": "1.2.0",
+      "size": 530971,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.0/zaicad.zip",
+      "sha256": "265ecdf5eb502789a681094c242755bff206990cb78ef0636ce0e9d306b2b4e5"
     }
   ]
 }
