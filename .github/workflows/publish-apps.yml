@@ -56,8 +56,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.APPS_PAT }}
         run: |
+          # --prerelease keeps app bundles OUT of /releases/latest — the website's
+          # installer download links depend on `latest` being a shell release.
           gh release create "apps-v${{ github.event.inputs.version }}" \
             --repo "${{ github.repository }}" \
+            --prerelease \
             --title "App bundles v${{ github.event.inputs.version }}" \
             --notes "Automated app bundle build ($(date -u +%F)). sha256 hashes pinned in manifest.json." \
             /tmp/zips/*.zip
