@@ -1,0 +1,87 @@
+# Publish fresh app bundles to the Studio catalog.
+#
+# Run it from the Actions tab (workflow_dispatch) with a bundle version like
+# 1.2.0. It checks out each app repo, builds its dist, zips it, publishes an
+# apps-v<version> release on THIS repo, and commits a manifest.json bump with
+# sizes + sha256 — every installed Studio then sees the updates on refresh.
+#
+# Requires one repo secret:
+#   APPS_PAT — a fine-grained PAT with read access to the five app repos
+#              (they live under the Lottie128 account) and read/write contents
+#              on zeroai-tech/zeroai-studio for the release + manifest commit.
+
+name: Publish app bundles
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Bundle version (e.g. 1.2.0) — becomes tag apps-v<version>'
+        required: true
+      apps:
+        description: 'Comma-separated app ids to publish (default: all five)'
+        required: false
+        default: 'zerospark,zaiblock,zaisim,zaipy,zaicad'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.APPS_PAT }}
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Build + zip each app
+        env:
+          GH_TOKEN: ${{ secrets.APPS_PAT }}
+        run: |
+          mkdir -p /tmp/zips
+          # zerospark builds from dev (its production branch); the rest from main
+          declare -A BRANCH=( [zerospark]=dev [zaiblock]=main [zaisim]=main [zaipy]=main [zaicad]=main )
+          IFS=',' read -ra APPS <<< "${{ github.event.inputs.apps }}"
+          for id in "${APPS[@]}"; do
+            id="$(echo "$id" | xargs)"
+            echo "── building $id (${BRANCH[$id]})"
+            git clone --depth 1 --branch "${BRANCH[$id]}" \
+              "https://x-access-token:${GH_TOKEN}@github.com/Lottie128/${id}.git" "/tmp/src/$id"
+            (cd "/tmp/src/$id" && bun install --frozen-lockfile && bun run build)
+            (cd "/tmp/src/$id/dist" && zip -qr "/tmp/zips/$id.zip" .)
+          done
+          ls -la /tmp/zips
+
+      - name: Create apps-v release
+        env:
+          GH_TOKEN: ${{ secrets.APPS_PAT }}
+        run: |
+          gh release create "apps-v${{ github.event.inputs.version }}" \
+            --repo "${{ github.repository }}" \
+            --title "App bundles v${{ github.event.inputs.version }}" \
+            --notes "Automated app bundle build ($(date -u +%F)). sha256 hashes pinned in manifest.json." \
+            /tmp/zips/*.zip
+
+      - name: Bump manifest.json (version, size, sha256, url)
+        run: |
+          python3 - <<'EOF'
+          import json, hashlib, os, glob
+          ver = "${{ github.event.inputs.version }}"
+          repo = "${{ github.repository }}"
+          m = json.load(open('manifest.json'))
+          import datetime; m['updated'] = datetime.date.today().isoformat()
+          built = {os.path.basename(p)[:-4] for p in glob.glob('/tmp/zips/*.zip')}
+          for a in m['apps']:
+              p = f"/tmp/zips/{a['id']}.zip"
+              if a['id'] not in built: continue
+              a['version'] = ver
+              a['size'] = os.path.getsize(p)
+              a['sha256'] = hashlib.sha256(open(p,'rb').read()).hexdigest()
+              a['url'] = f"https://github.com/{repo}/releases/download/apps-v{ver}/{a['id']}.zip"
+          json.dump(m, open('manifest.json','w'), indent=2, ensure_ascii=False)
+          EOF
+          git config user.name "zeroai-ci"
+          git config user.email "ci@zeroaitech.tech"
+          git add manifest.json
+          git commit -m "catalog: apps-v${{ github.event.inputs.version }} (automated)"
+          git push

@@ -10,3 +10,4 @@ apps/zaicad/
 .DS_Store
 studio.config.json
 release/
+bundled-apps/

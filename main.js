@@ -6,11 +6,12 @@
 // no per-app rebuild needed — and we can attach security headers per app
 // (e.g. COOP/COEP for zaipy's Pyodide later). One window, switch between apps.
 
-const { app, BrowserWindow, protocol, shell, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, Menu, protocol, shell, ipcMain, dialog } = require('electron')
 const fs = require('node:fs/promises')
 const fss = require('node:fs')
 const path = require('node:path')
 const https = require('node:https')
+const crypto = require('node:crypto')
 const AdmZip = require('adm-zip')
 
 // The manager UI ("studio") ships inside the app. The 5 STEM apps are NOT bundled —
@@ -163,6 +164,77 @@ function createWindow() {
   })
 }
 
+// ── Shared installer: download → verify sha256 → extract → register ─────────
+// The hash is checked BEFORE the old install is touched, so a truncated or
+// tampered download can never leave a broken (or malicious) app behind.
+async function sha256File(p) {
+  return new Promise((resolve, reject) => {
+    const h = crypto.createHash('sha256')
+    fss.createReadStream(p).on('data', c => h.update(c)).on('end', () => resolve(h.digest('hex'))).on('error', reject)
+  })
+}
+async function installApp({ id, url, version, sha256 }, onProgress) {
+  await fs.mkdir(INSTALL_DIR(), { recursive: true })
+  const tmp = path.join(app.getPath('temp'), `${id}-${Date.now()}.zip`)
+  try {
+    await download(url, tmp, onProgress)
+    if (sha256) {
+      const got = await sha256File(tmp)
+      if (got !== sha256) throw new Error(`download corrupted (sha256 mismatch for ${id})`)
+    }
+    const zip = new AdmZip(tmp)   // parse before rm — a bad zip must not destroy the old install
+    const dir = path.join(INSTALL_DIR(), id)
+    await fs.rm(dir, { recursive: true, force: true }); await fs.mkdir(dir, { recursive: true })
+    zip.extractAllTo(dir, true)
+    const db = await readInstalled(); db[id] = { version, installedAt: Date.now() }; await writeInstalled(db)
+  } finally {
+    await fs.unlink(tmp).catch(() => {})
+  }
+}
+
+// First run of a "full" installer: seed apps bundled under resources/bundled-apps
+// (created by scripts/bundle-apps.cjs before `npm run dist:full`). Lets schools
+// with no/slow internet install one file and have the whole suite offline.
+async function seedBundledApps() {
+  const bundleDir = path.join(process.resourcesPath || __dirname, 'bundled-apps')
+  try {
+    const files = (await fs.readdir(bundleDir)).filter(f => f.endsWith('.zip'))
+    if (!files.length) return
+    let versions = {}
+    try { versions = JSON.parse(await fs.readFile(path.join(bundleDir, 'versions.json'), 'utf8')) } catch {}
+    const db = await readInstalled()
+    for (const f of files) {
+      const id = f.replace(/\.zip$/, '')
+      if (db[id]) continue                       // never clobber a user's newer install
+      const dir = path.join(INSTALL_DIR(), id)
+      await fs.mkdir(dir, { recursive: true })
+      new AdmZip(path.join(bundleDir, f)).extractAllTo(dir, true)
+      db[id] = { version: versions[id] || '0.0.0', installedAt: Date.now(), seeded: true }
+      console.log('[seed]', id, db[id].version)
+    }
+    await writeInstalled(db)
+  } catch { /* no bundle dir → slim installer, nothing to seed */ }
+}
+
+// Lab provisioning: `ZeroAI Studio --install-all` installs every catalog app
+// headlessly (progress on stdout) and exits — for imaging scripts.
+async function installAllHeadless() {
+  try {
+    const apps = (await getJSON(MANIFEST_URL)).apps || []
+    for (const a of apps) {
+      let last = -1
+      process.stdout.write(`[install-all] ${a.id}@${a.version} … `)
+      await installApp(a, pct => {
+        const p = Math.floor(pct * 10)
+        if (p > last) { last = p; process.stdout.write('▪') }
+      })
+      process.stdout.write(' ok\n')
+    }
+    console.log('[install-all] done —', apps.length, 'apps installed')
+    return 0
+  } catch (e) { console.error('[install-all] FAILED:', e.message); return 1 }
+}
+
 // ── App catalog: install / uninstall on demand (Adobe-CC model) ──────────────
 ipcMain.handle('studio:catalog', async () => {
   let apps = []
@@ -170,18 +242,24 @@ ipcMain.handle('studio:catalog', async () => {
   catch (e) { return { ok: false, error: 'Could not reach the catalog: ' + e.message, apps: [], installed: await readInstalled() } }
   return { ok: true, apps, installed: await readInstalled() }
 })
-ipcMain.handle('studio:install', async (e, { id, url, version }) => {
+ipcMain.handle('studio:install', async (e, spec) => {
   try {
-    await fs.mkdir(INSTALL_DIR(), { recursive: true })
-    const tmp = path.join(app.getPath('temp'), `${id}-${Date.now()}.zip`)
-    await download(url, tmp, pct => e.sender.send('studio:progress', { id, pct }))
-    const dir = path.join(INSTALL_DIR(), id)
-    await fs.rm(dir, { recursive: true, force: true }); await fs.mkdir(dir, { recursive: true })
-    new AdmZip(tmp).extractAllTo(dir, true)
-    await fs.unlink(tmp).catch(() => {})
-    const db = await readInstalled(); db[id] = { version, installedAt: Date.now() }; await writeInstalled(db)
+    await installApp(spec, pct => e.sender.send('studio:progress', { id: spec.id, pct }))
     return { ok: true }
   } catch (err) { return { ok: false, error: err.message } }
+})
+// Disk footprint of an installed app (recursive), for the launcher's ⋯ menu.
+ipcMain.handle('studio:size', async (_e, { id }) => {
+  async function du(dir) {
+    let total = 0
+    for (const ent of await fs.readdir(dir, { withFileTypes: true }).catch(() => [])) {
+      const p = path.join(dir, ent.name)
+      if (ent.isDirectory()) total += await du(p)
+      else total += (await fs.stat(p).catch(() => ({ size: 0 }))).size
+    }
+    return total
+  }
+  return { bytes: await du(path.join(INSTALL_DIR(), safeId(id))) }
 })
 ipcMain.handle('studio:uninstall', async (_e, { id }) => {
   try { await fs.rm(path.join(INSTALL_DIR(), id), { recursive: true, force: true }); const db = await readInstalled(); delete db[id]; await writeInstalled(db); return { ok: true } }
@@ -251,8 +329,43 @@ ipcMain.handle('zeroai:openFile', async (e, { app: a }) => {
   } catch (err) { return { ok: false, error: err.message } }
 })
 
-app.whenReady().then(() => {
+// Native application menu — About, update check, and the standard roles.
+function buildMenu() {
+  const releases = 'https://github.com/zeroai-tech/zeroai-studio/releases/latest'
+  const template = [
+    ...(process.platform === 'darwin' ? [{
+      label: app.name,
+      submenu: [
+        { role: 'about' },
+        { label: 'Check for Updates…', click: () => shell.openExternal(releases) },
+        { type: 'separator' }, { role: 'hide' }, { role: 'hideOthers' }, { role: 'unhide' },
+        { type: 'separator' }, { role: 'quit' },
+      ],
+    }] : []),
+    { role: 'editMenu' },
+    { role: 'viewMenu' },
+    { role: 'windowMenu' },
+    {
+      role: 'help',
+      submenu: [
+        { label: 'ZeroAI Website', click: () => shell.openExternal('https://zeroaitech.tech') },
+        { label: 'Check for Updates…', click: () => shell.openExternal(releases) },
+      ],
+    },
+  ]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+}
+
+app.whenReady().then(async () => {
+  // Lab imaging path: install everything, print progress, exit.
+  if (process.argv.includes('--install-all')) {
+    const code = await installAllHeadless()
+    app.exit(code)
+    return
+  }
   protocol.handle('app', handle)
+  buildMenu()
+  await seedBundledApps()   // no-op on the slim installer
   createWindow()
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
 })

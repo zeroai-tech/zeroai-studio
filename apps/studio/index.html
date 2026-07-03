@@ -370,6 +370,13 @@
     closeMenu()
     const m = document.createElement('div')
     m.className = 'menu'
+    const sz = document.createElement('button')
+    sz.style.cursor = 'default'; sz.style.color = 'var(--faint)'
+    sz.innerHTML = '💾 <span>Measuring…</span>'
+    window.studio.size(a.id).then(r => {
+      sz.innerHTML = `💾 <span>${(r.bytes / 1048576).toFixed(1)} MB on disk</span>`
+    }).catch(() => { sz.remove() })
+    m.append(sz)
     const un = document.createElement('button')
     un.className = 'danger'; un.innerHTML = '🗑 <span>Uninstall…</span>'
     un.onclick = async () => {
@@ -394,7 +401,7 @@
     rowEl.querySelectorAll('.btn,.kebab').forEach(b => b.disabled = true)
     const wrap = rowEl.querySelector('.prog-wrap')
     wrap.classList.add('show'); wrap.querySelector('i').style.width = '0%'
-    const res = await window.studio.install({ id: a.id, url: a.url, version: a.version })
+    const res = await window.studio.install({ id: a.id, url: a.url, version: a.version, sha256: a.sha256 })
     busy = false
     if (res.ok) { toast(a.name + ' ready'); await refresh(true) }
     else {
@@ -446,6 +453,22 @@
       b.onclick = () => updateAll(outdated)
       heroActions.append(b)
     }
+    // Lab setup: grab the whole suite in one click.
+    const missing = apps.filter(a => a.url && !catalog.installed[a.id])
+    if (missing.length >= 2) {
+      const b = document.createElement('button')
+      b.className = outdated.length ? 'chip' : 'chip accent'
+      b.textContent = `Install all (${missing.length})`
+      b.onclick = () => updateAll(missing)
+      heroActions.append(b)
+    }
+    if (shellUpdateVer) {
+      const b = document.createElement('button')
+      b.className = 'chip'
+      b.innerHTML = `⤓ Studio ${shellUpdateVer} is out — get it`
+      b.onclick = () => window.open('https://github.com/zeroai-tech/zeroai-studio/releases/latest')
+      heroActions.append(b)
+    }
     try {
       const last = JSON.parse(localStorage.getItem('zeroai_last_app') || 'null')
       if (last && catalog.installed[last.id]) {
@@ -481,6 +504,39 @@
   }
   $('refresh').onclick = () => refresh()
   refresh()
+
+  // ── Shell update check (interim until electron-updater ships) ───────────
+  // Lists recent releases and considers only vX.Y.Z tags — app-bundle
+  // releases (apps-v*) share the same repo and must not count as shell
+  // versions, so /releases/latest alone can't be trusted here.
+  let shellUpdateVer = null
+  const newer = (a, b) => {   // semver-ish: is a newer than b?
+    const pa = a.split('.').map(Number), pb = b.split('.').map(Number)
+    for (let i = 0; i < 3; i++) { if ((pa[i] || 0) !== (pb[i] || 0)) return (pa[i] || 0) > (pb[i] || 0) }
+    return false
+  }
+  if (VER) {
+    fetch('https://api.github.com/repos/zeroai-tech/zeroai-studio/releases?per_page=10')
+      .then(r => r.json())
+      .then(rels => {
+        const tags = (Array.isArray(rels) ? rels : []).map(r => r.tag_name || '').filter(t => /^v\d+\.\d+\.\d+$/.test(t))
+        const latest = tags.map(t => t.slice(1)).sort((x, y) => newer(x, y) ? -1 : 1)[0]
+        if (latest && newer(latest, VER)) { shellUpdateVer = 'v' + latest; renderHeroSafe() }
+      }).catch(() => {})
+  }
+  function renderHeroSafe() {
+    const apps = catalog.apps.length ? catalog.apps : []
+    if (apps.length) renderHero(apps)
+  }
+
+  // ── Keyboard: ⌘/Ctrl+1…9 opens the nth installed app ─────────────────────
+  window.addEventListener('keydown', e => {
+    if (!(e.metaKey || e.ctrlKey)) return
+    const n = parseInt(e.key, 10)
+    if (!n || n < 1 || n > 9) return
+    const a = catalog.apps[n - 1]
+    if (a && catalog.installed[a.id]) { e.preventDefault(); launch(a) }
+  })
 </script>
 </body>
 </html>

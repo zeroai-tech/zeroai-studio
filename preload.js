@@ -41,6 +41,7 @@ contextBridge.exposeInMainWorld('studio', {
   catalog:   ()    => ipcRenderer.invoke('studio:catalog'),
   install:   (app) => ipcRenderer.invoke('studio:install', app),
   uninstall: (id)  => ipcRenderer.invoke('studio:uninstall', { id }),
+  size:      (id)  => ipcRenderer.invoke('studio:size', { id }),
   open:      (id)  => { location.href = 'app://' + id + '/index.html' },
   onProgress: (cb) => ipcRenderer.on('studio:progress', (_e, d) => cb(d)),
 })
