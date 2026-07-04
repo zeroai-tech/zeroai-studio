@@ -387,11 +387,21 @@
       else toast('Uninstall failed: ' + (res.error || ''), 'err')
     }
     m.append(un)
+    // Lift the WHOLE row above later sibling rows while the menu is open — each
+    // row is its own stacking context (it has a hover transform), so the menu's
+    // own z-index can't escape it; the row needs the elevated z-index.
     rowEl.style.position = 'relative'
+    rowEl.style.zIndex = '40'
     rowEl.appendChild(m)
     setTimeout(() => document.addEventListener('click', closeMenu, { once: true }))
   }
-  function closeMenu() { document.querySelectorAll('.menu').forEach(m => m.remove()) }
+  function closeMenu() {
+    document.querySelectorAll('.menu').forEach(m => {
+      const row = m.closest('.row')
+      if (row) row.style.zIndex = ''
+      m.remove()
+    })
+  }
 
   // ── Install / update ─────────────────────────────────────────────────────
   async function install(a, rowEl) {
