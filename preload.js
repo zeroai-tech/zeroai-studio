@@ -34,6 +34,17 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
   // Proprietary project files (custom extension, only readable in this app):
   saveFile: (data, name) => ipcRenderer.invoke('zeroai:saveFile', { app: appId(), data, name }),
   openFile: ()           => ipcRenderer.invoke('zeroai:openFile', { app: appId() }),
+
+  // Local Arduino toolchain — offline compile + upload for ZaiSim.
+  arduino: {
+    status:    ()               => ipcRenderer.invoke('arduino:status'),
+    setup:     ()               => ipcRenderer.invoke('arduino:setup'),
+    compile:   (code, board)    => ipcRenderer.invoke('arduino:compile', { code, board }),
+    listPorts: ()               => ipcRenderer.invoke('arduino:listPorts'),
+    upload:    (code, board, port) => ipcRenderer.invoke('arduino:upload', { code, board, port }),
+    onSetupProgress: (cb) => { const h = (_e, p) => cb(p); ipcRenderer.on('arduino:setupProgress', h); return () => ipcRenderer.removeListener('arduino:setupProgress', h) },
+    onUploadLog:     (cb) => { const h = (_e, l) => cb(l); ipcRenderer.on('arduino:uploadLog', h); return () => ipcRenderer.removeListener('arduino:uploadLog', h) },
+  },
 })
 
 // Manager API (used by the Studio launcher to install/uninstall apps on demand).

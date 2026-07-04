@@ -13,6 +13,7 @@ const path = require('node:path')
 const https = require('node:https')
 const crypto = require('node:crypto')
 const AdmZip = require('adm-zip')
+const arduino = require('./arduino')
 
 // Shell auto-update (electron-updater) — Windows & Linux only. macOS builds are
 // unsigned, and Squirrel.Mac refuses unsigned updates, so mac keeps the
@@ -312,6 +313,25 @@ ipcMain.handle('zeroai:list', async (_e, { app: a }) => {
 })
 ipcMain.handle('zeroai:remove', async (_e, { app: a, id }) => {
   try { await fs.unlink(path.join(projectsDir(a), safeId(id) + '.json')); return { ok: true } } catch { return { ok: false } }
+})
+
+// ── Local Arduino toolchain (ZaiSim offline compile + upload) ────────────────
+ipcMain.handle('arduino:status', async () => {
+  try { return { ok: true, ...(await arduino.status()) } } catch (e) { return { ok: false, error: e.message } }
+})
+ipcMain.handle('arduino:setup', async (e) => {
+  try { return { ok: true, ...(await arduino.setup(prog => e.sender.send('arduino:setupProgress', prog))) } }
+  catch (err) { return { ok: false, error: err.message } }
+})
+ipcMain.handle('arduino:compile', async (_e, { code, board }) => {
+  try { return { ok: true, ...(await arduino.compile(code, board)) } } catch (e) { return { ok: false, error: e.message } }
+})
+ipcMain.handle('arduino:listPorts', async () => {
+  try { return { ok: true, ports: await arduino.listPorts() } } catch (e) { return { ok: false, error: e.message, ports: [] } }
+})
+ipcMain.handle('arduino:upload', async (e, { code, board, port }) => {
+  try { return { ok: true, ...(await arduino.upload(code, board, port, line => e.sender.send('arduino:uploadLog', line))) } }
+  catch (err) { return { ok: false, error: err.message } }
 })
 
 // ── Proprietary project files (only readable in ZeroAI Studio) ───────────────
