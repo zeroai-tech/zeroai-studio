@@ -18,10 +18,10 @@
       "icon": "🔌",
       "desc": "Electronics & Arduino simulator — build circuits, write real code.",
       "grade": "Grades 7–12",
-      "version": "1.2.5",
-      "size": 607724,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.5/zaisim.zip",
-      "sha256": "9b7ecab49c3ca85ef2400682ccc59ea34ffed666b40633d5dfff207bb40635fd"
+      "version": "1.2.6",
+      "size": 608741,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.6/zaisim.zip",
+      "sha256": "79bdc19c7ffe5a82bb655ae442dac3d95113eabfd44265109933b91128beff88"
     },
     {
       "id": "zaiblock",

@@ -1,6 +1,6 @@
 {
   "name": "zeroai-studio",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "ZeroAI Studio \u2014 install the STEM suite like Adobe Creative Cloud (pick what you want).",
   "author": "ZeroAI Technologies <support@zeroaitech.tech>",
   "main": "main.js",
