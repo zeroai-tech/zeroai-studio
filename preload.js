@@ -19,6 +19,7 @@ try { cfg = JSON.parse(Buffer.from(readArg('--zeroai-config='), 'base64').toStri
 const appId = () => { try { return location.hostname || 'studio' } catch { return 'studio' } }
 
 contextBridge.exposeInMainWorld('__ZEROAI_DESKTOP__', true)
+contextBridge.exposeInMainWorld('__ZEROAI_PLATFORM__', process.platform)  // 'darwin' | 'win32' | 'linux'
 contextBridge.exposeInMainWorld('__ZEROAI_CONFIG__', {
   supabaseUrl: cfg.supabaseUrl || '',
   supabaseAnonKey: cfg.supabaseAnonKey || '',

@@ -136,8 +136,11 @@ async function setup(onProgress) {
     if (!fs.existsSync(BIN())) throw new Error('arduino-cli did not unpack correctly')
   }
 
-  // 2 · config with the ESP board-manager URLs
-  const yaml = `directories:\n  data: ${DATA_DIR()}\n  user: ${USER_DIR()}\nboard_manager:\n  additional_urls:\n${BOARD_URLS.map(u => `    - ${u}`).join('\n')}\n`
+  // 2 · config with the ESP board-manager URLs. Paths are double-quoted with
+  //     forward slashes so Windows drive letters ("C:\…") don't break the YAML
+  //     (arduino-cli/Go accepts forward slashes on every platform).
+  const yq = (p) => JSON.stringify(p.replace(/\\/g, '/'))
+  const yaml = `directories:\n  data: ${yq(DATA_DIR())}\n  user: ${yq(USER_DIR())}\nboard_manager:\n  additional_urls:\n${BOARD_URLS.map(u => `    - ${u}`).join('\n')}\n`
   await fsp.writeFile(CONFIG(), yaml)
 
   // 3 · index + cores (this is the step that needs the internet, once)
