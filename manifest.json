@@ -7,10 +7,10 @@
       "icon": "⚡",
       "desc": "Electronics through play — snap blocks, earn XP, level up.",
       "grade": "Grades 1–6",
-      "version": "1.2.4",
-      "size": 217313,
-      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.4/zerospark.zip",
-      "sha256": "ce2caa053f51e555fafebb1c4f2593e8ca8ac3d0bbb66c46fcb113c72d64d459"
+      "version": "1.2.8",
+      "size": 222012,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.2.8/zerospark.zip",
+      "sha256": "f7da04530106b259521ad143b59263c3cd8083c4fd157b8b75d3a8807b0beb62"
     },
     {
       "id": "zaisim",
