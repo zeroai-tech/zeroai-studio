@@ -1,13 +1,13 @@
 {
   "name": "zeroai-studio",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "ZeroAI Studio \u2014 install the STEM suite like Adobe Creative Cloud (pick what you want).",
   "author": "ZeroAI Technologies <support@zeroaitech.tech>",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder --publish never",
-    "dist:full": "electron-builder --publish never -c.extraResources.0.from=bundled-apps -c.extraResources.0.to=bundled-apps",
+    "dist:full": "node scripts/bundle-apps.cjs && electron-builder --mac --publish never",
     "dist:mac": "electron-builder --mac --publish never",
     "dist:win": "electron-builder --win --publish never",
     "dist:linux": "electron-builder --linux --publish never"
@@ -93,6 +93,15 @@
         "provider": "github",
         "owner": "zeroai-tech",
         "repo": "zeroai-studio"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "bundled-apps",
+        "to": "bundled-apps",
+        "filter": [
+          "**/*"
+        ]
       }
     ]
   }
