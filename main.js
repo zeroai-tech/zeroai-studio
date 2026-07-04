@@ -14,6 +14,18 @@ const https = require('node:https')
 const crypto = require('node:crypto')
 const AdmZip = require('adm-zip')
 
+// Shell auto-update (electron-updater) — Windows & Linux only. macOS builds are
+// unsigned, and Squirrel.Mac refuses unsigned updates, so mac keeps the
+// in-app "new version" chip + manual download until we have an Apple cert.
+let autoUpdater = null
+if (process.platform === 'win32' || process.platform === 'linux') {
+  try {
+    autoUpdater = require('electron-updater').autoUpdater
+    autoUpdater.autoDownload = true
+    autoUpdater.autoInstallOnAppQuit = true
+  } catch { autoUpdater = null }
+}
+
 // The manager UI ("studio") ships inside the app. The 5 STEM apps are NOT bundled —
 // they install on demand from the catalog into the user's data dir (Adobe-CC model).
 const APPS_DIR = path.join(__dirname, 'apps')                                   // bundled: studio manager only
@@ -416,6 +428,25 @@ app.whenReady().then(async () => {
   buildMenu()
   await seedBundledApps()   // no-op on the slim installer
   createWindow()
+
+  // Check for a newer shell on launch (win/linux). Silent: electron-updater
+  // downloads in the background and installs on next quit; a notification lets
+  // the user restart now. Failures are ignored — the app still works offline.
+  if (autoUpdater) {
+    autoUpdater.on('update-downloaded', (info) => {
+      const win = BrowserWindow.getAllWindows()[0]
+      dialog.showMessageBox(win, {
+        type: 'info',
+        buttons: ['Restart now', 'Later'],
+        defaultId: 0,
+        title: 'ZeroAI Studio update ready',
+        message: `Version ${info.version} has been downloaded.`,
+        detail: 'Restart to finish installing the update.',
+      }).then(({ response }) => { if (response === 0) autoUpdater.quitAndInstall() })
+    })
+    autoUpdater.checkForUpdates().catch(() => {})
+    setInterval(() => autoUpdater.checkForUpdates().catch(() => {}), 6 * 60 * 60 * 1000)
+  }
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
 })
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })

@@ -49,6 +49,8 @@ jobs:
             release/*.exe
             release/*.AppImage
             release/*.deb
+            release/*.yml
+            release/*.blockmap
           if-no-files-found: ignore
 
       - name: Attach to the GitHub Release (on a tag)
@@ -60,3 +62,5 @@ jobs:
             release/*.exe
             release/*.AppImage
             release/*.deb
+            release/*.yml
+            release/*.blockmap

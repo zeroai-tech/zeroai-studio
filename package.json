@@ -17,7 +17,8 @@
     "electron-builder": "^25.1.8"
   },
   "dependencies": {
-    "adm-zip": "^0.5.17"
+    "adm-zip": "^0.5.17",
+    "electron-updater": "^6.8.9"
   },
   "build": {
     "appId": "tech.zeroai.studio",
@@ -86,6 +87,13 @@
       "icon": "build/icon.png",
       "category": "Education",
       "artifactName": "ZeroAI-Studio-${version}-${arch}.${ext}"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "zeroai-tech",
+        "repo": "zeroai-studio"
+      }
+    ]
   }
 }
