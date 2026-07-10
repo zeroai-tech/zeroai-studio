@@ -10,9 +10,12 @@ const legacyCfg = { supabaseUrl: '', supabaseAnonKey: '', legacy: true }
 fs.copyFileSync(CFG, BAK)
 try {
   fs.writeFileSync(CFG, JSON.stringify(legacyCfg, null, 2))
+  const wanted = process.argv.slice(2).length ? process.argv.slice(2) : ["mac", "win", "linux"]
+  const TARGET = { mac: "--mac zip", win: "--win zip", linux: "--linux AppImage" }
+  const flags = wanted.map(p => TARGET[p]).filter(Boolean).join(" ")
   execSync(
-    'npx electron-builder --win zip -c.productName="ZeroAI Studio Legacy" -c.appId=tech.zeroai.studio.legacy --publish never',
-    { cwd: root, stdio: 'inherit' },
+    `npx electron-builder ${flags} -c.productName="ZeroAI Studio Legacy" -c.appId=tech.zeroai.studio.legacy -c.artifactName=ZeroAI-Studio-Legacy-${version}-${os}-${arch}.${ext} --publish never`,
+    { cwd: root, stdio: "inherit" },
   )
 } finally {
   fs.copyFileSync(BAK, CFG); fs.rmSync(BAK)   // always restore the online config
