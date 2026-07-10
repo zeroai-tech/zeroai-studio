@@ -36,7 +36,12 @@
       "preload.js",
       "apps/**/*",
       "studio.config.json",
-      "package.json"
+      "package.json",
+      "license/core.js",
+      "license/verifier.js",
+      "license/public.pem",
+      "activate.html",
+      "!license/private.pem"
     ],
     "mac": {
       "target": [

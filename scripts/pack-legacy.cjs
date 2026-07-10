@@ -11,7 +11,7 @@ fs.copyFileSync(CFG, BAK)
 try {
   fs.writeFileSync(CFG, JSON.stringify(legacyCfg, null, 2))
   execSync(
-    'npx electron-builder --win -c.productName="ZeroAI Studio Legacy" -c.appId=tech.zeroai.studio.legacy --publish never',
+    'npx electron-builder --win zip -c.productName="ZeroAI Studio Legacy" -c.appId=tech.zeroai.studio.legacy --publish never',
     { cwd: root, stdio: 'inherit' },
   )
 } finally {
