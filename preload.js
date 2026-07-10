@@ -48,6 +48,13 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
   },
 })
 
+// Offline license bridge — used by activate.html (Legacy edition only).
+contextBridge.exposeInMainWorld('zeroaiLicense', {
+  machine:  () => ipcRenderer.invoke('license:machine'),
+  status:   () => ipcRenderer.invoke('license:status'),
+  activate: (key) => ipcRenderer.invoke('license:activate', { key }),
+})
+
 // Manager API (used by the Studio launcher to install/uninstall apps on demand).
 contextBridge.exposeInMainWorld('studio', {
   catalog:   ()    => ipcRenderer.invoke('studio:catalog'),

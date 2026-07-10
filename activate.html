@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Activate ZeroAI Studio Legacy</title>
+<style>
+  :root { --bg:#0a0c15; --panel:#111524; --ink:#eef3fb; --muted:#93a1c0; --line:rgba(140,165,215,.16); --accent:#3b82f6; --accent2:#60a5fa; --ok:#34d399; --err:#f87171; }
+  *{ box-sizing:border-box; margin:0; padding:0 }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(80% 90% at 85% -10%,rgba(59,130,246,.22),transparent 55%),var(--bg);
+    color:var(--ink); min-height:100vh; display:grid; place-items:center; padding:32px }
+  .card{ width:100%; max-width:560px; background:var(--panel); border:1px solid var(--line);
+    border-radius:20px; padding:34px 36px; box-shadow:0 30px 80px rgba(0,0,0,.5) }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.01em }
+  .brand .dot{ width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:grid; place-items:center; color:#05060a; font-weight:900; font-size:15px }
+  .tag{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-top:2px }
+  h1{ font-size:24px; letter-spacing:-.02em; margin:22px 0 6px }
+  p.lede{ color:var(--muted); font-size:14px; line-height:1.6 }
+  .mid{ margin:22px 0; background:#0b0f1c; border:1px solid var(--line); border-radius:12px; padding:14px 16px }
+  .mid .lbl{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
+  .mid .val{ font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:20px; font-weight:700; color:var(--accent2); margin-top:4px; user-select:all }
+  .hint{ font-size:12.5px; color:var(--muted); margin-top:8px; line-height:1.55 }
+  label{ display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:18px 0 8px }
+  textarea{ width:100%; min-height:78px; resize:vertical; background:#0b0f1c; border:1px solid var(--line);
+    border-radius:12px; color:var(--ink); padding:12px 14px; font-family:ui-monospace,Menlo,monospace; font-size:13px; outline:none }
+  textarea:focus{ border-color:var(--accent) }
+  button{ width:100%; margin-top:16px; padding:14px; border:none; border-radius:12px; cursor:pointer;
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:15px; font-weight:800 }
+  button:disabled{ opacity:.5; cursor:default }
+  .msg{ margin-top:14px; font-size:13.5px; line-height:1.5; min-height:18px }
+  .msg.ok{ color:var(--ok) } .msg.err{ color:var(--err) }
+  .foot{ margin-top:20px; font-size:11.5px; color:var(--muted); text-align:center }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand"><span class="dot">Z</span> ZeroAI Studio <span style="opacity:.6">Legacy</span></div>
+    <div class="tag">Offline edition</div>
+
+    <h1>Activate this computer</h1>
+    <p class="lede">This copy runs fully offline. Read the Machine ID below to your ZeroAI representative — they will give you an activation key for <em>this</em> computer.</p>
+
+    <div class="mid">
+      <div class="lbl">This computer's Machine ID</div>
+      <div class="val" id="machine">…</div>
+      <div class="hint">It only works on this machine. No internet is needed at any step.</div>
+    </div>
+
+    <label for="key">Activation key</label>
+    <textarea id="key" placeholder="ZAI1.…" spellcheck="false"></textarea>
+    <button id="go">Activate</button>
+    <div class="msg" id="msg"></div>
+
+    <div class="foot">ZeroAI Technologies · offline license · no data leaves this computer</div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const L = window.zeroaiLicense;
+    (async () => {
+      try { $('machine').textContent = await L.machine(); }
+      catch { $('machine').textContent = 'unavailable'; }
+    })();
+    async function activate() {
+      const key = $('key').value.trim();
+      const msg = $('msg');
+      if (!key) { msg.className = 'msg err'; msg.textContent = 'Paste the activation key first.'; return; }
+      $('go').disabled = true; msg.className = 'msg'; msg.textContent = 'Checking…';
+      try {
+        const res = await L.activate(key);
+        if (res.ok) {
+          msg.className = 'msg ok';
+          msg.textContent = '✓ Activated for ' + (res.license.school || 'this school') + '. Opening…';
+        } else {
+          $('go').disabled = false;
+          msg.className = 'msg err'; msg.textContent = '✕ ' + (res.reason || 'Invalid key');
+        }
+      } catch (e) {
+        $('go').disabled = false; msg.className = 'msg err'; msg.textContent = '✕ ' + (e && e.message || 'Activation failed');
+      }
+    }
+    $('go').addEventListener('click', activate);
+    $('key').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) activate(); });
+  </script>
+</body>
+</html>

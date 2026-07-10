@@ -11,3 +11,7 @@ apps/zaicad/
 studio.config.json
 release/
 bundled-apps/
+
+# offline license — NEVER commit the private key
+**/private.pem
+**/license.dat

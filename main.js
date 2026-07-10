@@ -7,6 +7,10 @@
 // (e.g. COOP/COEP for zaipy's Pyodide later). One window, switch between apps.
 
 const { app, BrowserWindow, Menu, protocol, shell, ipcMain, dialog } = require('electron')
+const licensing = require('./license/verifier')
+let STUDIO_CFG = {}; try { STUDIO_CFG = require('./studio.config.json') } catch { /* optional */ }
+// Legacy (offline, licensed) edition when studio.config.json has "legacy": true.
+const LEGACY = !!STUDIO_CFG.legacy || process.env.ZEROAI_LEGACY === '1'
 const fs = require('node:fs/promises')
 const fss = require('node:fs')
 const path = require('node:path')
@@ -150,7 +154,12 @@ function createWindow() {
       additionalArguments: [CONFIG_ARG],
     },
   })
-  win.loadURL('app://studio/index.html')
+  // Legacy edition gates on an offline license before opening the studio.
+  if (LEGACY && !licensing.status(app.getPath('userData')).ok) {
+    win.loadFile(path.join(__dirname, 'activate.html'))
+  } else {
+    win.loadURL('app://studio/index.html')
+  }
   // Native window title tracks the current app.
   win.webContents.on('did-navigate', (_e, url) => {
     try {
@@ -259,6 +268,18 @@ async function installAllHeadless() {
 }
 
 // ── App catalog: install / uninstall on demand (Adobe-CC model) ──────────────
+// ---- Offline licensing (Legacy edition) ----
+ipcMain.handle('license:machine', () => licensing.machineId())
+ipcMain.handle('license:status', () => licensing.status(app.getPath('userData')))
+ipcMain.handle('license:activate', (_e, { key }) => {
+  const res = licensing.activate(app.getPath('userData'), key)
+  if (res.ok) {
+    const w = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+    if (w) w.loadURL('app://studio/index.html')  // enter the studio on success
+  }
+  return res
+})
+
 ipcMain.handle('studio:catalog', async () => {
   let apps = []
   try { apps = (await getJSON(MANIFEST_URL)).apps || [] }
