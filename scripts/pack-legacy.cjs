@@ -14,7 +14,20 @@ const REL = path.join(root, 'release')
 const version = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version
 
 const wanted = process.argv.slice(2).length ? process.argv.slice(2) : ['mac', 'win', 'linux']
-const brand = '-c.productName="ZeroAI Studio Legacy" -c.appId=tech.zeroai.studio.legacy --publish never'
+// Legacy is a fully SEPARATE app from the online Studio so both can live on one PC:
+//  · productName / appId  → distinct app, installs side-by-side, own Dock/Start entry
+//  · extraMetadata.name   → distinct userData dir (zeroai-studio-legacy) so the two
+//                           editions never share license.dat, installed apps or config
+//  · icon-legacy.png      → gold "OFFLINE" badge so they're tellable apart at a glance
+const brand = [
+  '-c.productName="ZeroAI Studio Legacy"',
+  '-c.appId=tech.zeroai.studio.legacy',
+  '-c.extraMetadata.name=zeroai-studio-legacy',
+  '-c.mac.icon=build/icon-legacy.png',
+  '-c.win.icon=build/icon-legacy.png',
+  '-c.linux.icon=build/icon-legacy.png',
+  '--publish never',
+].join(' ')
 const run = (flags) => execSync(`npx electron-builder ${flags} ${brand}`, { cwd: root, stdio: 'inherit' })
 
 fs.copyFileSync(CFG, BAK)
