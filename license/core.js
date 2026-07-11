@@ -3,14 +3,38 @@
 // The app embeds only PUBLIC_KEY; the private key never ships.
 const crypto = require('crypto')
 const os = require('os')
+const fs = require('fs')
+const { execSync } = require('child_process')
+
+// The OS's own stable hardware GUID — unchanged by Wi-Fi/Ethernet/VPN toggles,
+// renames or reboots (unlike network MACs/hostname, which are NOT stable and
+// caused keys minted in one network state to be rejected in another).
+function stableHwId() {
+  try {
+    if (process.platform === 'darwin') {
+      const m = execSync('ioreg -rd1 -c IOPlatformExpertDevice', { encoding: 'utf8', timeout: 4000 })
+        .match(/IOPlatformUUID"\s*=\s*"([^"]+)"/)
+      if (m) return 'mac:' + m[1]
+    } else if (process.platform === 'win32') {
+      const m = execSync('reg query "HKLM\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid', { encoding: 'utf8', timeout: 4000 })
+        .match(/MachineGuid\s+REG_SZ\s+([\w-]+)/i)
+      if (m) return 'win:' + m[1].trim()
+    } else {
+      for (const p of ['/etc/machine-id', '/var/lib/dbus/machine-id']) {
+        try { const v = fs.readFileSync(p, 'utf8').trim(); if (v) return 'linux:' + v } catch { /* next */ }
+      }
+    }
+  } catch { /* fall through to the weak fingerprint below */ }
+  return null
+}
 
 // --- Machine fingerprint: stable per-device, no network, privacy-safe (hashed).
 function machineId() {
-  const cpus = os.cpus()
-  const nets = os.networkInterfaces()
-  const mac = Object.values(nets).flat().map(n => n && n.mac).find(m => m && m !== '00:00:00:00:00:00') || ''
-  const raw = [os.platform(), os.arch(), os.hostname(), (cpus[0] && cpus[0].model) || '', cpus.length, mac].join('|')
-  return crypto.createHash('sha256').update(raw).digest('base64url').slice(0, 20)
+  const hw = stableHwId()
+  // Fallback only if the OS GUID is somehow unreadable: platform + CPU (still
+  // network-independent). Never mixes in hostname/MAC — those are volatile.
+  const raw = hw || [os.platform(), os.arch(), (os.cpus()[0] || {}).model || '', os.cpus().length].join('|')
+  return crypto.createHash('sha256').update('zeroai-studio|' + raw).digest('base64url').slice(0, 20)
 }
 
 const b64u = obj => Buffer.from(JSON.stringify(obj)).toString('base64url')

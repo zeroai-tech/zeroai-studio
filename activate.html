@@ -20,7 +20,10 @@
   .mid{ margin:22px 0; background:#0b0f1c; border:1px solid var(--line); border-radius:12px; padding:14px 16px }
   .mid .lbl{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted) }
   .mid .val{ font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:20px; font-weight:700; color:var(--accent2); margin-top:4px; user-select:all }
-  .hint{ font-size:12.5px; color:var(--muted); margin-top:8px; line-height:1.55 }
+  .hint{ font-size:12.5px; color:var(--muted); margin-top:10px; line-height:1.55 }
+  .copybtn{ width:auto; margin-top:12px; padding:8px 14px; font-size:12.5px; font-weight:700;
+    background:rgba(96,165,250,.12); color:var(--accent2); border:1px solid var(--line); border-radius:9px }
+  .copybtn.copied{ background:rgba(52,211,153,.14); color:var(--ok); border-color:rgba(52,211,153,.4) }
   label{ display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:18px 0 8px }
   textarea{ width:100%; min-height:78px; resize:vertical; background:#0b0f1c; border:1px solid var(--line);
     border-radius:12px; color:var(--ink); padding:12px 14px; font-family:ui-monospace,Menlo,monospace; font-size:13px; outline:none }
@@ -44,7 +47,8 @@
     <div class="mid">
       <div class="lbl">This computer's Machine ID</div>
       <div class="val" id="machine">…</div>
-      <div class="hint">It only works on this machine. No internet is needed at any step.</div>
+      <button id="copyId" class="copybtn">Copy Machine ID</button>
+      <div class="hint">Send this exact ID to ZeroAI — don't retype it, use Copy. It only works on this machine. No internet needed.</div>
     </div>
 
     <label for="key">Activation key</label>
@@ -58,10 +62,21 @@
   <script>
     const $ = (id) => document.getElementById(id);
     const L = window.zeroaiLicense;
+    let MID = '';
     (async () => {
-      try { $('machine').textContent = await L.machine(); }
+      try { MID = await L.machine(); $('machine').textContent = MID; }
       catch { $('machine').textContent = 'unavailable'; }
     })();
+    // Copy the Machine ID exactly — no retyping (execCommand works on file://).
+    $('copyId').addEventListener('click', () => {
+      if (!MID) return;
+      const t = document.createElement('textarea');
+      t.value = MID; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch {}
+      document.body.removeChild(t);
+      const b = $('copyId'); b.textContent = '✓ Copied'; b.classList.add('copied');
+      setTimeout(() => { b.textContent = 'Copy Machine ID'; b.classList.remove('copied'); }, 1600);
+    });
     async function activate() {
       const key = $('key').value.trim();
       const msg = $('msg');
