@@ -111,6 +111,44 @@ async function status() {
   return { installed: true, cliVersion: ver?.VersionString ?? 'unknown', cores, ready: CORES.every(c => cores[c]) }
 }
 
+// Write arduino-cli.yaml with THIS machine's absolute data/user paths. The paths
+// are machine-specific, so a config shipped inside a pack would be wrong — always
+// regenerate after install. Double-quoted forward slashes keep Windows drive
+// letters ("C:\…") from breaking the YAML (arduino-cli/Go accepts forward slashes).
+async function writeConfig() {
+  const yq = (p) => JSON.stringify(p.replace(/\\/g, '/'))
+  const yaml = `directories:\n  data: ${yq(DATA_DIR())}\n  user: ${yq(USER_DIR())}\nboard_manager:\n  additional_urls:\n${BOARD_URLS.map(u => `    - ${u}`).join('\n')}\n`
+  await fsp.writeFile(CONFIG(), yaml)
+}
+
+// ── Offline install: unpack a board-support pack from disk/USB (no internet) ──
+// A pack is a .tar.gz / .zip whose contents are ROOT-relative: the arduino-cli
+// binary plus data/packages/<core>/… . Packs merge — install several (AVR, ESP32,
+// ESP8266) into the same ROOT and each adds its core. This is how zero-internet
+// schools get compile+upload: the ZeroAI USB carries the packs.
+async function installFromPack(packPath, onProgress) {
+  const p = (pct, msg) => onProgress?.({ phase: 'install-pack', pct, msg })
+  if (!fs.existsSync(packPath)) throw new Error('Board pack not found: ' + packPath)
+  await fsp.mkdir(ROOT(), { recursive: true })
+  await fsp.mkdir(DATA_DIR(), { recursive: true })
+  await fsp.mkdir(USER_DIR(), { recursive: true })
+
+  p(0.1, 'Reading board pack…')
+  if (packPath.toLowerCase().endsWith('.zip')) {
+    new AdmZip(packPath).extractAllTo(ROOT(), true)
+  } else {
+    const r = await exec('tar', ['-xzf', packPath, '-C', ROOT()])
+    if (r.code !== 0) throw new Error('Could not unpack the board pack:\n' + r.err.slice(0, 300))
+  }
+  if (process.platform !== 'win32' && fs.existsSync(BIN())) await fsp.chmod(BIN(), 0o755).catch(() => {})
+  if (!fs.existsSync(BIN())) throw new Error('Pack did not contain arduino-cli — is this a ZeroAI board pack?')
+
+  p(0.9, 'Finalising…')
+  await writeConfig()      // rewrite config with this machine's paths
+  p(1, 'Board support installed.')
+  return await status()
+}
+
 // ── Setup: download arduino-cli, install the three cores (no elevation) ──────
 async function setup(onProgress) {
   const p = (phase, pct, msg) => onProgress?.({ phase, pct, msg })
@@ -136,12 +174,8 @@ async function setup(onProgress) {
     if (!fs.existsSync(BIN())) throw new Error('arduino-cli did not unpack correctly')
   }
 
-  // 2 · config with the ESP board-manager URLs. Paths are double-quoted with
-  //     forward slashes so Windows drive letters ("C:\…") don't break the YAML
-  //     (arduino-cli/Go accepts forward slashes on every platform).
-  const yq = (p) => JSON.stringify(p.replace(/\\/g, '/'))
-  const yaml = `directories:\n  data: ${yq(DATA_DIR())}\n  user: ${yq(USER_DIR())}\nboard_manager:\n  additional_urls:\n${BOARD_URLS.map(u => `    - ${u}`).join('\n')}\n`
-  await fsp.writeFile(CONFIG(), yaml)
+  // 2 · config (see writeConfig — paths are machine-specific so always regenerate)
+  await writeConfig()
 
   // 3 · index + cores (this is the step that needs the internet, once)
   p('index', 0, 'Updating board index…')
@@ -229,4 +263,4 @@ async function upload(code, board, port, onLine) {
   }
 }
 
-module.exports = { status, setup, compile, listPorts, upload, FQBN }
+module.exports = { status, setup, installFromPack, compile, listPorts, upload, FQBN }

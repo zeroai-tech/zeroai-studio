@@ -15,3 +15,6 @@ bundled-apps/
 # offline license — NEVER commit the private key
 **/private.pem
 **/license.dat
+
+# Offline Arduino toolchain packs (regenerate: node scripts/build-arduino-packs.cjs)
+arduino-packs/
