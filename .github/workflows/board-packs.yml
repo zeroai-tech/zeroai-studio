@@ -53,24 +53,29 @@ jobs:
           - { os: ubuntu-latest,   label: linux-x64 }
           - { os: ubuntu-24.04-arm, label: linux-arm64 } # public arm64 runner
     runs-on: ${{ matrix.os }}
-    if: github.event.inputs.only == '' || github.event.inputs.only == matrix.label
+    env:
+      SELECTED: ${{ github.event.inputs.only == '' || github.event.inputs.only == matrix.label }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - if: env.SELECTED == 'true'
+        uses: actions/checkout@v4
+      - if: env.SELECTED == 'true'
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       # ESP32's xtensa toolchain has very deep paths that exceed Windows' 260-char
       # limit. Enable long-path support so arduino-cli can install/pack it.
       - name: Enable long paths (Windows)
-        if: runner.os == 'Windows'
+        if: env.SELECTED == 'true' && runner.os == 'Windows'
         run: reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
         shell: cmd
 
       - name: Build board packs (${{ matrix.label }})
+        if: env.SELECTED == 'true'
         run: node scripts/build-arduino-packs.cjs ${{ github.event.inputs.boards }}
 
       - name: Publish packs to the board-packs release
+        if: env.SELECTED == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: board-packs
