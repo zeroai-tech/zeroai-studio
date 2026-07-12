@@ -513,6 +513,8 @@
     renderHero(apps)
   }
   $('refresh').onclick = () => refresh()
+  // Offline edition: no online catalog — hide the Refresh control entirely.
+  if (window.__ZEROAI_CONFIG__ && window.__ZEROAI_CONFIG__.legacy) $('refresh').style.display = 'none'
   refresh()
 
   // ── Shell update check (interim until electron-updater ships) ───────────

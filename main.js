@@ -22,8 +22,10 @@ const arduino = require('./arduino')
 // Shell auto-update (electron-updater) — Windows & Linux only. macOS builds are
 // unsigned, and Squirrel.Mac refuses unsigned updates, so mac keeps the
 // in-app "new version" chip + manual download until we have an Apple cert.
+// NEVER in the Legacy (offline) edition — it must make zero network calls and
+// must never replace itself with the online build.
 let autoUpdater = null
-if (process.platform === 'win32' || process.platform === 'linux') {
+if (!LEGACY && (process.platform === 'win32' || process.platform === 'linux')) {
   try {
     autoUpdater = require('electron-updater').autoUpdater
     autoUpdater.autoDownload = true
@@ -281,6 +283,9 @@ ipcMain.handle('license:activate', (_e, { key }) => {
 })
 
 ipcMain.handle('studio:catalog', async () => {
+  // Legacy is fully offline: every app is bundled + already seeded, so never
+  // touch the network — just report what's installed.
+  if (LEGACY) return { ok: true, apps: [], installed: await readInstalled() }
   let apps = []
   try { apps = (await getJSON(MANIFEST_URL)).apps || [] }
   catch (e) { return { ok: false, error: 'Could not reach the catalog: ' + e.message, apps: [], installed: await readInstalled() } }

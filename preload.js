@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('__ZEROAI_PLATFORM__', process.platform)  // 'da
 contextBridge.exposeInMainWorld('__ZEROAI_CONFIG__', {
   supabaseUrl: cfg.supabaseUrl || '',
   supabaseAnonKey: cfg.supabaseAnonKey || '',
+  legacy: !!cfg.legacy,   // offline edition — UI hides online-only controls
 })
 contextBridge.exposeInMainWorld('zeroaiDesktop', {
   isDesktop: true,
