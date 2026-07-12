@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZeroAI License Minter (owner only)</title>
+<style>
+  :root{ --bg:#0a0c15; --panel:#111524; --panel2:#0b0f1c; --ink:#eef3fb; --muted:#93a1c0;
+    --line:rgba(140,165,215,.16); --accent:#3b82f6; --accent2:#60a5fa; --ok:#34d399; --err:#f87171; --amber:#fbbf24; }
+  *{ box-sizing:border-box; margin:0; padding:0 }
+  body{ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(80% 90% at 90% -10%,rgba(59,130,246,.18),transparent 55%),var(--bg);
+    color:var(--ink); min-height:100vh; padding:40px 20px; display:flex; justify-content:center }
+  .wrap{ width:100%; max-width:680px }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:800 }
+  .brand .dot{ width:26px; height:26px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:grid; place-items:center; color:#05060a; font-weight:900 }
+  .tag{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:2px 0 22px }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px 24px; margin-bottom:16px }
+  h2{ font-size:14px; letter-spacing:.02em; margin-bottom:14px; display:flex; align-items:center; gap:8px }
+  h2 .n{ width:22px; height:22px; border-radius:7px; background:rgba(96,165,250,.14); color:var(--accent2);
+    display:grid; place-items:center; font-size:12px; font-weight:800 }
+  label{ display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:14px 0 7px }
+  input,select,textarea{ width:100%; background:var(--panel2); border:1px solid var(--line); border-radius:10px;
+    color:var(--ink); padding:11px 13px; font-size:14px; outline:none; font-family:inherit }
+  textarea{ font-family:ui-monospace,Menlo,monospace; font-size:13px; min-height:88px; resize:vertical }
+  input:focus,select:focus,textarea:focus{ border-color:var(--accent) }
+  .row{ display:flex; gap:12px } .row>*{ flex:1 }
+  button{ border:none; border-radius:10px; cursor:pointer; font-weight:800; font-size:14px; padding:12px 16px }
+  .primary{ width:100%; margin-top:18px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:15px; padding:14px }
+  .primary:disabled{ opacity:.45; cursor:default }
+  .ghost{ background:rgba(96,165,250,.12); color:var(--accent2); border:1px solid var(--line); padding:9px 14px; font-size:13px }
+  .keystate{ font-size:13px; margin-top:10px; color:var(--muted) } .keystate.ok{ color:var(--ok) } .keystate.err{ color:var(--err) }
+  .hint{ font-size:12px; color:var(--muted); margin-top:8px; line-height:1.55 }
+  .warn{ font-size:12px; color:var(--amber); background:rgba(251,191,36,.08); border:1px solid rgba(251,191,36,.25);
+    border-radius:10px; padding:10px 12px; margin-top:12px; line-height:1.5 }
+  .res{ background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:10px }
+  .res .mid{ font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--accent2); font-weight:700 }
+  .res .sch{ font-size:12px; color:var(--muted); margin-top:2px }
+  .res .key{ font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--ink); word-break:break-all;
+    background:#070a12; border:1px solid var(--line); border-radius:8px; padding:9px 10px; margin-top:8px }
+  .res .bar{ display:flex; gap:8px; margin-top:8px }
+  .res .bar button{ padding:7px 12px; font-size:12px }
+  .copied{ background:rgba(52,211,153,.16)!important; color:var(--ok)!important; border-color:rgba(52,211,153,.4)!important }
+  .foot{ font-size:11.5px; color:var(--muted); text-align:center; margin-top:8px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="dot">Z</span> ZeroAI License Minter</div>
+  <div class="tag">Owner tool · offline · keep private</div>
+
+  <div class="card">
+    <h2><span class="n">1</span> Load your signing key</h2>
+    <div class="row">
+      <button class="ghost" id="pick">Choose private.pem…</button>
+      <button class="ghost" id="pasteToggle">Paste it instead</button>
+    </div>
+    <input type="file" id="file" accept=".pem" style="display:none" />
+    <textarea id="pastePem" placeholder="-----BEGIN PRIVATE KEY-----&#10;…&#10;-----END PRIVATE KEY-----" style="display:none; margin-top:12px"></textarea>
+    <div class="keystate" id="keystate">No key loaded — pick your license/private.pem.</div>
+    <div class="warn">This is your master key. It stays in this page only (nothing is uploaded or saved). Never share private.pem or this file with a school.</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span> School &amp; licence</h2>
+    <label for="school">School / customer name</label>
+    <input id="school" placeholder="e.g. Kabwe Secondary School" />
+    <label for="exp">Expiry</label>
+    <select id="exp">
+      <option value="0">Perpetual — never expires</option>
+      <option value="365">1 year</option>
+      <option value="730">2 years</option>
+      <option value="custom">Custom…</option>
+    </select>
+    <input id="expDays" type="number" min="1" placeholder="days" style="display:none; margin-top:10px" />
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span> Machine ID(s)</h2>
+    <label for="mids">Paste one Machine ID per line (one per computer — a lab of 30 = 30 lines)</label>
+    <textarea id="mids" placeholder="sj_UsOnBrOUodnNMHn_2&#10;a1B2c3D4e5F6g7H8i9J0"></textarea>
+    <div class="hint">The school clicks <strong>Copy Machine ID</strong> on the activation screen and sends you the exact value.</div>
+    <button class="primary" id="gen" disabled>Generate key(s)</button>
+    <div class="keystate err" id="genmsg"></div>
+  </div>
+
+  <div id="out"></div>
+  <div class="foot">ZeroAI Technologies · Ed25519 offline licensing</div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  let signKey = null;   // CryptoKey, in memory only
+
+  // ── base64url of raw bytes (matches Node Buffer.toString('base64url')) ──
+  function b64url(bytes){
+    let bin = ''; for (const b of bytes) bin += String.fromCharCode(b);
+    return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  const enc = new TextEncoder();
+
+  async function importPem(pem){
+    const body = pem.replace(/-----[^-]+-----/g,'').replace(/\s+/g,'');
+    const der = Uint8Array.from(atob(body), c => c.charCodeAt(0));
+    return crypto.subtle.importKey('pkcs8', der.buffer, { name:'Ed25519' }, false, ['sign']);
+  }
+  async function loadPem(pem){
+    try {
+      signKey = await importPem(pem.trim());
+      $('keystate').className = 'keystate ok';
+      $('keystate').textContent = '✓ Signing key loaded — ready to mint.';
+      refresh();
+    } catch(e){
+      signKey = null;
+      $('keystate').className = 'keystate err';
+      $('keystate').textContent = '✕ Not a valid Ed25519 private.pem (' + (e.message||e) + ')';
+      refresh();
+    }
+  }
+
+  $('pick').onclick = () => $('file').click();
+  $('file').onchange = e => { const f = e.target.files[0]; if (f) f.text().then(loadPem); };
+  $('pasteToggle').onclick = () => {
+    const t = $('pastePem'); t.style.display = t.style.display === 'none' ? 'block' : 'none'; if (t.style.display!=='none') t.focus();
+  };
+  $('pastePem').addEventListener('input', e => { if (/BEGIN[\s\S]+END/.test(e.target.value)) loadPem(e.target.value); });
+  $('exp').onchange = e => { $('expDays').style.display = e.target.value==='custom' ? 'block' : 'none'; };
+  ['school','mids'].forEach(id => $(id).addEventListener('input', refresh));
+  function refresh(){ $('gen').disabled = !(signKey && $('school').value.trim() && $('mids').value.trim()); }
+
+  async function mint(school, machine, days){
+    const payload = { school, machine, plan:'legacy', iat: Date.now(), exp: days>0 ? Date.now()+days*864e5 : 0 };
+    const head = b64url(enc.encode(JSON.stringify(payload)));
+    const sig  = new Uint8Array(await crypto.subtle.sign('Ed25519', signKey, enc.encode(head)));
+    return 'ZAI1.' + head + '.' + b64url(sig);
+  }
+
+  function copyText(txt, btn){
+    const t = document.createElement('textarea'); t.value = txt; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); } catch{} document.body.removeChild(t);
+    if (btn){ const o = btn.textContent; btn.textContent = '✓ Copied'; btn.classList.add('copied');
+      setTimeout(()=>{ btn.textContent = o; btn.classList.remove('copied'); }, 1500); }
+  }
+
+  $('gen').onclick = async () => {
+    $('genmsg').textContent = '';
+    const school = $('school').value.trim();
+    let days = $('exp').value; days = days==='custom' ? Number($('expDays').value||0) : Number(days);
+    const ids = [...new Set($('mids').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean))];
+    if (!ids.length){ $('genmsg').textContent = 'Enter at least one Machine ID.'; return; }
+    const out = $('out'); out.innerHTML = '';
+    const all = [];
+    for (const id of ids){
+      const key = await mint(school, id, days);
+      all.push(school + '\t' + id + '\t' + key);
+      const div = document.createElement('div'); div.className = 'res';
+      div.innerHTML = '<div class="mid"></div><div class="sch"></div><div class="key"></div>'
+        + '<div class="bar"><button class="ghost bcopy">Copy key</button></div>';
+      div.querySelector('.mid').textContent = id;
+      div.querySelector('.sch').textContent = school + (days>0 ? ' · '+days+' days' : ' · perpetual');
+      div.querySelector('.key').textContent = key;
+      div.querySelector('.bcopy').onclick = e => copyText(key, e.target);
+      out.appendChild(div);
+    }
+    if (ids.length > 1){
+      const bar = document.createElement('div'); bar.className='res';
+      bar.innerHTML = '<div class="sch">'+ids.length+' keys generated for '+school+'</div><div class="bar"><button class="ghost">Copy all (school · id · key)</button></div>';
+      bar.querySelector('button').onclick = e => copyText(all.join('\n'), e.target);
+      out.appendChild(bar);
+    }
+  };
+</script>
+</body>
+</html>
