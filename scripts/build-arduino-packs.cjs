@@ -50,31 +50,55 @@ const CLI_BIN = process.platform === 'win32' ? 'arduino-cli.exe' : 'arduino-cli'
 
 function download(url, dest, redirects = 0) {
   return new Promise((res, rej) => {
-    https.get(url, { headers: { 'User-Agent': 'ZeroAI-Studio' } }, r => {
+    const req = https.get(url, { headers: { 'User-Agent': 'ZeroAI-Studio' } }, r => {
       if ([301, 302, 307, 308].includes(r.statusCode) && r.headers.location && redirects < 6) {
         r.resume(); return res(download(r.headers.location, dest, redirects + 1))
       }
       if (r.statusCode !== 200) { r.resume(); return rej(new Error('HTTP ' + r.statusCode + ' ' + url)) }
-      const f = fs.createWriteStream(dest); r.pipe(f)
+      const f = fs.createWriteStream(dest)
+      r.on('error', rej); r.pipe(f)
       f.on('finish', () => f.close(() => res())); f.on('error', rej)
-    }).on('error', rej)
+    })
+    req.on('error', rej)
+    req.setTimeout(120000, () => req.destroy(new Error('download timeout')))
   })
+}
+// GitHub/Arduino CDNs occasionally abort a connection (ECONNABORTED); retry.
+async function downloadRetry(url, dest, attempts = 5) {
+  for (let i = 1; i <= attempts; i++) {
+    try { return await download(url, dest) }
+    catch (e) {
+      if (i === attempts) throw e
+      console.log(`    retry ${i}/${attempts - 1} (${e.message})`)
+      await new Promise(r => setTimeout(r, 3000 * i))
+    }
+  }
 }
 function run(cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, { stdio: 'inherit', ...opts })
   if (r.status !== 0) throw new Error(`${cmd} ${args.join(' ')} → exit ${r.status}`)
 }
 
+let CLI_CACHE = null   // download+extract arduino-cli once, reuse across boards
 async function ensureCli(root) {
   const bin = path.join(root, CLI_BIN)
   if (fs.existsSync(bin)) return bin
-  const asset = cliAsset()
-  const tmp = path.join(WORK, asset)
-  console.log('  ↓ arduino-cli', asset)
-  await download(CLI_BASE + asset, tmp)
-  // `tar` handles both .tar.gz and .zip (bsdtar on macOS/Windows; the .zip asset
-  // is Windows-only, where bsdtar ships in-box). Avoids depending on `unzip`.
-  run('tar', [asset.endsWith('.zip') ? '-xf' : '-xzf', tmp, '-C', root])
+  if (!CLI_CACHE) {
+    const cacheDir = path.join(WORK, 'cli-cache')
+    fs.mkdirSync(cacheDir, { recursive: true })
+    const cached = path.join(cacheDir, CLI_BIN)
+    if (!fs.existsSync(cached)) {
+      const asset = cliAsset()
+      const tmp = path.join(WORK, asset)
+      console.log('  ↓ arduino-cli', asset)
+      await downloadRetry(CLI_BASE + asset, tmp)
+      // `tar` handles .tar.gz and .zip (bsdtar on macOS/Windows; .zip is Windows-only).
+      run('tar', [asset.endsWith('.zip') ? '-xf' : '-xzf', tmp, '-C', cacheDir])
+    }
+    CLI_CACHE = cached
+  }
+  fs.mkdirSync(root, { recursive: true })
+  fs.copyFileSync(CLI_CACHE, bin)
   if (process.platform !== 'win32') fs.chmodSync(bin, 0o755)
   return bin
 }
