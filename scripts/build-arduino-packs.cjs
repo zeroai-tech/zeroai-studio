@@ -19,7 +19,9 @@ const https = require('node:https')
 const { spawnSync } = require('node:child_process')
 
 const OUT = path.join(__dirname, '..', 'arduino-packs')
-const WORK = path.join(os.tmpdir(), 'zeroai-arduino-build')
+// Short work root on Windows — ESP32's xtensa paths are deep and a long temp
+// prefix pushes them past the 260-char limit (paired with LongPathsEnabled in CI).
+const WORK = process.platform === 'win32' ? 'C:\\zap' : path.join(os.tmpdir(), 'zeroai-arduino-build')
 const CLI_BASE = 'https://downloads.arduino.cc/arduino-cli/'
 const BOARD_URLS = [
   'https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json',
