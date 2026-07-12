@@ -39,8 +39,9 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
 
   // Local Arduino toolchain — offline compile + upload for ZaiSim.
   arduino: {
-    status:    ()               => ipcRenderer.invoke('arduino:status'),
-    setup:     ()               => ipcRenderer.invoke('arduino:setup'),
+    status:      ()             => ipcRenderer.invoke('arduino:status'),
+    setup:       ()             => ipcRenderer.invoke('arduino:setup'),
+    installPack: ()             => ipcRenderer.invoke('arduino:installPack'),  // offline: pick pack from USB
     compile:   (code, board)    => ipcRenderer.invoke('arduino:compile', { code, board }),
     listPorts: ()               => ipcRenderer.invoke('arduino:listPorts'),
     upload:    (code, board, port) => ipcRenderer.invoke('arduino:upload', { code, board, port }),

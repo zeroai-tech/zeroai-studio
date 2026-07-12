@@ -379,6 +379,19 @@ ipcMain.handle('arduino:upload', async (e, { code, board, port }) => {
   try { return { ok: true, ...(await arduino.upload(code, board, port, line => e.sender.send('arduino:uploadLog', line))) } }
   catch (err) { return { ok: false, error: err.message } }
 })
+// Offline board support: pick an arduino-<board>-<os>.tar.gz pack from the USB and
+// install it — no internet. (win/mac packs are .zip too.)
+ipcMain.handle('arduino:installPack', async (e) => {
+  try {
+    const r = await dialog.showOpenDialog(BrowserWindow.fromWebContents(e.sender), {
+      title: 'Choose a ZeroAI board-support pack',
+      properties: ['openFile'],
+      filters: [{ name: 'ZeroAI board pack', extensions: ['gz', 'tgz', 'zip'] }],
+    })
+    if (r.canceled || !r.filePaths[0]) return { ok: false, canceled: true }
+    return { ok: true, ...(await arduino.installFromPack(r.filePaths[0], prog => e.sender.send('arduino:setupProgress', prog))) }
+  } catch (err) { return { ok: false, error: err.message } }
+})
 
 // ── Proprietary project files (only readable in ZeroAI Studio) ───────────────
 // Custom per-app extension + an encoded container with a magic header, so the

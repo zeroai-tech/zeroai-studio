@@ -1,0 +1,65 @@
+name: Build Arduino board packs
+
+# Builds the offline arduino-cli toolchain packs (AVR / ESP8266 / ESP32) natively
+# on macOS, Windows and Linux, and publishes them to the `board-packs` release so
+# you can download them to a USB. Zero-internet schools install them in ZaiSim via
+# Hardware → "Install from USB (offline)".
+#
+# Run it from the Actions tab → "Build Arduino board packs" → Run workflow.
+# Uses the built-in GITHUB_TOKEN — no secrets to configure. ESP32 is a ~1.5 GB
+# download per OS, so a full run takes a while.
+
+on:
+  workflow_dispatch:
+    inputs:
+      boards:
+        description: 'Boards to build (space-separated: avr esp8266 esp32). Leave blank for all three.'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create/refresh the board-packs release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: board-packs
+          name: Arduino board packs (offline)
+          prerelease: true
+          body: |
+            Offline `arduino-cli` toolchain packs for ZeroAI Studio Legacy.
+
+            One `.tar.gz` per board × OS. Put the ones you need on the ZeroAI USB;
+            schools install them in ZaiSim → **Hardware → "Install from USB (offline)"**.
+            After that, compile + upload to real Uno / ESP32 / ESP8266 works with no internet.
+
+  build:
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-14,        label: mac-arm64 }   # Apple Silicon
+          - { os: macos-13,        label: mac-x64 }     # Intel
+          - { os: windows-latest,  label: win-x64 }
+          - { os: ubuntu-latest,   label: linux-x64 }
+          - { os: ubuntu-24.04-arm, label: linux-arm64 } # public arm64 runner
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build board packs (${{ matrix.label }})
+        run: node scripts/build-arduino-packs.cjs ${{ github.event.inputs.boards }}
+
+      - name: Publish packs to the board-packs release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: board-packs
+          files: arduino-packs/*.tar.gz

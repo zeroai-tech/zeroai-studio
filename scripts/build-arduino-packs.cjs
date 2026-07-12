@@ -70,8 +70,9 @@ async function ensureCli(root) {
   const tmp = path.join(WORK, asset)
   console.log('  ↓ arduino-cli', asset)
   await download(CLI_BASE + asset, tmp)
-  if (asset.endsWith('.zip')) run('unzip', ['-oq', tmp, '-d', root])
-  else run('tar', ['-xzf', tmp, '-C', root])
+  // `tar` handles both .tar.gz and .zip (bsdtar on macOS/Windows; the .zip asset
+  // is Windows-only, where bsdtar ships in-box). Avoids depending on `unzip`.
+  run('tar', [asset.endsWith('.zip') ? '-xf' : '-xzf', tmp, '-C', root])
   if (process.platform !== 'win32') fs.chmodSync(bin, 0o755)
   return bin
 }
@@ -106,6 +107,7 @@ async function buildBoard(board) {
   run('tar', ['-czf', outFile, '-C', root, CLI_BIN, 'data'])
   const mb = (fs.statSync(outFile).size / 1048576).toFixed(0)
   console.log(`  ✓ ${path.basename(outFile)}  ${mb} MB`)
+  fs.rmSync(root, { recursive: true, force: true })   // free disk before the next (esp32) core
   return outFile
 }
 
