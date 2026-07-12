@@ -6,7 +6,7 @@
 // no per-app rebuild needed — and we can attach security headers per app
 // (e.g. COOP/COEP for zaipy's Pyodide later). One window, switch between apps.
 
-const { app, BrowserWindow, Menu, protocol, shell, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, Menu, protocol, shell, ipcMain, dialog, screen } = require('electron')
 const licensing = require('./license/verifier')
 let STUDIO_CFG = {}; try { STUDIO_CFG = require('./studio.config.json') } catch { /* optional */ }
 // Legacy (offline, licensed) edition when studio.config.json has "legacy": true.
@@ -172,8 +172,28 @@ function createWindow() {
   })
   // The apps set document.title for the browser; in the shell the native title wins.
   win.on('page-title-updated', (e) => e.preventDefault())
+  // ── Display fit + zoom ──────────────────────────────────────────────────────
+  // Old lab monitors (1366×768, 1024×768) make the apps look "zoomed in" and cut
+  // off. Auto-scale so the full ~1440×900 layout always fits (never upscales past
+  // 100%). Ctrl/Cmd +/− adjusts, Ctrl/Cmd 0 resets to the auto fit.
+  let zoom = 0
+  const autoFit = () => {
+    try {
+      const w = screen.getPrimaryDisplay().workAreaSize
+      return Math.max(0.6, Math.min(1, w.width / 1440, w.height / 900))
+    } catch { return 1 }
+  }
+  const applyZoom = (z) => { zoom = Math.max(0.4, Math.min(2, z)); try { win.webContents.setZoomFactor(zoom) } catch { /* window gone */ } }
+  win.webContents.on('before-input-event', (e, input) => {
+    if (input.type !== 'keyDown' || !(input.control || input.meta)) return
+    if (input.key === '=' || input.key === '+') { applyZoom(zoom + 0.1); e.preventDefault() }
+    else if (input.key === '-' || input.key === '_') { applyZoom(zoom - 0.1); e.preventDefault() }
+    else if (input.key === '0') { applyZoom(autoFit()); e.preventDefault() }
+  })
+
   // After each app loads, strip web-only chrome so it feels native + forward errors.
   win.webContents.on('did-finish-load', () => {
+    applyZoom(zoom || autoFit())   // fit on first load; keep the chosen zoom across app switches
     win.webContents.insertCSS(DEWEBIFY_CSS).catch(() => {})
     win.webContents.executeJavaScript(
       "window.addEventListener('error',e=>console.log('JS-ERROR: '+((e.error&&e.error.stack)||e.message)));" +
