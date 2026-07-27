@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-13",
+  "updated": "2026-07-27",
   "apps": [
     {
       "id": "zerospark",
@@ -55,6 +55,17 @@
       "size": 773512,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.3.0/zaicad.zip",
       "sha256": "780846ff3beaa9e509676919a1bc6058f5c341c1f9018cb1b48fc2660c3492af"
+    },
+    {
+      "id": "zaimind",
+      "name": "ZaiMind",
+      "icon": "🧠",
+      "desc": "Teach a machine to see & hear — train real AI models, fully offline.",
+      "grade": "Grades 5–10",
+      "version": "1.3.0",
+      "size": 7678888,
+      "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.3.0/zaimind.zip",
+      "sha256": "d8ad3a8b79aa92dc51e69547fae5dd6f2fb803621fc9c99f65e0f6b48a843c50"
     }
   ]
 }

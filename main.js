@@ -396,7 +396,7 @@ ipcMain.handle('arduino:installPack', async (e) => {
 // ── Proprietary project files (only readable in ZeroAI Studio) ───────────────
 // Custom per-app extension + an encoded container with a magic header, so the
 // files aren't plain JSON and other programs won't open them.
-const FILE_EXT = { zerospark: 'zspark', zaisim: 'zsim', zaiblock: 'zblock', zaipy: 'zpy', zaicad: 'zcad' }
+const FILE_EXT = { zerospark: 'zspark', zaisim: 'zsim', zaiblock: 'zblock', zaipy: 'zpy', zaicad: 'zcad', zaimind: 'zmind' }
 const MAGIC = 'ZEROAI/v1\n'
 const encodeProject = (a, data) => MAGIC + Buffer.from(JSON.stringify({ app: a, savedAt: Date.now(), data })).toString('base64')
 function decodeProject(buf) {
@@ -431,13 +431,14 @@ ipcMain.handle('zeroai:openFile', async (e, { app: a }) => {
 })
 
 // Native application menu — the suite behaves like a real desktop app:
-// switch apps with ⌘1–⌘5, jump home with ⌘0, standard Edit/View/Window roles.
+// switch apps with ⌘1–⌘6, jump home with ⌘0, standard Edit/View/Window roles.
 const SUITE_APPS = [
   { id: 'zerospark', name: 'ZeroSpark' },
   { id: 'zaiblock', name: 'ZaiBlock' },
   { id: 'zaisim', name: 'ZaiSim' },
   { id: 'zaipy', name: 'ZaiPy' },
   { id: 'zaicad', name: 'ZaiCAD' },
+  { id: 'zaimind', name: 'ZaiMind' },
 ]
 const focusedWin = () => BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
 const goTo = (host) => focusedWin()?.loadURL(`app://${host}/index.html`)
