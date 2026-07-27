@@ -18,6 +18,7 @@ const APPS = [
   { id: 'zaisim', dir: 'zaisim' },
   { id: 'zaipy', dir: 'zaipy' },
   { id: 'zaicad', dir: 'zaicad' },
+  { id: 'zaimind', dir: 'zaimind' },
 ]
 
 fs.mkdirSync(OUT, { recursive: true })
