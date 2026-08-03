@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27",
+  "updated": "2026-08-03",
   "apps": [
     {
       "id": "zerospark",
@@ -7,10 +7,10 @@
       "icon": "⚡",
       "desc": "Electronics through play — snap blocks, earn XP, level up.",
       "grade": "Grades 1–6",
-      "version": "1.3.0",
-      "size": 435004,
+      "version": "1.3.1",
+      "size": 446974,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.3.0/zerospark.zip",
-      "sha256": "a3b57c5aa2ef47b8bdf487fe9ddb76b32c45ae1f97c872524642e86dce79cb8f"
+      "sha256": "356d8a1480a3c716ae0ceeadfa53a842e4c90d542ace1e9caf4dfa2e60c105b1"
     },
     {
       "id": "zaisim",
@@ -18,10 +18,10 @@
       "icon": "🔌",
       "desc": "Electronics & Arduino simulator — build circuits, write real code.",
       "grade": "Grades 7–12",
-      "version": "1.3.0",
-      "size": 845881,
+      "version": "1.3.1",
+      "size": 4526514,
       "url": "https://github.com/zeroai-tech/zeroai-studio/releases/download/apps-v1.3.0/zaisim.zip",
-      "sha256": "2a3bb46f172ee3c76aed90b7b94b31a81d36e8301552ab53ede1f84d0499aee2"
+      "sha256": "ba110c83558371ad978244c59b053ba1e0540df3475eb6436be6d1e12fd3f2cd"
     },
     {
       "id": "zaiblock",
