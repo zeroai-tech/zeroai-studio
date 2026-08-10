@@ -4,7 +4,6 @@
     {
       "id": "zerospark",
       "name": "ZeroSpark",
-      "icon": "⚡",
       "desc": "Electronics through play — snap blocks, earn XP, level up.",
       "grade": "Grades 1–6",
       "version": "1.3.1",
@@ -15,7 +14,6 @@
     {
       "id": "zaisim",
       "name": "ZaiSim",
-      "icon": "🔌",
       "desc": "Electronics & Arduino simulator — build circuits, write real code.",
       "grade": "Grades 7–12",
       "version": "1.3.1",
@@ -26,7 +24,6 @@
     {
       "id": "zaiblock",
       "name": "ZaiBlock",
-      "icon": "🧩",
       "desc": "Block coding — build games, animations and stories.",
       "grade": "Grades 4–8",
       "version": "1.3.0",
@@ -37,7 +34,6 @@
     {
       "id": "zaipy",
       "name": "ZaiPy",
-      "icon": "🐍",
       "desc": "A real Python IDE in the browser, with an AI tutor.",
       "grade": "Grades 7–12",
       "version": "1.3.0",
@@ -48,7 +44,6 @@
     {
       "id": "zaicad",
       "name": "ZaiCAD",
-      "icon": "🧊",
       "desc": "3D design & making — model real objects, export to print.",
       "grade": "Grades 7–12",
       "version": "1.3.0",
@@ -59,7 +54,6 @@
     {
       "id": "zaimind",
       "name": "ZaiMind",
-      "icon": "🧠",
       "desc": "Teach a machine to see & hear — train real AI models, fully offline.",
       "grade": "Grades 5–10",
       "version": "1.3.1",
