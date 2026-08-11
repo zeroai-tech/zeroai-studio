@@ -37,6 +37,13 @@ contextBridge.exposeInMainWorld('zeroaiDesktop', {
   saveFile: (data, name) => ipcRenderer.invoke('zeroai:saveFile', { app: appId(), data, name }),
   openFile: ()           => ipcRenderer.invoke('zeroai:openFile', { app: appId() }),
 
+  // Shared session across every bundled app — desktop's answer to the web
+  // SSO cookie. getSession() on boot hydrates supabase.auth.setSession();
+  // setSession(session) reports a fresh login (or null on logout) back to
+  // the shell so the NEXT app opened picks it up too.
+  getSession: ()          => ipcRenderer.invoke('zeroai:getSession'),
+  setSession: (session)   => ipcRenderer.invoke('zeroai:setSession', { session }),
+
   // Local Arduino toolchain — offline compile + upload for ZaiSim.
   arduino: {
     status:      ()             => ipcRenderer.invoke('arduino:status'),

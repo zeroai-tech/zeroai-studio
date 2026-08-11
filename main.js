@@ -361,6 +361,25 @@ ipcMain.handle('zeroai:remove', async (_e, { app: a, id }) => {
   try { await fs.unlink(path.join(projectsDir(a), safeId(id) + '.json')); return { ok: true } } catch { return { ok: false } }
 })
 
+// ── Shared session (desktop SSO) ────────────────────────────────────────────
+// The shell owns ONE canonical Supabase session across every bundled app —
+// same "log in once" ask as the web SSO cookie, but app:// has no shared
+// subdomain for a cookie to span, so the shell holds it in userData instead
+// and (re)injects it into whichever app loads next. Only one app is ever
+// visible at a time in this shell, so "push to the current page" is enough;
+// no need to fan out to multiple simultaneously-loaded webContents.
+const sessionPath = () => path.join(app.getPath('userData'), 'session.json')
+ipcMain.handle('zeroai:getSession', async () => {
+  try { return JSON.parse(await fs.readFile(sessionPath(), 'utf8')) } catch { return null }
+})
+ipcMain.handle('zeroai:setSession', async (_e, { session }) => {
+  try {
+    if (session) await fs.writeFile(sessionPath(), JSON.stringify(session))
+    else await fs.unlink(sessionPath()).catch(() => {})
+    return { ok: true }
+  } catch (err) { return { ok: false, error: err.message } }
+})
+
 // ── Local Arduino toolchain (ZaiSim offline compile + upload) ────────────────
 ipcMain.handle('arduino:status', async () => {
   try { return { ok: true, ...(await arduino.status()) } } catch (e) { return { ok: false, error: e.message } }
