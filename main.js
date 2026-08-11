@@ -200,14 +200,14 @@ function createWindow() {
       "window.addEventListener('unhandledrejection',e=>console.log('PROMISE-REJECT: '+((e.reason&&e.reason.stack)||e.reason)));" +
       // The apps' '← Suite' link points at the marketing site; in the desktop app
       // it must go back to the Studio manager. Catch the click directly (bulletproof).
-      "document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*=\"stem.zeroaitech.tech\"]');if(a){e.preventDefault();e.stopPropagation();location.href='app://studio/index.html';}},true);"
+      "document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*=\"stem.zeroaitech.tech\"],a[href*=\"studio.zeroaitech.tech\"]');if(a){e.preventDefault();e.stopPropagation();location.href='app://studio/index.html';}},true);"
     ).catch(() => {})
   })
   // Forward renderer console + crashes to the terminal/log so we can debug.
   win.webContents.on('console-message', (_e, _lvl, message) => { if (/error|fail|cannot|undefined|null/i.test(message)) console.log('[renderer]', message) })
   win.webContents.on('render-process-gone', (_e, d) => console.log('[render-process-gone]', d.reason))
   // An app's "← Suite" link → back to the Studio manager (not the marketing site).
-  const backToStudio = (url) => /stem\.zeroaitech\.tech/.test(url)
+  const backToStudio = (url) => /(stem|studio)\.zeroaitech\.tech/.test(url)
   win.webContents.on('will-navigate', (e, url) => {
     if (backToStudio(url)) { e.preventDefault(); win.loadURL('app://studio/index.html') }
   })
