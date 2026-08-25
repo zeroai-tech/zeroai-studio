@@ -1,9 +1,9 @@
 # ZeroAI Studio
 
 The ZeroAI STEM suite as **one installable desktop app** — Adobe-Creative-Cloud
-style. An Electron shell with a branded launcher: the five apps (ZeroSpark,
-ZaiSim, ZaiBlock, ZaiPy, ZaiCAD) **install on demand** from the catalog, run
-fully **offline**, and save projects locally. Windows · macOS · Linux.
+style. An Electron shell with a branded launcher: the six apps (ZeroSpark,
+ZaiSim, ZaiBlock, ZaiPy, ZaiCAD, ZaiMind) **install on demand** from the
+catalog, run fully **offline**, and save projects locally. Windows · macOS · Linux.
 
 ## Run it locally
 
@@ -35,7 +35,7 @@ reach desktop users.** To ship fresh bundles:
 like `1.2.0`. The workflow builds each app repo, zips the dists, publishes an
 `apps-v1.2.0` release here, and commits the `manifest.json` bump (versions,
 sizes, sha256, URLs). Every installed Studio then shows the updates on refresh.
-Requires the `APPS_PAT` repo secret (fine-grained PAT: read on the five
+Requires the `APPS_PAT` repo secret (fine-grained PAT: read on the six
 `Lottie128/<app>` repos, read/write contents here).
 
 **Manual:** build each `dist/`, zip its *contents* (index.html at zip root),

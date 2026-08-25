@@ -6,9 +6,12 @@
 # sizes + sha256 — every installed Studio then sees the updates on refresh.
 #
 # Requires one repo secret:
-#   APPS_PAT — a fine-grained PAT with read access to the five app repos
+#   APPS_PAT — a fine-grained PAT with read access to the six app repos
 #              (they live under the Lottie128 account) and read/write contents
 #              on zeroai-tech/zeroai-studio for the release + manifest commit.
+#              If this PAT was scoped only to the original five repos, it
+#              needs `Lottie128/zaimind` added before this workflow can
+#              publish ZaiMind.
 
 name: Publish app bundles
 on:
@@ -18,9 +21,9 @@ on:
         description: 'Bundle version (e.g. 1.2.0) — becomes tag apps-v<version>'
         required: true
       apps:
-        description: 'Comma-separated app ids to publish (default: all five)'
+        description: 'Comma-separated app ids to publish (default: all six)'
         required: false
-        default: 'zerospark,zaiblock,zaisim,zaipy,zaicad'
+        default: 'zerospark,zaiblock,zaisim,zaipy,zaicad,zaimind'
 
 jobs:
   publish:
@@ -40,7 +43,7 @@ jobs:
         run: |
           mkdir -p /tmp/zips
           # zerospark builds from dev (its production branch); the rest from main
-          declare -A BRANCH=( [zerospark]=dev [zaiblock]=main [zaisim]=main [zaipy]=main [zaicad]=main )
+          declare -A BRANCH=( [zerospark]=dev [zaiblock]=main [zaisim]=main [zaipy]=main [zaicad]=main [zaimind]=main )
           IFS=',' read -ra APPS <<< "${{ github.event.inputs.apps }}"
           for id in "${APPS[@]}"; do
             id="$(echo "$id" | xargs)"
