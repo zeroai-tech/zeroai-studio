@@ -45,13 +45,29 @@ if (!LEGACY && (process.platform === 'win32' || process.platform === 'linux')) {
 // upgraded from an older build still has apps sitting in it, and the uninstall
 // path is how they get cleaned up.
 const STUDIO_DIR = () => {
-  // Packaged: extraResources puts the payload beside the asar. Dev: build the
-  // hub straight from the sibling repo, so `npm start` needs no packaging step.
-  const packed = path.join(process.resourcesPath || '', 'studio-app')
-  if (process.resourcesPath && fss.existsSync(packed)) return packed
-  const local = path.join(__dirname, 'payload', 'studio')
-  if (fss.existsSync(local)) return local
-  return path.join(__dirname, '..', 'zeroai-studio-hub', 'dist')
+  // Wherever index.html actually is — not wherever it ought to be.
+  //
+  // This shipped broken once. extraResources copies the CONTENTS of payload/,
+  // so the payload lands at resources/studio-app/studio/ while this returned
+  // resources/studio-app, and every request 404'd to a black screen reading
+  // "Not found: studio/index.html". It passed testing because unpacked there
+  // is no resources/studio-app, so it fell through to payload/studio, which
+  // has index.html at its root — the dev path and the packaged path were
+  // different directories, and only one of them was ever checked.
+  //
+  // Both layouts are accepted now, and the check is for the file rather than
+  // the folder, so a staging change cannot quietly reintroduce this.
+  const candidates = [
+    process.resourcesPath && path.join(process.resourcesPath, 'studio-app', 'studio'),
+    process.resourcesPath && path.join(process.resourcesPath, 'studio-app'),
+    path.join(__dirname, 'payload', 'studio'),
+    path.join(__dirname, 'payload'),
+    path.join(__dirname, '..', 'zeroai-studio-hub', 'dist'),
+  ].filter(Boolean)
+  const found = candidates.find(d => fss.existsSync(path.join(d, 'index.html')))
+  if (found) return found
+  console.error('[zeroai] no index.html found. Looked in:\n  ' + candidates.join('\n  '))
+  return candidates[0]
 }
 const INSTALL_DIR = () => path.join(app.getPath('userData'), 'installed-apps')  // legacy installs, upgrade path only
 const MANIFEST_URL = process.env.ZEROAI_MANIFEST ||
