@@ -34,7 +34,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: Lottie128/zeroai-studio-hub
-          token: ${{ secrets.HUB_TOKEN }}
+          # APPS_PAT already exists and reads the Lottie128 app repos; keep it
+          # as a fallback so this does not silently need a brand-new secret.
+          token: ${{ secrets.HUB_TOKEN || secrets.APPS_PAT }}
           path: hub-checkout
 
       - name: Put the hub where bundle-hub.cjs looks for it

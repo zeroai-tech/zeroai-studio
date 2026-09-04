@@ -89,6 +89,11 @@ try {
   // is not an install — it leaves a folder someone has to know what to do with,
   // no Start-menu entry and no uninstaller. allowToChangeInstallationDirectory
   // matters on machines where C: is a small SSD and the lab data sits elsewhere.
+  //
+  // This cross-builds from macOS with no wine: electron-builder 25 ships its
+  // own NSIS and runs it natively. (Worth stating because wine is no longer
+  // installable on this machine — Homebrew disabled the cask in September 2026
+  // for failing Gatekeeper.)
   if (wanted.includes('win')) run([
     '--win nsis --x64',
     '-c.nsis.oneClick=false',
