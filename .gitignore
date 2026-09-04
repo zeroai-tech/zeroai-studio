@@ -20,5 +20,4 @@ bundled-apps/
 arduino-packs/
 
 # Staged desktop payloads (scripts/bundle-hub.cjs) — built, not committed.
-payload-online/
-payload-legacy/
+payload/

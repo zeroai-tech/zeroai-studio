@@ -49,7 +49,7 @@ const STUDIO_DIR = () => {
   // hub straight from the sibling repo, so `npm start` needs no packaging step.
   const packed = path.join(process.resourcesPath || '', 'studio-app')
   if (process.resourcesPath && fss.existsSync(packed)) return packed
-  const local = path.join(__dirname, LEGACY ? 'payload-legacy' : 'payload-online', 'studio')
+  const local = path.join(__dirname, 'payload', 'studio')
   if (fss.existsSync(local)) return local
   return path.join(__dirname, '..', 'zeroai-studio-hub', 'dist')
 }

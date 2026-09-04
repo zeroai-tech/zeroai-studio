@@ -20,10 +20,14 @@ function get(url, redirects = 0) {
   let url = process.env.SUPABASE_URL || ''
   let key = process.env.SUPABASE_ANON_KEY || ''
   if (!url || !key) {
-    const html = await get('https://spark.zeroaitech.tech/')
+    // studio.zeroaitech.tech, not spark. — the six standalone subdomains are
+    // retired and spark. no longer resolves at all, so this step failed with
+    // ENOTFOUND and took the whole online installer build with it.
+    const HOST = process.env.ZEROAI_CONFIG_HOST || 'https://studio.zeroaitech.tech'
+    const html = await get(HOST + '/')
     const assets = [...html.matchAll(/\/assets\/[^"]+\.js/g)].map(m => m[0])
     for (const a of assets) {
-      const js = await get('https://spark.zeroaitech.tech' + a)
+      const js = await get(HOST + a)
       url = url || (js.match(/https:\/\/[a-z0-9]{18,}\.supabase\.co/) || [])[0] || ''
       key = key || (js.match(/eyJ[\w-]{20,}\.eyJ[\w-]{40,}\.[\w-]{20,}/) || [])[0] || ''
       if (url && key) break

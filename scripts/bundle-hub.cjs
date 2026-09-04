@@ -19,11 +19,13 @@ const { execSync } = require('node:child_process')
 
 const LEGACY = process.argv.includes('--legacy')
 const HUB = path.join(__dirname, '..', '..', 'zeroai-studio-hub')
-// One directory per edition. They used to share bundled-apps/, and since
-// `dist:mac` never re-ran a bundler, whichever edition was built last decided
-// what the OTHER one shipped — the released 0.4.0 online DMGs contain
-// VITE_LEGACY=1 apps because of exactly that.
-const OUT = path.join(__dirname, '..', LEGACY ? 'payload-legacy' : 'payload-online')
+// One staging directory, stamped with which edition is in it. The old
+// bundled-apps/ was shared too, but nothing checked — and since `dist:mac`
+// never re-ran a bundler, whichever edition was built last silently decided
+// what the OTHER one shipped. That is why the released 0.4.0 online DMGs
+// contain VITE_LEGACY=1 apps. Every dist script stages its own payload now,
+// and pack-legacy.cjs refuses to package one stamped 'online'.
+const OUT = path.join(__dirname, '..', 'payload')
 
 if (!fs.existsSync(HUB)) {
   console.error(`✗ hub not found at ${HUB}`)
@@ -72,8 +74,8 @@ fs.rmSync(OUT, { recursive: true, force: true })
 fs.cpSync(dist, path.join(OUT, 'studio'), { recursive: true })
 
 const pkg = JSON.parse(fs.readFileSync(path.join(HUB, 'package.json'), 'utf8'))
-fs.writeFileSync(path.join(OUT, 'versions.json'),
-  JSON.stringify({ studio: pkg.version || '0.0.0', legacy: LEGACY }, null, 2))
+fs.writeFileSync(path.join(OUT, 'edition.json'),
+  JSON.stringify({ studio: pkg.version || '0.0.0', edition: LEGACY ? 'legacy' : 'online', builtAt: new Date().toISOString() }, null, 2))
 
 const du = (d) => fs.readdirSync(d, { withFileTypes: true })
   .reduce((n, e) => n + (e.isDirectory() ? du(path.join(d, e.name)) : fs.statSync(path.join(d, e.name)).size), 0)

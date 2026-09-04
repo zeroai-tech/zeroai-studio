@@ -26,14 +26,32 @@ const brand = [
   '-c.mac.icon=build/icon-legacy.png',
   '-c.win.icon=build/icon-legacy.png',
   '-c.linux.icon=build/icon-legacy.png',
-  // Each edition stages its own payload; they shared one directory before,
-  // which is why the released online DMGs contain VITE_LEGACY=1 apps.
-  '-c.extraResources.0.from=payload-legacy',
   '--publish never',
 ].join(' ')
 const run = (flags) => execSync(`npx electron-builder ${flags} ${brand}`, { cwd: root, stdio: 'inherit' })
 
-fs.copyFileSync(CFG, BAK)
+// The staged payload is shared ground, and shipping the wrong edition is
+// invisible until a school opens the app: an online build on a machine with no
+// network shows a login form nobody can satisfy. Check, don't assume — this is
+// the failure that put VITE_LEGACY=1 apps inside the released online DMGs.
+const editionFile = path.join(root, 'payload', 'edition.json')
+if (!fs.existsSync(editionFile)) {
+  console.error('✗ no payload staged — run `npm run bundle:legacy` first')
+  process.exit(1)
+}
+const staged = JSON.parse(fs.readFileSync(editionFile, 'utf8'))
+if (staged.edition !== 'legacy') {
+  console.error(`✗ payload/ holds the ${staged.edition} edition — run \`npm run bundle:legacy\``)
+  process.exit(1)
+}
+console.log(`payload: ${staged.edition}, hub ${staged.studio}, staged ${staged.builtAt}`)
+
+// studio.config.json is generated (scripts/fetch-config.cjs) and gitignored, so
+// it is not always there — and a missing one used to abort the whole Legacy
+// build at the backup step, for a file whose contents Legacy overwrites with
+// empties anyway.
+const hadConfig = fs.existsSync(CFG)
+if (hadConfig) fs.copyFileSync(CFG, BAK)
 try {
   fs.writeFileSync(CFG, JSON.stringify({ supabaseUrl: '', supabaseAnonKey: '', legacy: true }, null, 2))
   // mac + linux ship both arches; Windows is x64-only (arm64 Windows is rare in
@@ -54,20 +72,37 @@ try {
     '-c.nsis.artifactName="ZeroAI-Studio-Legacy-${version}-win-x64-setup.exe"',
   ].join(' '))
 } finally {
-  fs.copyFileSync(BAK, CFG); fs.rmSync(BAK)
-  console.log('restored online studio.config.json')
+  if (hadConfig) {
+    fs.copyFileSync(BAK, CFG); fs.rmSync(BAK)
+    console.log('restored online studio.config.json')
+  } else {
+    // Leaving the legacy config behind would silently turn the NEXT online
+    // build into a Supabase-less one.
+    fs.rmSync(CFG, { force: true })
+    console.log('removed the temporary legacy studio.config.json')
+  }
 }
 
-// Rename electron-builder's default outputs to clear, arch-labelled names.
-const renames = [
-  [`ZeroAI-Studio-${version}.dmg`, `ZeroAI-Studio-Legacy-${version}-mac-x64.dmg`],
-  [`ZeroAI-Studio-${version}-arm64.dmg`, `ZeroAI-Studio-Legacy-${version}-mac-arm64.dmg`],
-  [`ZeroAI-Studio-${version}-x86_64.AppImage`, `ZeroAI-Studio-Legacy-${version}-linux-x64.AppImage`],
-  [`ZeroAI-Studio-${version}-arm64.AppImage`, `ZeroAI-Studio-Legacy-${version}-linux-arm64.AppImage`],
-]
-for (const [from, to] of renames) {
-  const src = path.join(REL, from)
-  if (fs.existsSync(src)) fs.renameSync(src, path.join(REL, to))
+// Rename electron-builder's outputs to clear, arch-labelled names.
+//
+// Derived rather than listed: a fixed list silently misses a name that shifts
+// between electron-builder versions, and what it leaves behind is a Legacy
+// build still wearing the online product name — an installer that will be
+// handed to a school as the wrong edition. Anything not renamed is called out
+// below rather than left sitting there.
+const ARCH = { x64: 'x64', arm64: 'arm64', x86_64: 'x64' }
+for (const f of fs.readdirSync(REL)) {
+  const m = f.match(new RegExp(`^ZeroAI-Studio-${version}(?:-(x64|arm64|x86_64))?\\.(dmg|AppImage|exe)$`))
+  if (!m) continue
+  const arch = ARCH[m[1] || 'x64']
+  const os = { dmg: 'mac', AppImage: 'linux', exe: 'win' }[m[2]]
+  fs.renameSync(path.join(REL, f), path.join(REL, `ZeroAI-Studio-Legacy-${version}-${os}-${arch}.${m[2]}`))
+}
+const stray = fs.readdirSync(REL).filter(f =>
+  /\.(dmg|AppImage|exe)$/.test(f) && !f.startsWith('ZeroAI-Studio-Legacy-'))
+if (stray.length) {
+  console.error('\n⚠ these are Legacy builds still wearing the online name — do NOT ship them as the online edition:')
+  for (const f of stray) console.error('   ' + f)
 }
 for (const f of fs.readdirSync(REL)) if (f.endsWith('.blockmap')) fs.rmSync(path.join(REL, f))
 console.log('Legacy editions ready in release/:')
