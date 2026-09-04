@@ -27,10 +27,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The desktop payload is one build of the hub, which lives in its own
+      # (private) repo — scripts/bundle-hub.cjs expects it as a sibling
+      # directory, exactly as it sits locally. HUB_TOKEN is a PAT with read
+      # access to it; GITHUB_TOKEN cannot reach another repository.
+      - uses: actions/checkout@v4
+        with:
+          repository: Lottie128/zeroai-studio-hub
+          token: ${{ secrets.HUB_TOKEN }}
+          path: hub-checkout
+
+      - name: Put the hub where bundle-hub.cjs looks for it
+        shell: bash
+        run: mv hub-checkout ../zeroai-studio-hub
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install the hub's dependencies
+        shell: bash
+        run: cd ../zeroai-studio-hub && bun install --frozen-lockfile
 
       - name: Provide shared config (public anon key)
         run: node scripts/fetch-config.cjs
@@ -57,6 +79,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
+          # Installers are published to the PUBLIC releases repo so this source
+          # repo can stay private. Requires a RELEASES_TOKEN secret (a PAT with
+          # write access to zeroai-studio-releases) — GITHUB_TOKEN can't write
+          # across repos.
+          repository: zeroai-tech/zeroai-studio-releases
+          token: ${{ secrets.RELEASES_TOKEN }}
           files: |
             release/*.dmg
             release/*.exe

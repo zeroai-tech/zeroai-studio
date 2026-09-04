@@ -15,8 +15,20 @@ function readArg(prefix) {
 let cfg = {}
 try { cfg = JSON.parse(Buffer.from(readArg('--zeroai-config='), 'base64').toString('utf8') || '{}') } catch {}
 
-// the app id = the app:// host of whatever app is currently loaded
-const appId = () => { try { return location.hostname || 'studio' } catch { return 'studio' } }
+// The app id — which app's project folder save/load/list write into.
+//
+// This used to be the app:// host, one per app. The whole Studio is a single
+// hub now, so the host is always 'studio' and the app is the first path
+// segment (app://studio/zaipy/…). Without this every app would share one
+// project folder and overwrite each other's work by id.
+const SUITE = ['zerospark', 'zaiblock', 'zaisim', 'zaipy', 'zaicad', 'zaimind']
+const appId = () => {
+  try {
+    if (location.hostname && location.hostname !== 'studio') return location.hostname
+    const seg = location.pathname.split('/').filter(Boolean)[0]
+    return SUITE.includes(seg) ? seg : 'studio'
+  } catch { return 'studio' }
+}
 
 contextBridge.exposeInMainWorld('__ZEROAI_DESKTOP__', true)
 contextBridge.exposeInMainWorld('__ZEROAI_PLATFORM__', process.platform)  // 'darwin' | 'win32' | 'linux'
@@ -27,7 +39,9 @@ contextBridge.exposeInMainWorld('__ZEROAI_CONFIG__', {
 })
 contextBridge.exposeInMainWorld('zeroaiDesktop', {
   isDesktop: true,
-  app: appId(),
+  // A getter, not a value: the hub routes between apps client-side, so this is
+  // read once per call rather than frozen at whichever app happened to load first.
+  get app() { return appId() },
   // Offline project storage — JSON files in the user's app-data dir.
   save:   (id, data) => ipcRenderer.invoke('zeroai:save',   { app: appId(), id, data }),
   load:   (id)       => ipcRenderer.invoke('zeroai:load',   { app: appId(), id }),

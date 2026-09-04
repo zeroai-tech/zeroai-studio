@@ -18,3 +18,7 @@ bundled-apps/
 
 # Offline Arduino toolchain packs (regenerate: node scripts/build-arduino-packs.cjs)
 arduino-packs/
+
+# Staged desktop payloads (scripts/bundle-hub.cjs) — built, not committed.
+payload-online/
+payload-legacy/

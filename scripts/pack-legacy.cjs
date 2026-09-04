@@ -6,7 +6,7 @@
 //   node scripts/pack-legacy.cjs             # mac + win + linux
 //   node scripts/pack-legacy.cjs mac linux   # a subset
 //
-// Run `node scripts/bundle-apps-legacy.cjs` first to bake the offline app builds.
+// Run `npm run bundle:legacy` first to stage the offline hub build.
 const fs = require('node:fs'); const path = require('node:path'); const { execSync } = require('node:child_process')
 const root = path.join(__dirname, '..')
 const CFG = path.join(root, 'studio.config.json'); const BAK = CFG + '.online.bak'
@@ -26,6 +26,9 @@ const brand = [
   '-c.mac.icon=build/icon-legacy.png',
   '-c.win.icon=build/icon-legacy.png',
   '-c.linux.icon=build/icon-legacy.png',
+  // Each edition stages its own payload; they shared one directory before,
+  // which is why the released online DMGs contain VITE_LEGACY=1 apps.
+  '-c.extraResources.0.from=payload-legacy',
   '--publish never',
 ].join(' ')
 const run = (flags) => execSync(`npx electron-builder ${flags} ${brand}`, { cwd: root, stdio: 'inherit' })
@@ -35,9 +38,21 @@ try {
   fs.writeFileSync(CFG, JSON.stringify({ supabaseUrl: '', supabaseAnonKey: '', legacy: true }, null, 2))
   // mac + linux ship both arches; Windows is x64-only (arm64 Windows is rare in
   // schools) and built separately so the global arch flags don't collide its output.
-  const dual = wanted.filter(p => p !== 'win').map(p => ({ mac: '--mac zip', linux: '--linux AppImage' }[p])).filter(Boolean).join(' ')
+  const dual = wanted.filter(p => p !== 'win').map(p => ({ mac: '--mac dmg', linux: '--linux AppImage' }[p])).filter(Boolean).join(' ')
   if (dual) run(`${dual} --x64 --arm64`)
-  if (wanted.includes('win')) run('--win zip')
+  // NSIS, not a zip. This installs off a USB stick onto a school PC, and a zip
+  // is not an install — it leaves a folder someone has to know what to do with,
+  // no Start-menu entry and no uninstaller. allowToChangeInstallationDirectory
+  // matters on machines where C: is a small SSD and the lab data sits elsewhere.
+  if (wanted.includes('win')) run([
+    '--win nsis --x64',
+    '-c.nsis.oneClick=false',
+    '-c.nsis.perMachine=true',
+    '-c.nsis.allowToChangeInstallationDirectory=true',
+    '-c.nsis.createDesktopShortcut=true',
+    '-c.nsis.createStartMenuShortcut=true',
+    '-c.nsis.artifactName="ZeroAI-Studio-Legacy-${version}-win-x64-setup.exe"',
+  ].join(' '))
 } finally {
   fs.copyFileSync(BAK, CFG); fs.rmSync(BAK)
   console.log('restored online studio.config.json')
@@ -45,11 +60,10 @@ try {
 
 // Rename electron-builder's default outputs to clear, arch-labelled names.
 const renames = [
-  [`ZeroAI-Studio-${version}-x64.zip`, `ZeroAI-Studio-Legacy-${version}-mac-x64.zip`],
-  [`ZeroAI-Studio-${version}-arm64.zip`, `ZeroAI-Studio-Legacy-${version}-mac-arm64.zip`],
+  [`ZeroAI-Studio-${version}.dmg`, `ZeroAI-Studio-Legacy-${version}-mac-x64.dmg`],
+  [`ZeroAI-Studio-${version}-arm64.dmg`, `ZeroAI-Studio-Legacy-${version}-mac-arm64.dmg`],
   [`ZeroAI-Studio-${version}-x86_64.AppImage`, `ZeroAI-Studio-Legacy-${version}-linux-x64.AppImage`],
   [`ZeroAI-Studio-${version}-arm64.AppImage`, `ZeroAI-Studio-Legacy-${version}-linux-arm64.AppImage`],
-  [`ZeroAI-Studio-Setup-${version}.zip`, `ZeroAI-Studio-Legacy-${version}-win-x64.zip`],
 ]
 for (const [from, to] of renames) {
   const src = path.join(REL, from)

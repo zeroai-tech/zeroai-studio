@@ -33,10 +33,27 @@ if (!LEGACY && (process.platform === 'win32' || process.platform === 'linux')) {
   } catch { autoUpdater = null }
 }
 
-// The manager UI ("studio") ships inside the app. The 5 STEM apps are NOT bundled —
-// they install on demand from the catalog into the user's data dir (Adobe-CC model).
-const APPS_DIR = path.join(__dirname, 'apps')                                   // bundled: studio manager only
-const INSTALL_DIR = () => path.join(app.getPath('userData'), 'installed-apps')  // installed apps live here
+// The whole Studio — dashboard and all six apps — is ONE build of
+// zeroai-studio-hub, staged by scripts/bundle-hub.cjs and shipped as
+// resources/studio-app. It used to be a small manager UI here plus six
+// separately-built apps that installed on demand into the user's data dir
+// (the Adobe-CC model). Those six repos are retired; every app is a route
+// inside the hub now, so app://studio/zaipy is a path, not a host, and there
+// is nothing left to install.
+//
+// INSTALL_DIR and the catalog machinery below stay for now: an installation
+// upgraded from an older build still has apps sitting in it, and the uninstall
+// path is how they get cleaned up.
+const STUDIO_DIR = () => {
+  // Packaged: extraResources puts the payload beside the asar. Dev: build the
+  // hub straight from the sibling repo, so `npm start` needs no packaging step.
+  const packed = path.join(process.resourcesPath || '', 'studio-app')
+  if (process.resourcesPath && fss.existsSync(packed)) return packed
+  const local = path.join(__dirname, LEGACY ? 'payload-legacy' : 'payload-online', 'studio')
+  if (fss.existsSync(local)) return local
+  return path.join(__dirname, '..', 'zeroai-studio-hub', 'dist')
+}
+const INSTALL_DIR = () => path.join(app.getPath('userData'), 'installed-apps')  // legacy installs, upgrade path only
 const MANIFEST_URL = process.env.ZEROAI_MANIFEST ||
   'https://raw.githubusercontent.com/zeroai-tech/zeroai-studio/main/manifest.json'
 const installedDbPath = () => path.join(app.getPath('userData'), 'installed.json')
@@ -104,9 +121,13 @@ const MIME = {
   '.wasm': 'application/wasm', '.map': 'application/json', '.txt': 'text/plain',
 }
 
-// Apps that need cross-origin isolation (SharedArrayBuffer). zaipy/Pyodide will;
-// zerospark does NOT — and forcing COEP would block its Google-Fonts requests.
-const NEEDS_COI = new Set(['zaipy'])
+// Cross-origin isolation (SharedArrayBuffer) was set per-host when each app had
+// its own. They share one host now, so this can only be all-or-nothing — and
+// all would break ZeroSpark's font loading. Pyodide already feature-detects
+// SharedArrayBuffer and degrades: the only casualty is that Stop becomes a
+// best-effort interrupt rather than a guaranteed one, which is the same
+// trade-off the deployed web app makes.
+const NEEDS_COI = new Set()
 
 protocol.registerSchemesAsPrivileged([{
   scheme: 'app',
@@ -119,8 +140,9 @@ async function handle(req) {
   let rel = decodeURIComponent(url.pathname) || '/'
   if (rel === '/' || rel.endsWith('/')) rel += 'index.html'
 
-  // 'studio' is the bundled manager; every other host is an installed app on disk.
-  const baseDir = host === 'studio' ? path.join(APPS_DIR, 'studio') : path.join(INSTALL_DIR(), host)
+  // 'studio' is the hub, which serves every app as a route of its own. Any
+  // other host is an app left over from an older install.
+  const baseDir = host === 'studio' ? STUDIO_DIR() : path.join(INSTALL_DIR(), host)
   const filePath = path.normalize(path.join(baseDir, rel))
   if (!filePath.startsWith(baseDir)) return new Response('forbidden', { status: 403 })
 
@@ -460,7 +482,10 @@ const SUITE_APPS = [
   { id: 'zaimind', name: 'ZaiMind' },
 ]
 const focusedWin = () => BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
-const goTo = (host) => focusedWin()?.loadURL(`app://${host}/index.html`)
+// Each app is a ROUTE in the hub now, not a host of its own. The SPA fallback
+// in handle() serves index.html for it and the hub's router takes it from
+// there — same as the deployed web app.
+const goTo = (id) => focusedWin()?.loadURL(id === 'studio' ? 'app://studio/index.html' : `app://studio/${id}`)
 
 function buildMenu() {
   const releases = 'https://github.com/zeroai-tech/zeroai-studio/releases/latest'

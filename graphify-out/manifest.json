@@ -1,0 +1,107 @@
+{
+  "arduino.js": {
+    "mtime": 1783836357.9673703,
+    "ast_hash": "440f0c3ff4a21670ef5310e4f0a81ebd",
+    "semantic_hash": "440f0c3ff4a21670ef5310e4f0a81ebd"
+  },
+  "license/cli.js": {
+    "mtime": 1783708686.2860122,
+    "ast_hash": "0179a4c2b9fb93d6d8d7001ee39446bf",
+    "semantic_hash": "0179a4c2b9fb93d6d8d7001ee39446bf"
+  },
+  "license/core.js": {
+    "mtime": 1783801656.0546339,
+    "ast_hash": "e0e85bd56eb6ae5210904250597a8208",
+    "semantic_hash": "e0e85bd56eb6ae5210904250597a8208"
+  },
+  "license/verifier.js": {
+    "mtime": 1783709082.3599672,
+    "ast_hash": "98454ec194259b6b464aca91302e9c64",
+    "semantic_hash": "98454ec194259b6b464aca91302e9c64"
+  },
+  "main.js": {
+    "mtime": 1785136675.5005512,
+    "ast_hash": "f69bb8e171160f2b7d71175c77f9d58e",
+    "semantic_hash": "f69bb8e171160f2b7d71175c77f9d58e"
+  },
+  "manifest.json": {
+    "mtime": 1785781007.7805223,
+    "ast_hash": "e23373e3dc7878c163bfa759ec70cbf5",
+    "semantic_hash": "e23373e3dc7878c163bfa759ec70cbf5"
+  },
+  "package.json": {
+    "mtime": 1785778929.9760067,
+    "ast_hash": "31849bfc866ae446d977206692ddc4f2",
+    "semantic_hash": "31849bfc866ae446d977206692ddc4f2"
+  },
+  "preload.js": {
+    "mtime": 1783836857.1989832,
+    "ast_hash": "bfb681174ad3cb39e8345570924bd5bf",
+    "semantic_hash": "bfb681174ad3cb39e8345570924bd5bf"
+  },
+  "scripts/build-arduino-packs.cjs": {
+    "mtime": 1783863842.9977405,
+    "ast_hash": "381cdc29576d92db8d083b68da5f421f",
+    "semantic_hash": "381cdc29576d92db8d083b68da5f421f"
+  },
+  "scripts/bundle-apps-legacy.cjs": {
+    "mtime": 1785136811.3731918,
+    "ast_hash": "d58b1787addc366421941ef4f752364e",
+    "semantic_hash": "d58b1787addc366421941ef4f752364e"
+  },
+  "scripts/bundle-apps.cjs": {
+    "mtime": 1783092633.6474733,
+    "ast_hash": "3aa41b6a2d03ff456740f06579cd77da",
+    "semantic_hash": "3aa41b6a2d03ff456740f06579cd77da"
+  },
+  "scripts/fetch-config.cjs": {
+    "mtime": 1782562797.06018,
+    "ast_hash": "7426d35f8105408a25150acbc13d16da",
+    "semantic_hash": "7426d35f8105408a25150acbc13d16da"
+  },
+  "scripts/pack-legacy.cjs": {
+    "mtime": 1783756813.8522358,
+    "ast_hash": "043ea6d06e7a75ea10a20b1af1f1e54b",
+    "semantic_hash": "043ea6d06e7a75ea10a20b1af1f1e54b"
+  },
+  ".github/workflows/board-packs.yml": {
+    "mtime": 1783861663.5493927,
+    "ast_hash": "8a2985b5ba4665e90ff71e31e14e823d",
+    "semantic_hash": "8a2985b5ba4665e90ff71e31e14e823d"
+  },
+  ".github/workflows/publish-apps.yml": {
+    "mtime": 1783095166.8550324,
+    "ast_hash": "2c7504c81ea83b7b06bbf14c9fb68285",
+    "semantic_hash": "2c7504c81ea83b7b06bbf14c9fb68285"
+  },
+  ".github/workflows/release.yml": {
+    "mtime": 1785136700.1319897,
+    "ast_hash": "b153820575602ef2f614bf5fd3c23272",
+    "semantic_hash": "b153820575602ef2f614bf5fd3c23272"
+  },
+  "README.md": {
+    "mtime": 1783092669.7331765,
+    "ast_hash": "cb0f29f70b28e44e29b7b67076d63779",
+    "semantic_hash": "cb0f29f70b28e44e29b7b67076d63779"
+  },
+  "activate.html": {
+    "mtime": 1783801741.50189,
+    "ast_hash": "2e47b94957252523e079aa1051ca5da2",
+    "semantic_hash": "2e47b94957252523e079aa1051ca5da2"
+  },
+  "apps/studio/index.html": {
+    "mtime": 1785136675.4997573,
+    "ast_hash": "65b18dd21e3bd36d820ac5a5b45d3e3a",
+    "semantic_hash": "65b18dd21e3bd36d820ac5a5b45d3e3a"
+  },
+  "license/README.md": {
+    "mtime": 1783708719.4825718,
+    "ast_hash": "cb20561d242066e3305133ff1a35eed3",
+    "semantic_hash": "cb20561d242066e3305133ff1a35eed3"
+  },
+  "license/minter.html": {
+    "mtime": 1783828455.4954944,
+    "ast_hash": "2c2f91394dc616dd96f35fca73421446",
+    "semantic_hash": "2c2f91394dc616dd96f35fca73421446"
+  }
+}
