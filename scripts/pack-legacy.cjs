@@ -46,6 +46,19 @@ if (staged.edition !== 'legacy') {
 }
 console.log(`payload: ${staged.edition}, hub ${staged.studio}, staged ${staged.builtAt}`)
 
+// Two of these must never run at once. Both swap studio.config.json out and
+// back, so a second run's restore deletes the backup the first is still
+// relying on — which is how a build died with ENOENT on
+// studio.config.json.online.bak halfway through.
+const LOCK = path.join(root, '.pack-legacy.lock')
+try {
+  fs.writeFileSync(LOCK, String(process.pid), { flag: 'wx' })
+} catch {
+  console.error(`✗ another Legacy build is already running (${LOCK}). Wait for it, or remove that file if it is stale.`)
+  process.exit(1)
+}
+process.on('exit', () => fs.rmSync(LOCK, { force: true }))
+
 // studio.config.json is generated (scripts/fetch-config.cjs) and gitignored, so
 // it is not always there — and a missing one used to abort the whole Legacy
 // build at the backup step, for a file whose contents Legacy overwrites with
@@ -54,10 +67,24 @@ const hadConfig = fs.existsSync(CFG)
 if (hadConfig) fs.copyFileSync(CFG, BAK)
 try {
   fs.writeFileSync(CFG, JSON.stringify({ supabaseUrl: '', supabaseAnonKey: '', legacy: true }, null, 2))
-  // mac + linux ship both arches; Windows is x64-only (arm64 Windows is rare in
-  // schools) and built separately so the global arch flags don't collide its output.
-  const dual = wanted.filter(p => p !== 'win').map(p => ({ mac: '--mac dmg', linux: '--linux AppImage' }[p])).filter(Boolean).join(' ')
-  if (dual) run(`${dual} --x64 --arm64`)
+  // One invocation per target AND per arch, each naming its own output.
+  //
+  // Both editions used electron-builder's default artifact names, so they wrote
+  // the SAME filenames into release/ and building one silently destroyed the
+  // other. Naming them up front fixes that — but electron-builder's ${arch}
+  // macro does not expand reliably across a dual-arch run (it produced a third
+  // dmg with an empty arch), so the arch is pinned per invocation instead of
+  // left to a macro. Slower, and unambiguous.
+  const TARGETS = { mac: ['dmg', 'dmg'], linux: ['AppImage', 'appImage'] }
+  const EXT = { dmg: 'dmg', AppImage: 'AppImage' }
+  const OS = { mac: 'mac', linux: 'linux' }
+  for (const plat of wanted.filter(p => p !== 'win')) {
+    const [target, cfgKey] = TARGETS[plat]
+    for (const arch of ['x64', 'arm64']) {
+      const name = `ZeroAI-Studio-Legacy-${version}-${OS[plat]}-${arch}.${EXT[target]}`
+      run(`--${plat} ${target} --${arch} -c.${cfgKey}.artifactName=${name}`)
+    }
+  }
   // NSIS, not a zip. This installs off a USB stick onto a school PC, and a zip
   // is not an install — it leaves a folder someone has to know what to do with,
   // no Start-menu entry and no uninstaller. allowToChangeInstallationDirectory
@@ -69,7 +96,7 @@ try {
     '-c.nsis.allowToChangeInstallationDirectory=true',
     '-c.nsis.createDesktopShortcut=true',
     '-c.nsis.createStartMenuShortcut=true',
-    '-c.nsis.artifactName="ZeroAI-Studio-Legacy-${version}-win-x64-setup.exe"',
+    `-c.nsis.artifactName=ZeroAI-Studio-Legacy-${version}-win-x64-setup.exe`,
   ].join(' '))
 } finally {
   if (hadConfig) {
@@ -83,25 +110,13 @@ try {
   }
 }
 
-// Rename electron-builder's outputs to clear, arch-labelled names.
-//
-// Derived rather than listed: a fixed list silently misses a name that shifts
-// between electron-builder versions, and what it leaves behind is a Legacy
-// build still wearing the online product name — an installer that will be
-// handed to a school as the wrong edition. Anything not renamed is called out
-// below rather than left sitting there.
-const ARCH = { x64: 'x64', arm64: 'arm64', x86_64: 'x64' }
-for (const f of fs.readdirSync(REL)) {
-  const m = f.match(new RegExp(`^ZeroAI-Studio-${version}(?:-(x64|arm64|x86_64))?\\.(dmg|AppImage|exe)$`))
-  if (!m) continue
-  const arch = ARCH[m[1] || 'x64']
-  const os = { dmg: 'mac', AppImage: 'linux', exe: 'win' }[m[2]]
-  fs.renameSync(path.join(REL, f), path.join(REL, `ZeroAI-Studio-Legacy-${version}-${os}-${arch}.${m[2]}`))
-}
+// Nothing to rename: artifactName above already produced the final names. A
+// Legacy build wearing the online name would be handed to a school as the
+// wrong edition, so this is checked rather than assumed.
 const stray = fs.readdirSync(REL).filter(f =>
-  /\.(dmg|AppImage|exe)$/.test(f) && !f.startsWith('ZeroAI-Studio-Legacy-'))
+  /\.(dmg|AppImage|exe)$/.test(f) && !f.startsWith('ZeroAI-Studio-Legacy-') && !f.startsWith('ZeroAI-Studio-' + version))
 if (stray.length) {
-  console.error('\n⚠ these are Legacy builds still wearing the online name — do NOT ship them as the online edition:')
+  console.error('\n⚠ unexpected artifacts in release/ — check before shipping any of these:')
   for (const f of stray) console.error('   ' + f)
 }
 for (const f of fs.readdirSync(REL)) if (f.endsWith('.blockmap')) fs.rmSync(path.join(REL, f))
