@@ -81,7 +81,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ../zeroai-studio-hub/public/pyodide
-          key: pyodide-${{ hashFiles('../zeroai-studio-hub/build/vendorPyodide.mjs') }}
+          # hashFiles() only globs inside the workspace, and the hub is checked
+          # out beside it, so a content hash is not available here. The vendored
+          # payload is pinned by the script itself, so a static key is honest;
+          # bump it when the Pyodide version changes.
+          key: pyodide-v1
 
       - name: Vendor Pyodide into the hub
         shell: bash
