@@ -121,7 +121,13 @@ jobs:
           # write access to zeroai-studio-releases) — GITHUB_TOKEN can't write
           # across repos.
           repository: zeroai-tech/zeroai-studio-releases
-          token: ${{ secrets.RELEASES_TOKEN }}
+          # RELEASES_TOKEN was never created on this repo, so this expression
+          # evaluated to nothing and the publish failed with "Parameter token or
+          # opts.auth is required" — after every platform had built successfully.
+          # APPS_PAT already exists here; if it carries write access to the
+          # releases repo this works with no new secret, and if it does not the
+          # failure is a clear 403 rather than a missing-parameter error.
+          token: ${{ secrets.RELEASES_TOKEN || secrets.APPS_PAT }}
           files: |
             release/*.dmg
             release/*.exe
