@@ -72,6 +72,21 @@ jobs:
       # which is why a lesson added to the database could not reach a school
       # without someone remembering to do that. pack-legacy.cjs was always
       # scriptable; it simply had no caller in CI.
+      # Pyodide is 196MB and gitignored in the hub, so a clean checkout does not
+      # have it. Without this the offline edition builds with no Python at all,
+      # which is the exact thing the hub's `legacy-carries-pyodide` invariant
+      # exists to refuse. It is cached because re-downloading it on every job on
+      # every release is minutes of nothing.
+      - name: Cache vendored Pyodide
+        uses: actions/cache@v4
+        with:
+          path: ../zeroai-studio-hub/public/pyodide
+          key: pyodide-${{ hashFiles('../zeroai-studio-hub/build/vendorPyodide.mjs') }}
+
+      - name: Vendor Pyodide into the hub
+        shell: bash
+        run: cd ../zeroai-studio-hub && bun run vendor:pyodide
+
       - name: Build the offline (Legacy) installer
         run: npm run ${{ matrix.legacy }}
 
