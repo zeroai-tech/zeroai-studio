@@ -1,0 +1,85 @@
+# Cut a release because the teaching content changed.
+#
+# The hub repo snapshots the lesson database into its bundle and then fires a
+# `content-updated` dispatch at this repo. This job turns that into a version
+# bump and a tag, which release.yml picks up and builds installers from.
+#
+# The version lives here because electron-builder names every artifact from
+# this package.json, so this is the only repo that can decide what a build is
+# called.
+#
+# A content change is a patch bump. New lessons do not change how the app
+# works, they change what is inside it, and a school comparing 0.4.4 to 0.4.5
+# should read that as "same app, more content".
+
+name: Release on content change
+
+on:
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch:
+    inputs:
+      summary:
+        description: 'What changed, for the release notes'
+        required: false
+        default: 'Manual content release'
+
+concurrency:
+  group: release-on-content
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # A tag is pushed at the end, and the default token cannot trigger
+          # another workflow with it. release.yml would never fire.
+          token: ${{ secrets.RELEASES_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Bump the patch version
+        id: bump
+        run: |
+          before=$(node -p "require('./package.json').version")
+          npm version patch --no-git-tag-version > /dev/null
+          after=$(node -p "require('./package.json').version")
+          echo "before=$before" >> "$GITHUB_OUTPUT"
+          echo "after=$after"   >> "$GITHUB_OUTPUT"
+          echo "Bumped $before -> $after"
+
+      - name: Commit and tag
+        env:
+          SUMMARY: ${{ github.event.client_payload.summary || inputs.summary }}
+          COUNT: ${{ github.event.client_payload.lesson_count }}
+        run: |
+          git config user.name  "Lottie Mukuka"
+          git config user.email "jaylottiemukuka@gmail.com"
+          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git commit -m "Release ${{ steps.bump.outputs.after }}: teaching content updated
+
+          ${SUMMARY}
+
+          The offline edition carries its lessons inside the installer, so new
+          content means a new build. Nothing about the application changed."
+          git tag -a "v${{ steps.bump.outputs.after }}" -m "${SUMMARY}"
+          git push origin HEAD --follow-tags
+
+      - name: Say what happened
+        env:
+          SUMMARY: ${{ github.event.client_payload.summary || inputs.summary }}
+        run: |
+          {
+            echo "### Released v${{ steps.bump.outputs.after }}"
+            echo ""
+            echo "$SUMMARY"
+            echo ""
+            echo "Installers are building now, including the offline edition."
+          } >> "$GITHUB_STEP_SUMMARY"
