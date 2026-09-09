@@ -21,3 +21,4 @@ arduino-packs/
 
 # Staged desktop payloads (scripts/bundle-hub.cjs) — built, not committed.
 payload/
+**/trial.dat

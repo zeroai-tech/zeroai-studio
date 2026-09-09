@@ -194,8 +194,11 @@ function createWindow() {
       additionalArguments: [CONFIG_ARG],
     },
   })
-  // Legacy edition gates on an offline license before opening the studio.
-  if (LEGACY && !licensing.status(app.getPath('userData')).ok) {
+  // Legacy edition gates on an offline entitlement before opening the studio.
+  // That is a paid licence OR a running trial: someone evaluating the software
+  // cold cannot wait for a key to be minted, and "email us" is where an
+  // evaluation quietly dies.
+  if (LEGACY && !licensing.access(app.getPath('userData')).ok) {
     win.loadFile(path.join(__dirname, 'activate.html'))
   } else {
     win.loadURL('app://studio/index.html')
@@ -331,6 +334,18 @@ async function installAllHeadless() {
 // ---- Offline licensing (Legacy edition) ----
 ipcMain.handle('license:machine', () => licensing.machineId())
 ipcMain.handle('license:status', () => licensing.status(app.getPath('userData')))
+ipcMain.handle('license:access', () => ({
+  ...licensing.access(app.getPath('userData')),
+  trialDays: licensing.TRIAL_DAYS,
+}))
+ipcMain.handle('license:startTrial', () => {
+  const res = licensing.startTrial(app.getPath('userData'))
+  if (res.ok) {
+    const w = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+    if (w) w.loadURL('app://studio/index.html')
+  }
+  return res
+})
 ipcMain.handle('license:activate', (_e, { key }) => {
   const res = licensing.activate(app.getPath('userData'), key)
   if (res.ok) {

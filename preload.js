@@ -76,6 +76,8 @@ contextBridge.exposeInMainWorld('zeroaiLicense', {
   machine:  () => ipcRenderer.invoke('license:machine'),
   status:   () => ipcRenderer.invoke('license:status'),
   activate: (key) => ipcRenderer.invoke('license:activate', { key }),
+  access:     () => ipcRenderer.invoke('license:access'),
+  startTrial: () => ipcRenderer.invoke('license:startTrial'),
 })
 
 // Manager API (used by the Studio launcher to install/uninstall apps on demand).

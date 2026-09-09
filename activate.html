@@ -44,6 +44,14 @@
     <h1>Activate this computer</h1>
     <p class="lede">This copy runs fully offline. Read the Machine ID below to your ZeroAI representative — they will give you an activation key for <em>this</em> computer.</p>
 
+    <!-- Trial panel. Shown only when a trial is available or has ended, so a
+         licensed machine and an already-running trial never see it. -->
+    <div class="mid" id="trialBox" hidden>
+      <div class="lbl" id="trialLbl">Just want to try it?</div>
+      <div class="hint" id="trialHint">Start a free trial on this computer. It works offline, needs no key and no account, and nothing is sent anywhere.</div>
+      <button id="startTrial" class="copybtn">Start free trial</button>
+    </div>
+
     <div class="mid">
       <div class="lbl">This computer's Machine ID</div>
       <div class="val" id="machine">…</div>
@@ -66,7 +74,43 @@
     (async () => {
       try { MID = await L.machine(); $('machine').textContent = MID; }
       catch { $('machine').textContent = 'unavailable'; }
+
+      // Offer the trial only when it is actually available. Someone whose trial
+      // has ended is shown why, rather than a button that will not work.
+      try {
+        const a = await L.access();
+        const box = $('trialBox');
+        if (a.trialAvailable) {
+          $('trialLbl').textContent = 'Just want to try it?';
+          $('trialHint').textContent =
+            'Start a free ' + (a.trialDays || 30) + ' day trial on this computer. '
+            + 'It works offline, needs no key and no account, and nothing is sent anywhere.';
+          box.hidden = false;
+        } else if (a.kind === 'trial-expired') {
+          $('trialLbl').textContent = 'Your trial has ended';
+          $('trialHint').textContent =
+            'The ' + (a.trialDays || 30) + ' day trial on this computer is over. '
+            + 'Send the Machine ID above to ZeroAI for a licence key.';
+          $('startTrial').hidden = true;
+          box.hidden = false;
+        } else if (a.kind === 'blocked') {
+          $('trialLbl').textContent = 'Trial unavailable';
+          $('trialHint').textContent = a.reason || 'This computer cannot start a trial.';
+          $('startTrial').hidden = true;
+          box.hidden = false;
+        }
+      } catch { /* no trial support in this build; the key path still works */ }
     })();
+
+    $('startTrial').addEventListener('click', async () => {
+      $('startTrial').disabled = true;
+      const res = await L.startTrial();
+      // main.js loads the studio on success, so only failure lands back here.
+      if (!res.ok) {
+        $('msg').textContent = res.reason || 'Could not start the trial.';
+        $('startTrial').disabled = false;
+      }
+    });
     // Copy the Machine ID exactly — no retyping (execCommand works on file://).
     $('copyId').addEventListener('click', () => {
       if (!MID) return;
