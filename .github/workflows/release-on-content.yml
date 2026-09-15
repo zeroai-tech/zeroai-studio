@@ -1,8 +1,16 @@
 # Cut a release because the teaching content changed.
 #
-# The hub repo snapshots the lesson database into its bundle and then fires a
-# `content-updated` dispatch at this repo. This job turns that into a version
-# bump and a tag, which release.yml picks up and builds installers from.
+# The hub repo snapshots the lesson database into its bundle every morning
+# (sync-lessons.yml there), and records a content hash of it as
+# LESSONS_FINGERPRINT in src/apps/zaipy/lib/lessons.generated.ts. This job
+# turns a changed snapshot into a version bump and a tag, which release.yml
+# picks up and builds installers from.
+#
+# It used to wait for the hub to dispatch `content-updated` at this repo. That
+# needed a token in the hub repo which was never created, so the request failed
+# every day and no content release ever happened. Now this repo checks the
+# hub's fingerprint itself on a schedule, with the credential it already has.
+# The dispatch trigger is kept, so a future token would still work.
 #
 # The version lives here because electron-builder names every artifact from
 # this package.json, so this is the only repo that can decide what a build is
@@ -17,12 +25,20 @@ name: Release on content change
 on:
   repository_dispatch:
     types: [content-updated]
+  schedule:
+    # 03:15 UTC, after the hub's lesson sync at 02:30 has committed.
+    - cron: '15 3 * * *'
   workflow_dispatch:
     inputs:
       summary:
         description: 'What changed, for the release notes'
         required: false
         default: 'Manual content release'
+      check_only:
+        description: 'Only compare fingerprints and report; never bump or tag'
+        type: boolean
+        required: false
+        default: false
 
 concurrency:
   group: release-on-content
@@ -38,15 +54,47 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # A tag is pushed at the end, and the default token cannot trigger
-          # another workflow with it. release.yml would never fire.
-          token: ${{ secrets.RELEASES_TOKEN }}
+          # another workflow with it. release.yml would never fire. APPS_PAT is
+          # the credential release.yml already uses for the same reason.
+          token: ${{ secrets.RELEASES_TOKEN || secrets.APPS_PAT }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
+      # A scheduled run releases only when the hub's snapshot differs from the
+      # one this repo last released. A dispatch or a manual run means someone
+      # already decided, so it skips straight to the bump (unless check_only).
+      - name: Compare the hub's lesson fingerprint
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.APPS_PAT }}
+        run: |
+          now=$(gh api repos/Lottie128/zeroai-studio-hub/contents/src/apps/zaipy/lib/lessons.generated.ts \
+                  -H 'Accept: application/vnd.github.raw' \
+                | sed -n "s/^export const LESSONS_FINGERPRINT = '\([0-9a-f]*\)'.*/\1/p")
+          was=$(cat content-fingerprint.txt 2>/dev/null || echo none)
+          echo "now=$now" >> "$GITHUB_OUTPUT"
+          echo "was=$was" >> "$GITHUB_OUTPUT"
+          if [ -z "$now" ]; then
+            echo "Could not read the hub's fingerprint; not releasing."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          elif [ "${{ inputs.check_only }}" = "true" ]; then
+            echo "check only: hub $now, last released $was"
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          elif [ "$now" = "$was" ]; then
+            echo "Lessons unchanged since the last content release ($now)."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Lessons changed: $was -> $now"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Bump the patch version
         id: bump
+        if: steps.check.outputs.release == 'true'
         run: |
           before=$(node -p "require('./package.json').version")
           npm version patch --no-git-tag-version > /dev/null
@@ -56,13 +104,15 @@ jobs:
           echo "Bumped $before -> $after"
 
       - name: Commit and tag
+        if: steps.check.outputs.release == 'true'
         env:
-          SUMMARY: ${{ github.event.client_payload.summary || inputs.summary }}
-          COUNT: ${{ github.event.client_payload.lesson_count }}
+          SUMMARY: ${{ github.event.client_payload.summary || inputs.summary || format('Lesson snapshot changed ({0} -> {1})', steps.check.outputs.was, steps.check.outputs.now) }}
         run: |
+          [ -n "${{ steps.check.outputs.now }}" ] && echo "${{ steps.check.outputs.now }}" > content-fingerprint.txt
           git config user.name  "Lottie Mukuka"
           git config user.email "jaylottiemukuka@gmail.com"
-          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git add package.json content-fingerprint.txt
+          git add package-lock.json 2>/dev/null || true
           git commit -m "Release ${{ steps.bump.outputs.after }}: teaching content updated
 
           ${SUMMARY}
@@ -77,9 +127,15 @@ jobs:
           SUMMARY: ${{ github.event.client_payload.summary || inputs.summary }}
         run: |
           {
-            echo "### Released v${{ steps.bump.outputs.after }}"
-            echo ""
-            echo "$SUMMARY"
-            echo ""
-            echo "Installers are building now, including the offline edition."
+            if [ "${{ steps.check.outputs.release }}" = "true" ]; then
+              echo "### Released v${{ steps.bump.outputs.after }}"
+              echo ""
+              echo "${SUMMARY:-Lesson snapshot changed (${{ steps.check.outputs.was }} -> ${{ steps.check.outputs.now }})}"
+              echo ""
+              echo "Installers are building now, including the offline edition."
+            else
+              echo "### No release"
+              echo ""
+              echo "Hub lesson fingerprint: ${{ steps.check.outputs.now }}. Last content release: ${{ steps.check.outputs.was }}."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
