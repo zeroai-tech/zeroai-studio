@@ -76,14 +76,15 @@ fs.rmSync(OUT, { recursive: true, force: true })
 // Vite copies all of public/ into dist, so from 0.4.9 every installer carried
 // ~140MB of marketing files a classroom never opens, and the Windows installer
 // went from 301MB to 669MB. The website keeps them; the desktop app does not.
+// Copied first, then removed by absolute path. A cpSync filter comparing
+// path.relative(dist, src) worked on macOS and Linux but not on the Windows
+// runner: 0.4.10 staged 165MB there against 24MB elsewhere, so both Windows
+// installers still carried the artwork.
 const MARKETING_ONLY = ['social']
-fs.cpSync(dist, path.join(OUT, 'studio'), {
-  recursive: true,
-  filter: (src) => {
-    const top = path.relative(dist, src).split(path.sep)[0]
-    return !MARKETING_ONLY.includes(top)
-  },
-})
+fs.cpSync(dist, path.join(OUT, 'studio'), { recursive: true })
+for (const dir of MARKETING_ONLY) {
+  fs.rmSync(path.join(OUT, 'studio', dir), { recursive: true, force: true })
+}
 
 const pkg = JSON.parse(fs.readFileSync(path.join(HUB, 'package.json'), 'utf8'))
 fs.writeFileSync(path.join(OUT, 'edition.json'),
