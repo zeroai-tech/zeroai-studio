@@ -71,7 +71,19 @@ if (LEGACY) {
 }
 
 fs.rmSync(OUT, { recursive: true, force: true })
-fs.cpSync(dist, path.join(OUT, 'studio'), { recursive: true })
+// public/social is the social media queue's artwork: ad videos, post cards and
+// Instagram frames that studio.zeroaitech.tech serves to the posting pipeline.
+// Vite copies all of public/ into dist, so from 0.4.9 every installer carried
+// ~140MB of marketing files a classroom never opens, and the Windows installer
+// went from 301MB to 669MB. The website keeps them; the desktop app does not.
+const MARKETING_ONLY = ['social']
+fs.cpSync(dist, path.join(OUT, 'studio'), {
+  recursive: true,
+  filter: (src) => {
+    const top = path.relative(dist, src).split(path.sep)[0]
+    return !MARKETING_ONLY.includes(top)
+  },
+})
 
 const pkg = JSON.parse(fs.readFileSync(path.join(HUB, 'package.json'), 'utf8'))
 fs.writeFileSync(path.join(OUT, 'edition.json'),
