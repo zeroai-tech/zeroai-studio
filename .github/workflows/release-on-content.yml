@@ -2,7 +2,9 @@
 #
 # The hub repo snapshots the lesson database into its bundle every morning
 # (sync-lessons.yml there), and records a content hash of it as
-# LESSONS_FINGERPRINT in src/apps/zaipy/lib/lessons.generated.ts. This job
+# LESSONS_FINGERPRINT in src/apps/zaipy/lib/lessons.generated.ts, and ZaiSim's
+# example library as EXAMPLES_FINGERPRINT in src/apps/zaisim/lib/examples.generated.ts.
+# This job
 # turns a changed snapshot into a version bump and a tag, which release.yml
 # picks up and builds installers from.
 #
@@ -70,9 +72,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.RELEASES_TOKEN || secrets.APPS_PAT }}
         run: |
-          now=$(gh api repos/Lottie128/zeroai-studio-hub/contents/src/apps/zaipy/lib/lessons.generated.ts \
+          # Two snapshots in the hub: ZaiPy's lessons and ZaiSim's example
+          # library. Either changing is new content for offline schools.
+          lessons=$(gh api repos/Lottie128/zeroai-studio-hub/contents/src/apps/zaipy/lib/lessons.generated.ts \
                   -H 'Accept: application/vnd.github.raw' \
                 | sed -n "s/^export const LESSONS_FINGERPRINT = '\([0-9a-f]*\)'.*/\1/p")
+          examples=$(gh api repos/Lottie128/zeroai-studio-hub/contents/src/apps/zaisim/lib/examples.generated.ts \
+                  -H 'Accept: application/vnd.github.raw' \
+                | sed -n "s/^export const EXAMPLES_FINGERPRINT = '\([0-9a-f]*\)'.*/\1/p")
+          now=""
+          if [ -n "$lessons" ] && [ -n "$examples" ]; then now="$lessons-$examples"; fi
           was=$(cat content-fingerprint.txt 2>/dev/null || echo none)
           echo "now=$now" >> "$GITHUB_OUTPUT"
           echo "was=$was" >> "$GITHUB_OUTPUT"
@@ -85,7 +94,7 @@ jobs:
           elif [ "${{ github.event_name }}" != "schedule" ]; then
             echo "release=true" >> "$GITHUB_OUTPUT"
           elif [ "$now" = "$was" ]; then
-            echo "Lessons unchanged since the last content release ($now)."
+            echo "Lessons and examples unchanged since the last content release ($now)."
             echo "release=false" >> "$GITHUB_OUTPUT"
           else
             echo "Lessons changed: $was -> $now"
