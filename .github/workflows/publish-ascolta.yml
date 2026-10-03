@@ -1,0 +1,28 @@
+name: Publish verified Ascolta downloads
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
+  push:
+    branches: [main]
+    paths:
+      - scripts/publish-ascolta.cjs
+      - .github/workflows/publish-ascolta.yml
+permissions:
+  contents: read
+concurrency:
+  group: publish-ascolta
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Publish fully tested installers to the public downloads repo
+        run: node scripts/publish-ascolta.cjs
+        env:
+          GH_TOKEN: ${{ secrets.APPS_PAT }}
