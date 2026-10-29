@@ -183,9 +183,42 @@ async function handle(req) {
   }
 }
 
+// Old lab monitors (1366×768, 1024×768, and worse) can be smaller than the
+// 1280×840 default — and their own hardware "auto adjust" button is often the
+// first thing to break, so the app can't lean on that. Never ask for a window
+// bigger than the screen it's opening on: shrink to the display's work area
+// (never below minWidth/minHeight — Electron enforces that floor anyway), and
+// let it be centered as usual.
+function sizeForDisplay(display) {
+  const area = display.workArea
+  return {
+    width: Math.min(1280, area.width),
+    height: Math.min(840, area.height),
+  }
+}
+
+// If a window ends up partly off its current display — a smaller/different
+// monitor was swapped in, a projector was connected, resolution changed while
+// the app was already open — pull it fully back on-screen without disturbing
+// a size the user deliberately chose that still fits.
+function clampToDisplay(win) {
+  try {
+    const area = screen.getDisplayMatching(win.getBounds()).workArea
+    const [curW, curH] = win.getSize()
+    const w = Math.min(curW, area.width)
+    const h = Math.min(curH, area.height)
+    if (w !== curW || h !== curH) win.setSize(w, h)
+    const [x, y] = win.getPosition()
+    const nx = Math.min(Math.max(x, area.x), area.x + area.width - w)
+    const ny = Math.min(Math.max(y, area.y), area.y + area.height - h)
+    if (nx !== x || ny !== y) win.setPosition(nx, ny)
+  } catch { /* window gone, or no matching display yet */ }
+}
+
 function createWindow() {
+  const { width, height } = sizeForDisplay(screen.getPrimaryDisplay())
   const win = new BrowserWindow({
-    width: 1280, height: 840, minWidth: 900, minHeight: 600,
+    width, height, minWidth: 900, minHeight: 600,
     backgroundColor: '#0a0c15', title: 'ZeroAI Studio',
     webPreferences: {
       contextIsolation: true,
@@ -214,22 +247,37 @@ function createWindow() {
   // The apps set document.title for the browser; in the shell the native title wins.
   win.on('page-title-updated', (e) => e.preventDefault())
   // ── Display fit + zoom ──────────────────────────────────────────────────────
-  // Old lab monitors (1366×768, 1024×768) make the apps look "zoomed in" and cut
-  // off. Auto-scale so the full ~1440×900 layout always fits (never upscales past
-  // 100%). Ctrl/Cmd +/− adjusts, Ctrl/Cmd 0 resets to the auto fit.
+  // Two independent things keep every screen usable:
+  //  1. The window itself is clamped to the display's work area (above, and on
+  //     display changes below) so it's never bigger than the physical screen —
+  //     that's what was getting cut off on the right/bottom before.
+  //  2. Content zoom tracks the window's *actual* content size, not the raw
+  //     screen size, so it stays legible whatever the window ends up at —
+  //     including a manual resize later. Ctrl/Cmd +/− adjusts by hand; Ctrl/Cmd
+  //     0 resets to auto and lets resizes drive the zoom again.
   let zoom = 0
+  let manualZoom = false
   const autoFit = () => {
     try {
-      const w = screen.getPrimaryDisplay().workAreaSize
-      return Math.max(0.6, Math.min(1, w.width / 1440, w.height / 900))
+      const { width, height } = win.getContentBounds()
+      return Math.max(0.6, Math.min(1, width / 1440, height / 900))
     } catch { return 1 }
   }
   const applyZoom = (z) => { zoom = Math.max(0.4, Math.min(2, z)); try { win.webContents.setZoomFactor(zoom) } catch { /* window gone */ } }
   win.webContents.on('before-input-event', (e, input) => {
     if (input.type !== 'keyDown' || !(input.control || input.meta)) return
-    if (input.key === '=' || input.key === '+') { applyZoom(zoom + 0.1); e.preventDefault() }
-    else if (input.key === '-' || input.key === '_') { applyZoom(zoom - 0.1); e.preventDefault() }
-    else if (input.key === '0') { applyZoom(autoFit()); e.preventDefault() }
+    if (input.key === '=' || input.key === '+') { manualZoom = true; applyZoom(zoom + 0.1); e.preventDefault() }
+    else if (input.key === '-' || input.key === '_') { manualZoom = true; applyZoom(zoom - 0.1); e.preventDefault() }
+    else if (input.key === '0') { manualZoom = false; applyZoom(autoFit()); e.preventDefault() }
+  })
+  // Re-fit whenever the window's own size changes (clamped to a smaller
+  // screen, dragged, maximized, moved to another display) — unless the user
+  // picked a zoom level by hand, in which case leave it alone.
+  let resizeTimer = null
+  win.on('resize', () => {
+    if (manualZoom) return
+    clearTimeout(resizeTimer)
+    resizeTimer = setTimeout(() => applyZoom(autoFit()), 150)
   })
 
   // After each app loads, strip web-only chrome so it feels native + forward errors.
@@ -583,6 +631,11 @@ app.whenReady().then(async () => {
   buildMenu()
   await seedBundledApps()   // no-op on the slim installer
   createWindow()
+  // Monitor swapped, projector connected, resolution changed mid-session —
+  // pull every open window fully back on-screen for its (new) display.
+  screen.on('display-metrics-changed', () => {
+    for (const w of BrowserWindow.getAllWindows()) clampToDisplay(w)
+  })
 
   // Check for a newer shell on launch (win/linux). Silent: electron-updater
   // downloads in the background and installs on next quit; a notification lets

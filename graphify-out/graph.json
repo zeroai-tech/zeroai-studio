@@ -16,33 +16,6 @@
         "confidence": "INFERRED",
         "confidence_score": 0.95,
         "source_file": "license/README.md"
-      },
-      {
-        "id": "github_actions_ci_cd_pipeline",
-        "label": "ZeroAI Studio GitHub Actions CI/CD Workflows",
-        "nodes": [
-          "_github_workflows_board_packs_build_arduino_board_packs",
-          "_github_workflows_publish_apps_publish_app_bundles",
-          "_github_workflows_release_build_installers"
-        ],
-        "relation": "form",
-        "confidence": "EXTRACTED",
-        "confidence_score": 1.0,
-        "source_file": ".github/workflows/publish-apps.yml"
-      },
-      {
-        "id": "app_catalog_management_flow",
-        "label": "App Catalog Build, Publish, and Sync Flow",
-        "nodes": [
-          "_github_workflows_publish_apps_job_publish",
-          "readme_manifest_json_catalog",
-          "apps_studio_index_refresh_catalog",
-          "apps_studio_index_install_app"
-        ],
-        "relation": "participate_in",
-        "confidence": "INFERRED",
-        "confidence_score": 0.95,
-        "source_file": "apps/studio/index.html"
       }
     ]
   },
@@ -55,6 +28,7 @@
       "_origin": "ast",
       "id": "arduino",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "arduino.js"
     },
     {
@@ -65,6 +39,7 @@
       "_origin": "ast",
       "id": "arduino_app",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "{ app }"
     },
     {
@@ -75,6 +50,7 @@
       "_origin": "ast",
       "id": "arduino_fs",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "fs"
     },
     {
@@ -85,6 +61,7 @@
       "_origin": "ast",
       "id": "arduino_fsp",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "fsp"
     },
     {
@@ -95,6 +72,7 @@
       "_origin": "ast",
       "id": "arduino_path",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "path"
     },
     {
@@ -105,6 +83,7 @@
       "_origin": "ast",
       "id": "arduino_os",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "os"
     },
     {
@@ -115,6 +94,7 @@
       "_origin": "ast",
       "id": "arduino_https",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "https"
     },
     {
@@ -125,6 +105,7 @@
       "_origin": "ast",
       "id": "arduino_spawn",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "{ spawn }"
     },
     {
@@ -135,6 +116,7 @@
       "_origin": "ast",
       "id": "arduino_admzip",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "admzip"
     },
     {
@@ -145,6 +127,7 @@
       "_origin": "ast",
       "id": "arduino_root",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "root()"
     },
     {
@@ -155,6 +138,7 @@
       "_origin": "ast",
       "id": "arduino_bin",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "bin()"
     },
     {
@@ -165,6 +149,7 @@
       "_origin": "ast",
       "id": "arduino_data_dir",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "data_dir()"
     },
     {
@@ -175,6 +160,7 @@
       "_origin": "ast",
       "id": "arduino_user_dir",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "user_dir()"
     },
     {
@@ -185,6 +171,7 @@
       "_origin": "ast",
       "id": "arduino_config",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "config()"
     },
     {
@@ -195,6 +182,7 @@
       "_origin": "ast",
       "id": "arduino_fqbn",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "fqbn"
     },
     {
@@ -205,6 +193,7 @@
       "_origin": "ast",
       "id": "arduino_cores",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "cores"
     },
     {
@@ -215,6 +204,7 @@
       "_origin": "ast",
       "id": "arduino_board_urls",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "board_urls"
     },
     {
@@ -225,6 +215,7 @@
       "_origin": "ast",
       "id": "arduino_assetname",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "assetname()"
     },
     {
@@ -235,6 +226,7 @@
       "_origin": "ast",
       "id": "arduino_download",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "download()"
     },
     {
@@ -245,6 +237,7 @@
       "_origin": "ast",
       "id": "arduino_exec",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "exec()"
     },
     {
@@ -255,6 +248,7 @@
       "_origin": "ast",
       "id": "arduino_cli",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "cli()"
     },
     {
@@ -265,6 +259,7 @@
       "_origin": "ast",
       "id": "arduino_clijson",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "clijson()"
     },
     {
@@ -275,6 +270,7 @@
       "_origin": "ast",
       "id": "arduino_status",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "status()"
     },
     {
@@ -285,6 +281,7 @@
       "_origin": "ast",
       "id": "arduino_writeconfig",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "writeconfig()"
     },
     {
@@ -295,6 +292,7 @@
       "_origin": "ast",
       "id": "arduino_installfrompack",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "installfrompack()"
     },
     {
@@ -305,6 +303,7 @@
       "_origin": "ast",
       "id": "arduino_setup",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "setup()"
     },
     {
@@ -315,6 +314,7 @@
       "_origin": "ast",
       "id": "arduino_compile",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "compile()"
     },
     {
@@ -325,6 +325,7 @@
       "_origin": "ast",
       "id": "arduino_listports",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "listports()"
     },
     {
@@ -335,6 +336,7 @@
       "_origin": "ast",
       "id": "arduino_upload",
       "community": 1,
+      "community_name": "arduino.js",
       "norm_label": "upload()"
     },
     {
@@ -345,6 +347,7 @@
       "_origin": "ast",
       "id": "license_cli",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "cli.js"
     },
     {
@@ -355,6 +358,7 @@
       "_origin": "ast",
       "id": "license_cli_fs",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "fs"
     },
     {
@@ -365,6 +369,7 @@
       "_origin": "ast",
       "id": "license_cli_path",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "path"
     },
     {
@@ -375,6 +380,7 @@
       "_origin": "ast",
       "id": "license_cli_l",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "l"
     },
     {
@@ -385,6 +391,7 @@
       "_origin": "ast",
       "id": "license_cli_priv",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "priv"
     },
     {
@@ -395,6 +402,7 @@
       "_origin": "ast",
       "id": "license_cli_pub",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "pub"
     },
     {
@@ -405,6 +413,7 @@
       "_origin": "ast",
       "id": "license_cli_cmd_args",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "[cmd, ...args]"
     },
     {
@@ -415,6 +424,7 @@
       "_origin": "ast",
       "id": "license_cli_flag",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "flag()"
     },
     {
@@ -425,6 +435,7 @@
       "_origin": "ast",
       "id": "license_cli_die",
       "community": 11,
+      "community_name": "cli.js",
       "norm_label": "die()"
     },
     {
@@ -435,6 +446,7 @@
       "_origin": "ast",
       "id": "license_core",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "core.js"
     },
     {
@@ -445,6 +457,7 @@
       "_origin": "ast",
       "id": "license_core_crypto",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "crypto"
     },
     {
@@ -455,6 +468,7 @@
       "_origin": "ast",
       "id": "license_core_os",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "os"
     },
     {
@@ -465,6 +479,7 @@
       "_origin": "ast",
       "id": "license_core_fs",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "fs"
     },
     {
@@ -475,6 +490,7 @@
       "_origin": "ast",
       "id": "license_core_execsync",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "{ execsync }"
     },
     {
@@ -485,6 +501,7 @@
       "_origin": "ast",
       "id": "license_core_stablehwid",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "stablehwid()"
     },
     {
@@ -495,6 +512,7 @@
       "_origin": "ast",
       "id": "license_core_machineid",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "machineid()"
     },
     {
@@ -505,6 +523,7 @@
       "_origin": "ast",
       "id": "license_core_b64u",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "b64u()"
     },
     {
@@ -515,6 +534,7 @@
       "_origin": "ast",
       "id": "license_core_unb64u",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "unb64u()"
     },
     {
@@ -525,6 +545,7 @@
       "_origin": "ast",
       "id": "license_core_generatekeypair",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "generatekeypair()"
     },
     {
@@ -535,6 +556,7 @@
       "_origin": "ast",
       "id": "license_core_mint",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "mint()"
     },
     {
@@ -545,6 +567,7 @@
       "_origin": "ast",
       "id": "license_core_verify",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "verify()"
     },
     {
@@ -555,6 +578,7 @@
       "_origin": "ast",
       "id": "license_verifier",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "verifier.js"
     },
     {
@@ -565,6 +589,7 @@
       "_origin": "ast",
       "id": "license_verifier_fs",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "fs"
     },
     {
@@ -575,6 +600,7 @@
       "_origin": "ast",
       "id": "license_verifier_path",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "path"
     },
     {
@@ -585,6 +611,7 @@
       "_origin": "ast",
       "id": "license_verifier_machineid_verify",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "{ machineid, verify }"
     },
     {
@@ -595,26 +622,73 @@
       "_origin": "ast",
       "id": "license_verifier_licensepath",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "licensepath()"
+    },
+    {
+      "label": "trialPath()",
+      "file_type": "code",
+      "source_file": "license/verifier.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "license_verifier_trialpath",
+      "community": 4,
+      "community_name": "verifier.js",
+      "norm_label": "trialpath()"
     },
     {
       "label": "status()",
       "file_type": "code",
       "source_file": "license/verifier.js",
-      "source_location": "L15",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "license_verifier_status",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "status()"
+    },
+    {
+      "label": "trialStatus()",
+      "file_type": "code",
+      "source_file": "license/verifier.js",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "license_verifier_trialstatus",
+      "community": 4,
+      "community_name": "verifier.js",
+      "norm_label": "trialstatus()"
+    },
+    {
+      "label": "startTrial()",
+      "file_type": "code",
+      "source_file": "license/verifier.js",
+      "source_location": "L77",
+      "_origin": "ast",
+      "id": "license_verifier_starttrial",
+      "community": 4,
+      "community_name": "verifier.js",
+      "norm_label": "starttrial()"
+    },
+    {
+      "label": "access()",
+      "file_type": "code",
+      "source_file": "license/verifier.js",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "license_verifier_access",
+      "community": 4,
+      "community_name": "verifier.js",
+      "norm_label": "access()"
     },
     {
       "label": "activate()",
       "file_type": "code",
       "source_file": "license/verifier.js",
-      "source_location": "L26",
+      "source_location": "L113",
       "_origin": "ast",
       "id": "license_verifier_activate",
       "community": 4,
+      "community_name": "verifier.js",
       "norm_label": "activate()"
     },
     {
@@ -625,6 +699,7 @@
       "_origin": "ast",
       "id": "main",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "main.js"
     },
     {
@@ -635,6 +710,7 @@
       "_origin": "ast",
       "id": "main_app_browserwindow_menu_protocol_shell_ipcmain_dialog_screen",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "{ app, browserwindow, menu, protocol, shell, ipcmain, dialog, screen }"
     },
     {
@@ -645,6 +721,7 @@
       "_origin": "ast",
       "id": "main_licensing",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "licensing"
     },
     {
@@ -655,6 +732,7 @@
       "_origin": "ast",
       "id": "main_studio_cfg",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "studio_cfg"
     },
     {
@@ -665,6 +743,7 @@
       "_origin": "ast",
       "id": "main_fs",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "fs"
     },
     {
@@ -675,6 +754,7 @@
       "_origin": "ast",
       "id": "main_fss",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "fss"
     },
     {
@@ -685,6 +765,7 @@
       "_origin": "ast",
       "id": "main_path",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "path"
     },
     {
@@ -695,6 +776,7 @@
       "_origin": "ast",
       "id": "main_https",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "https"
     },
     {
@@ -705,6 +787,7 @@
       "_origin": "ast",
       "id": "main_crypto",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "crypto"
     },
     {
@@ -715,6 +798,7 @@
       "_origin": "ast",
       "id": "main_admzip",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "admzip"
     },
     {
@@ -725,266 +809,326 @@
       "_origin": "ast",
       "id": "main_arduino",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "arduino"
     },
     {
-      "label": "APPS_DIR",
+      "label": "STUDIO_DIR()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L38",
+      "source_location": "L47",
       "_origin": "ast",
-      "id": "main_apps_dir",
+      "id": "main_studio_dir",
       "community": 0,
-      "norm_label": "apps_dir"
+      "community_name": "main.js",
+      "norm_label": "studio_dir()"
     },
     {
       "label": "INSTALL_DIR()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L39",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "main_install_dir",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "install_dir()"
     },
     {
       "label": "installedDbPath()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L42",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "main_installeddbpath",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "installeddbpath()"
     },
     {
       "label": "readInstalled()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L43",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "main_readinstalled",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "readinstalled()"
     },
     {
       "label": "writeInstalled()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L44",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "main_writeinstalled",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "writeinstalled()"
     },
     {
       "label": "getJSON()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L47",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "main_getjson",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "getjson()"
     },
     {
       "label": "download()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L56",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "main_download",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "download()"
     },
     {
       "label": "SUITE_CONFIG",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L76",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "main_suite_config",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "suite_config"
     },
     {
       "label": "projectsDir()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L81",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "main_projectsdir",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "projectsdir()"
     },
     {
       "label": "MIME",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L98",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "main_mime",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "mime"
     },
     {
       "label": "NEEDS_COI",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L109",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "main_needs_coi",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "needs_coi"
     },
     {
       "label": "handle()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L116",
+      "source_location": "L153",
       "_origin": "ast",
       "id": "main_handle",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "handle()"
+    },
+    {
+      "label": "sizeForDisplay()",
+      "file_type": "code",
+      "source_file": "main.js",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "main_sizefordisplay",
+      "community": 0,
+      "community_name": "main.js",
+      "norm_label": "sizefordisplay()"
+    },
+    {
+      "label": "clampToDisplay()",
+      "file_type": "code",
+      "source_file": "main.js",
+      "source_location": "L204",
+      "_origin": "ast",
+      "id": "main_clamptodisplay",
+      "community": 0,
+      "community_name": "main.js",
+      "norm_label": "clamptodisplay()"
     },
     {
       "label": "createWindow()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L148",
+      "source_location": "L218",
       "_origin": "ast",
       "id": "main_createwindow",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "createwindow()"
     },
     {
       "label": "sha256File()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L224",
+      "source_location": "L313",
       "_origin": "ast",
       "id": "main_sha256file",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "sha256file()"
     },
     {
       "label": "installApp()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L230",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "main_installapp",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "installapp()"
     },
     {
       "label": "seedBundledApps()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L252",
+      "source_location": "L341",
       "_origin": "ast",
       "id": "main_seedbundledapps",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "seedbundledapps()"
     },
     {
       "label": "installAllHeadless()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L275",
+      "source_location": "L364",
       "_origin": "ast",
       "id": "main_installallheadless",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "installallheadless()"
     },
     {
       "label": "du()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L322",
+      "source_location": "L423",
       "_origin": "ast",
       "id": "main_du",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "du()"
     },
     {
       "label": "safeId()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L339",
+      "source_location": "L440",
       "_origin": "ast",
       "id": "main_safeid",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "safeid()"
+    },
+    {
+      "label": "sessionPath()",
+      "file_type": "code",
+      "source_file": "main.js",
+      "source_location": "L472",
+      "_origin": "ast",
+      "id": "main_sessionpath",
+      "community": 0,
+      "community_name": "main.js",
+      "norm_label": "sessionpath()"
     },
     {
       "label": "FILE_EXT",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L399",
+      "source_location": "L519",
       "_origin": "ast",
       "id": "main_file_ext",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "file_ext"
     },
     {
       "label": "encodeProject()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L401",
+      "source_location": "L521",
       "_origin": "ast",
       "id": "main_encodeproject",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "encodeproject()"
     },
     {
       "label": "decodeProject()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L402",
+      "source_location": "L522",
       "_origin": "ast",
       "id": "main_decodeproject",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "decodeproject()"
     },
     {
       "label": "SUITE_APPS",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L435",
+      "source_location": "L555",
       "_origin": "ast",
       "id": "main_suite_apps",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "suite_apps"
     },
     {
       "label": "focusedWin()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L443",
+      "source_location": "L563",
       "_origin": "ast",
       "id": "main_focusedwin",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "focusedwin()"
     },
     {
       "label": "goTo()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L444",
+      "source_location": "L567",
       "_origin": "ast",
       "id": "main_goto",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "goto()"
     },
     {
       "label": "buildMenu()",
       "file_type": "code",
       "source_file": "main.js",
-      "source_location": "L446",
+      "source_location": "L569",
       "_origin": "ast",
       "id": "main_buildmenu",
       "community": 0,
+      "community_name": "main.js",
       "norm_label": "buildmenu()"
     },
     {
@@ -995,6 +1139,7 @@
       "_origin": "ast",
       "id": "manifest",
       "community": 18,
+      "community_name": "manifest.json",
       "norm_label": "manifest.json"
     },
     {
@@ -1005,6 +1150,7 @@
       "_origin": "ast",
       "id": "manifest_updated",
       "community": 18,
+      "community_name": "manifest.json",
       "norm_label": "updated"
     },
     {
@@ -1015,6 +1161,7 @@
       "_origin": "ast",
       "id": "manifest_apps",
       "community": 18,
+      "community_name": "manifest.json",
       "norm_label": "apps"
     },
     {
@@ -1025,6 +1172,7 @@
       "_origin": "ast",
       "id": "package",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "package.json"
     },
     {
@@ -1035,6 +1183,7 @@
       "_origin": "ast",
       "id": "package_name",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "name"
     },
     {
@@ -1045,6 +1194,7 @@
       "_origin": "ast",
       "id": "package_version",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "version"
     },
     {
@@ -1055,6 +1205,7 @@
       "_origin": "ast",
       "id": "package_description",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "description"
     },
     {
@@ -1065,6 +1216,7 @@
       "_origin": "ast",
       "id": "package_author",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "author"
     },
     {
@@ -1075,6 +1227,7 @@
       "_origin": "ast",
       "id": "package_main",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "main"
     },
     {
@@ -1085,6 +1238,7 @@
       "_origin": "ast",
       "id": "package_scripts",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "scripts"
     },
     {
@@ -1095,6 +1249,7 @@
       "_origin": "ast",
       "id": "package_scripts_start",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "start"
     },
     {
@@ -1105,6 +1260,7 @@
       "_origin": "ast",
       "id": "package_scripts_dist",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist"
     },
     {
@@ -1115,6 +1271,7 @@
       "_origin": "ast",
       "id": "package_scripts_dist_full",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist:full"
     },
     {
@@ -1125,6 +1282,7 @@
       "_origin": "ast",
       "id": "package_scripts_dist_mac",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist:mac"
     },
     {
@@ -1135,6 +1293,7 @@
       "_origin": "ast",
       "id": "package_scripts_dist_win",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist:win"
     },
     {
@@ -1145,6 +1304,7 @@
       "_origin": "ast",
       "id": "package_scripts_dist_linux",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist:linux"
     },
     {
@@ -1155,6 +1315,7 @@
       "_origin": "ast",
       "id": "package_scripts_bundle_legacy",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "bundle:legacy"
     },
     {
@@ -1165,486 +1326,568 @@
       "_origin": "ast",
       "id": "package_scripts_dist_legacy",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dist:legacy"
+    },
+    {
+      "label": "bundle:hub",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "package_scripts_bundle_hub",
+      "community": 3,
+      "community_name": "scripts",
+      "norm_label": "bundle:hub"
+    },
+    {
+      "label": "dist:legacy:mac",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "package_scripts_dist_legacy_mac",
+      "community": 3,
+      "community_name": "scripts",
+      "norm_label": "dist:legacy:mac"
+    },
+    {
+      "label": "dist:legacy:win",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "package_scripts_dist_legacy_win",
+      "community": 3,
+      "community_name": "scripts",
+      "norm_label": "dist:legacy:win"
+    },
+    {
+      "label": "dist:legacy:linux",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "package_scripts_dist_legacy_linux",
+      "community": 3,
+      "community_name": "scripts",
+      "norm_label": "dist:legacy:linux"
     },
     {
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "devdependencies"
     },
     {
       "label": "electron",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_devdependencies_electron",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron"
     },
     {
       "label": "electron",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "electron",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron"
     },
     {
       "label": "electron-builder",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_devdependencies_electron_builder",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron-builder"
     },
     {
       "label": "electron-builder",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "electron_builder",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron-builder"
     },
     {
       "label": "dependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_dependencies",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "dependencies"
     },
     {
       "label": "adm-zip",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_dependencies_adm_zip",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "adm-zip"
     },
     {
       "label": "adm-zip",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "adm_zip",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "adm-zip"
     },
     {
       "label": "electron-updater",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_electron_updater",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron-updater"
     },
     {
       "label": "electron-updater",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "electron_updater",
       "community": 3,
+      "community_name": "scripts",
       "norm_label": "electron-updater"
     },
     {
       "label": "build",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_build",
       "community": 2,
+      "community_name": "build",
       "norm_label": "build"
     },
     {
       "label": "appId",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_build_appid",
       "community": 2,
+      "community_name": "build",
       "norm_label": "appid"
     },
     {
       "label": "productName",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_build_productname",
       "community": 2,
+      "community_name": "build",
       "norm_label": "productname"
     },
     {
       "label": "copyright",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_build_copyright",
       "community": 2,
+      "community_name": "build",
       "norm_label": "copyright"
     },
     {
       "label": "directories",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_build_directories",
       "community": 2,
+      "community_name": "build",
       "norm_label": "directories"
     },
     {
       "label": "output",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_directories_output",
       "community": 2,
+      "community_name": "build",
       "norm_label": "output"
     },
     {
       "label": "buildResources",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_directories_buildresources",
       "community": 2,
+      "community_name": "build",
       "norm_label": "buildresources"
     },
     {
       "label": "files",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_build_files",
       "community": 7,
+      "community_name": "files",
       "norm_label": "files"
     },
     {
       "label": "main.js",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_main_js",
       "community": 7,
+      "community_name": "files",
       "norm_label": "main.js"
     },
     {
       "label": "arduino.js",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_arduino_js",
       "community": 7,
+      "community_name": "files",
       "norm_label": "arduino.js"
     },
     {
       "label": "preload.js",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_preload_js",
       "community": 7,
+      "community_name": "files",
       "norm_label": "preload.js"
-    },
-    {
-      "label": "apps/**/*",
-      "file_type": "concept",
-      "source_file": "package.json",
-      "source_location": "L33",
-      "_origin": "ast",
-      "id": "ref_apps",
-      "community": 7,
-      "norm_label": "apps/**/*"
     },
     {
       "label": "studio.config.json",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_studio_config_json",
       "community": 7,
+      "community_name": "files",
       "norm_label": "studio.config.json"
     },
     {
       "label": "package.json",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_package_json",
       "community": 7,
+      "community_name": "files",
       "norm_label": "package.json"
     },
     {
       "label": "license/core.js",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_license_core_js",
       "community": 7,
+      "community_name": "files",
       "norm_label": "license/core.js"
     },
     {
       "label": "license/verifier.js",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_license_verifier_js",
       "community": 7,
+      "community_name": "files",
       "norm_label": "license/verifier.js"
     },
     {
       "label": "license/public.pem",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_license_public_pem",
       "community": 7,
+      "community_name": "files",
       "norm_label": "license/public.pem"
     },
     {
       "label": "activate.html",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_activate_html",
       "community": 7,
+      "community_name": "files",
       "norm_label": "activate.html"
     },
     {
       "label": "!license/private.pem",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "ref_license_private_pem",
       "community": 7,
+      "community_name": "files",
       "norm_label": "!license/private.pem"
     },
     {
       "label": "mac",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L46",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "package_build_mac",
       "community": 2,
+      "community_name": "build",
       "norm_label": "mac"
     },
     {
       "label": "target",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L47",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "package_mac_target",
       "community": 2,
+      "community_name": "build",
       "norm_label": "target"
     },
     {
       "label": "category",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L56",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "package_mac_category",
       "community": 2,
+      "community_name": "build",
       "norm_label": "category"
     },
     {
       "label": "icon",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L57",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "package_mac_icon",
       "community": 2,
+      "community_name": "build",
       "norm_label": "icon"
     },
     {
       "label": "artifactName",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L58",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "package_mac_artifactname",
       "community": 2,
+      "community_name": "build",
       "norm_label": "artifactname"
     },
     {
       "label": "win",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L60",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "package_build_win",
       "community": 2,
+      "community_name": "build",
       "norm_label": "win"
     },
     {
       "label": "target",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L61",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "package_win_target",
       "community": 2,
+      "community_name": "build",
       "norm_label": "target"
     },
     {
       "label": "icon",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L71",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "package_win_icon",
       "community": 2,
+      "community_name": "build",
       "norm_label": "icon"
     },
     {
       "label": "artifactName",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L72",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "package_win_artifactname",
       "community": 2,
+      "community_name": "build",
       "norm_label": "artifactname"
     },
     {
       "label": "nsis",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L74",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "package_build_nsis",
       "community": 2,
+      "community_name": "build",
       "norm_label": "nsis"
     },
     {
       "label": "oneClick",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L75",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "package_nsis_oneclick",
       "community": 2,
+      "community_name": "build",
       "norm_label": "oneclick"
     },
     {
       "label": "allowToChangeInstallationDirectory",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L76",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "package_nsis_allowtochangeinstallationdirectory",
       "community": 2,
+      "community_name": "build",
       "norm_label": "allowtochangeinstallationdirectory"
     },
     {
       "label": "linux",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L78",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "package_build_linux",
       "community": 2,
+      "community_name": "build",
       "norm_label": "linux"
     },
     {
       "label": "target",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L79",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "package_linux_target",
       "community": 2,
+      "community_name": "build",
       "norm_label": "target"
     },
     {
       "label": "icon",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L95",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "package_linux_icon",
       "community": 2,
+      "community_name": "build",
       "norm_label": "icon"
     },
     {
       "label": "category",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L96",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "package_linux_category",
       "community": 2,
+      "community_name": "build",
       "norm_label": "category"
     },
     {
       "label": "artifactName",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L97",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "package_linux_artifactname",
       "community": 2,
+      "community_name": "build",
       "norm_label": "artifactname"
     },
     {
       "label": "publish",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L99",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "package_build_publish",
       "community": 2,
+      "community_name": "build",
       "norm_label": "publish"
     },
     {
       "label": "extraResources",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L106",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "package_build_extraresources",
       "community": 2,
+      "community_name": "build",
       "norm_label": "extraresources"
     },
     {
@@ -1655,6 +1898,7 @@
       "_origin": "ast",
       "id": "preload",
       "community": 15,
+      "community_name": "preload.js",
       "norm_label": "preload.js"
     },
     {
@@ -1665,6 +1909,7 @@
       "_origin": "ast",
       "id": "preload_contextbridge_ipcrenderer",
       "community": 15,
+      "community_name": "preload.js",
       "norm_label": "{ contextbridge, ipcrenderer }"
     },
     {
@@ -1675,6 +1920,7 @@
       "_origin": "ast",
       "id": "preload_readarg",
       "community": 15,
+      "community_name": "preload.js",
       "norm_label": "readarg()"
     },
     {
@@ -1685,17 +1931,107 @@
       "_origin": "ast",
       "id": "preload_cfg",
       "community": 15,
+      "community_name": "preload.js",
       "norm_label": "cfg"
+    },
+    {
+      "label": "SUITE",
+      "file_type": "code",
+      "source_file": "preload.js",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "preload_suite",
+      "community": 15,
+      "community_name": "preload.js",
+      "norm_label": "suite"
     },
     {
       "label": "appId()",
       "file_type": "code",
       "source_file": "preload.js",
-      "source_location": "L19",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "preload_appid",
       "community": 15,
+      "community_name": "preload.js",
       "norm_label": "appid()"
+    },
+    {
+      "label": "app()",
+      "file_type": "code",
+      "source_file": "preload.js",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "preload_app",
+      "community": 15,
+      "community_name": "preload.js",
+      "norm_label": "app()"
+    },
+    {
+      "label": "alias-artifacts.cjs",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "alias-artifacts.cjs"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts_fs",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts_path",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "path"
+    },
+    {
+      "label": "REL",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts_rel",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "rel"
+    },
+    {
+      "label": "esc",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts_esc",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "esc"
+    },
+    {
+      "label": "RULES",
+      "file_type": "code",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "scripts_alias_artifacts_rules",
+      "community": 19,
+      "community_name": "alias-artifacts.cjs",
+      "norm_label": "rules"
     },
     {
       "label": "build-arduino-packs.cjs",
@@ -1705,6 +2041,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "build-arduino-packs.cjs"
     },
     {
@@ -1715,6 +2052,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_fs",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "fs"
     },
     {
@@ -1725,6 +2063,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_path",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "path"
     },
     {
@@ -1735,6 +2074,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_os",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "os"
     },
     {
@@ -1745,6 +2085,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_https",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "https"
     },
     {
@@ -1755,6 +2096,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_spawnsync",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "{ spawnsync }"
     },
     {
@@ -1765,6 +2107,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_out",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "out"
     },
     {
@@ -1775,6 +2118,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_board_urls",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "board_urls"
     },
     {
@@ -1785,6 +2129,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_boards",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "boards"
     },
     {
@@ -1795,6 +2140,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_ostag",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "ostag()"
     },
     {
@@ -1805,6 +2151,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_cliasset",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "cliasset()"
     },
     {
@@ -1815,6 +2162,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_download",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "download()"
     },
     {
@@ -1825,6 +2173,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_downloadretry",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "downloadretry()"
     },
     {
@@ -1835,6 +2184,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_run",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "run()"
     },
     {
@@ -1845,6 +2195,7 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_ensurecli",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "ensurecli()"
     },
     {
@@ -1855,167 +2206,129 @@
       "_origin": "ast",
       "id": "scripts_build_arduino_packs_buildboard",
       "community": 5,
+      "community_name": "build-arduino-packs.cjs",
       "norm_label": "buildboard()"
     },
     {
-      "label": "bundle-apps-legacy.cjs",
+      "label": "bundle-hub.cjs",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
+      "source_file": "scripts/bundle-hub.cjs",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy",
-      "community": 13,
-      "norm_label": "bundle-apps-legacy.cjs"
+      "id": "scripts_bundle_hub",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "bundle-hub.cjs"
     },
     {
       "label": "fs",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L7",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L16",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_fs",
-      "community": 13,
+      "id": "scripts_bundle_hub_fs",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
       "norm_label": "fs"
     },
     {
       "label": "path",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L8",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L17",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_path",
-      "community": 13,
+      "id": "scripts_bundle_hub_path",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
       "norm_label": "path"
     },
     {
       "label": "{ execSync }",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L9",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L18",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_execsync",
-      "community": 13,
+      "id": "scripts_bundle_hub_execsync",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
       "norm_label": "{ execsync }"
     },
     {
-      "label": "CODE",
+      "label": "LEGACY",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L11",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L20",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_code",
-      "community": 13,
-      "norm_label": "code"
+      "id": "scripts_bundle_hub_legacy",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "legacy"
+    },
+    {
+      "label": "HUB",
+      "file_type": "code",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "scripts_bundle_hub_hub",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "hub"
     },
     {
       "label": "OUT",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L12",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L28",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_out",
-      "community": 13,
+      "id": "scripts_bundle_hub_out",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
       "norm_label": "out"
     },
     {
-      "label": "APPS",
+      "label": "dist",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L15",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L42",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_apps",
-      "community": 13,
-      "norm_label": "apps"
+      "id": "scripts_bundle_hub_dist",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "dist"
     },
     {
-      "label": "versions",
+      "label": "MARKETING_ONLY",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L25",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L83",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_legacy_versions",
-      "community": 13,
-      "norm_label": "versions"
+      "id": "scripts_bundle_hub_marketing_only",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "marketing_only"
     },
     {
-      "label": "bundle-apps.cjs",
+      "label": "pkg",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L1",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L89",
       "_origin": "ast",
-      "id": "scripts_bundle_apps",
-      "community": 12,
-      "norm_label": "bundle-apps.cjs"
+      "id": "scripts_bundle_hub_pkg",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "pkg"
     },
     {
-      "label": "fs",
+      "label": "du()",
       "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L8",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L93",
       "_origin": "ast",
-      "id": "scripts_bundle_apps_fs",
-      "community": 12,
-      "norm_label": "fs"
-    },
-    {
-      "label": "path",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_path",
-      "community": 12,
-      "norm_label": "path"
-    },
-    {
-      "label": "https",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_https",
-      "community": 12,
-      "norm_label": "https"
-    },
-    {
-      "label": "crypto",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_crypto",
-      "community": 12,
-      "norm_label": "crypto"
-    },
-    {
-      "label": "OUT",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_out",
-      "community": 12,
-      "norm_label": "out"
-    },
-    {
-      "label": "manifest",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_manifest",
-      "community": 12,
-      "norm_label": "manifest"
-    },
-    {
-      "label": "get()",
-      "file_type": "code",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L16",
-      "_origin": "ast",
-      "id": "scripts_bundle_apps_get",
-      "community": 12,
-      "norm_label": "get()"
+      "id": "scripts_bundle_hub_du",
+      "community": 9,
+      "community_name": "bundle-hub.cjs",
+      "norm_label": "du()"
     },
     {
       "label": "fetch-config.cjs",
@@ -2025,6 +2338,7 @@
       "_origin": "ast",
       "id": "scripts_fetch_config",
       "community": 17,
+      "community_name": "fetch-config.cjs",
       "norm_label": "fetch-config.cjs"
     },
     {
@@ -2035,6 +2349,7 @@
       "_origin": "ast",
       "id": "scripts_fetch_config_https",
       "community": 17,
+      "community_name": "fetch-config.cjs",
       "norm_label": "https"
     },
     {
@@ -2045,6 +2360,7 @@
       "_origin": "ast",
       "id": "scripts_fetch_config_fs",
       "community": 17,
+      "community_name": "fetch-config.cjs",
       "norm_label": "fs"
     },
     {
@@ -2055,6 +2371,7 @@
       "_origin": "ast",
       "id": "scripts_fetch_config_get",
       "community": 17,
+      "community_name": "fetch-config.cjs",
       "norm_label": "get()"
     },
     {
@@ -2065,6 +2382,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "pack-legacy.cjs"
     },
     {
@@ -2075,6 +2393,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_fs",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "fs"
     },
     {
@@ -2085,6 +2404,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_path",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "path"
     },
     {
@@ -2095,6 +2415,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_execsync",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "{ execsync }"
     },
     {
@@ -2105,6 +2426,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_root",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "root"
     },
     {
@@ -2115,6 +2437,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_cfg",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "cfg"
     },
     {
@@ -2125,6 +2448,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_rel",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "rel"
     },
     {
@@ -2135,6 +2459,7 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_brand",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "brand"
     },
     {
@@ -2145,17 +2470,239 @@
       "_origin": "ast",
       "id": "scripts_pack_legacy_run",
       "community": 10,
+      "community_name": "pack-legacy.cjs",
       "norm_label": "run()"
     },
     {
-      "label": "renames",
+      "label": "editionFile",
       "file_type": "code",
       "source_file": "scripts/pack-legacy.cjs",
-      "source_location": "L47",
+      "source_location": "L37",
       "_origin": "ast",
-      "id": "scripts_pack_legacy_renames",
+      "id": "scripts_pack_legacy_editionfile",
       "community": 10,
-      "norm_label": "renames"
+      "community_name": "pack-legacy.cjs",
+      "norm_label": "editionfile"
+    },
+    {
+      "label": "staged",
+      "file_type": "code",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "scripts_pack_legacy_staged",
+      "community": 10,
+      "community_name": "pack-legacy.cjs",
+      "norm_label": "staged"
+    },
+    {
+      "label": "LOCK",
+      "file_type": "code",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "scripts_pack_legacy_lock",
+      "community": 10,
+      "community_name": "pack-legacy.cjs",
+      "norm_label": "lock"
+    },
+    {
+      "label": "hadConfig",
+      "file_type": "code",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "scripts_pack_legacy_hadconfig",
+      "community": 10,
+      "community_name": "pack-legacy.cjs",
+      "norm_label": "hadconfig"
+    },
+    {
+      "label": "stray",
+      "file_type": "code",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L121",
+      "_origin": "ast",
+      "id": "scripts_pack_legacy_stray",
+      "community": 10,
+      "community_name": "pack-legacy.cjs",
+      "norm_label": "stray"
+    },
+    {
+      "label": "publish-ascolta.cjs",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "publish-ascolta.cjs"
+    },
+    {
+      "label": "{ execFileSync }",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_execfilesync",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "{ execfilesync }"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_fs",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_path",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "path"
+    },
+    {
+      "label": "os",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_os",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "os"
+    },
+    {
+      "label": "gh()",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_gh",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "gh()"
+    },
+    {
+      "label": "api()",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_api",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "api()"
+    },
+    {
+      "label": "run",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_run",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "run"
+    },
+    {
+      "label": "dir",
+      "file_type": "code",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "scripts_publish_ascolta_dir",
+      "community": 12,
+      "community_name": "publish-ascolta.cjs",
+      "norm_label": "dir"
+    },
+    {
+      "label": "verify-package.cjs",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_verify_package",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "verify-package.cjs"
+    },
+    {
+      "label": "fs",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "scripts_verify_package_fs",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "fs"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "scripts_verify_package_path",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "path"
+    },
+    {
+      "label": "fail",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "scripts_verify_package_fail",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "fail"
+    },
+    {
+      "label": "ok",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "scripts_verify_package_ok",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "ok"
+    },
+    {
+      "label": "roots",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "scripts_verify_package_roots",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "roots"
+    },
+    {
+      "label": "root",
+      "file_type": "code",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "scripts_verify_package_root",
+      "community": 13,
+      "community_name": "verify-package.cjs",
+      "norm_label": "root"
     },
     {
       "label": "Build Arduino Board Packs Workflow",
@@ -2166,9 +2713,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_board_packs_build_arduino_board_packs",
       "community": 14,
-      "norm_label": "build arduino board packs workflow"
+      "norm_label": "build arduino board packs workflow",
+      "_origin": "semantic",
+      "id": "_github_workflows_board_packs_build_arduino_board_packs",
+      "community_name": "build matrix job (macOS/Win/Linux)"
     },
     {
       "label": "create-release job",
@@ -2179,9 +2728,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_board_packs_job_create_release",
       "community": 14,
-      "norm_label": "create-release job"
+      "norm_label": "create-release job",
+      "_origin": "semantic",
+      "id": "_github_workflows_board_packs_job_create_release",
+      "community_name": "build matrix job (macOS/Win/Linux)"
     },
     {
       "label": "build matrix job (macOS/Win/Linux)",
@@ -2192,9 +2743,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_board_packs_job_build",
       "community": 14,
-      "norm_label": "build matrix job (macos/win/linux)"
+      "norm_label": "build matrix job (macos/win/linux)",
+      "_origin": "semantic",
+      "id": "_github_workflows_board_packs_job_build",
+      "community_name": "build matrix job (macOS/Win/Linux)"
     },
     {
       "label": "scripts/build-arduino-packs.cjs",
@@ -2205,9 +2758,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_board_packs_script_build_arduino_packs",
       "community": 14,
-      "norm_label": "scripts/build-arduino-packs.cjs"
+      "norm_label": "scripts/build-arduino-packs.cjs",
+      "_origin": "semantic",
+      "id": "_github_workflows_board_packs_script_build_arduino_packs",
+      "community_name": "build matrix job (macOS/Win/Linux)"
     },
     {
       "label": "board-packs GitHub Release",
@@ -2218,74 +2773,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_board_packs_board_packs_release",
       "community": 14,
-      "norm_label": "board-packs github release"
-    },
-    {
-      "label": "Publish App Bundles Workflow",
-      "file_type": "code",
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "_github_workflows_publish_apps_publish_app_bundles",
-      "community": 8,
-      "norm_label": "publish app bundles workflow"
-    },
-    {
-      "label": "publish job",
-      "file_type": "code",
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "_github_workflows_publish_apps_job_publish",
-      "community": 8,
-      "norm_label": "publish job"
-    },
-    {
-      "label": "ZeroAI App Repositories (zerospark, zaiblock, zaisim, zaipy, zaicad)",
-      "file_type": "concept",
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "_github_workflows_publish_apps_app_repos",
-      "community": 8,
-      "norm_label": "zeroai app repositories (zerospark, zaiblock, zaisim, zaipy, zaicad)"
-    },
-    {
-      "label": "apps-v<version> GitHub Release",
-      "file_type": "concept",
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "_github_workflows_publish_apps_apps_v_release",
-      "community": 8,
-      "norm_label": "apps-v<version> github release"
-    },
-    {
-      "label": "manifest.json bump inline script",
-      "file_type": "code",
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "_github_workflows_publish_apps_manifest_json_bump",
-      "community": 8,
-      "norm_label": "manifest.json bump inline script"
+      "norm_label": "board-packs github release",
+      "_origin": "semantic",
+      "id": "_github_workflows_board_packs_board_packs_release",
+      "community_name": "build matrix job (macOS/Win/Linux)"
     },
     {
       "label": "Build Installers Workflow",
@@ -2296,9 +2788,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_release_build_installers",
       "community": 16,
-      "norm_label": "build installers workflow"
+      "norm_label": "build installers workflow",
+      "_origin": "semantic",
+      "id": "_github_workflows_release_build_installers",
+      "community_name": "build job (macOS/Windows/Ubuntu)"
     },
     {
       "label": "build job (macOS/Windows/Ubuntu)",
@@ -2309,9 +2803,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_release_job_build",
       "community": 16,
-      "norm_label": "build job (macos/windows/ubuntu)"
+      "norm_label": "build job (macos/windows/ubuntu)",
+      "_origin": "semantic",
+      "id": "_github_workflows_release_job_build",
+      "community_name": "build job (macOS/Windows/Ubuntu)"
     },
     {
       "label": "node scripts/fetch-config.cjs",
@@ -2322,9 +2818,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_release_fetch_config_script",
       "community": 16,
-      "norm_label": "node scripts/fetch-config.cjs"
+      "norm_label": "node scripts/fetch-config.cjs",
+      "_origin": "semantic",
+      "id": "_github_workflows_release_fetch_config_script",
+      "community_name": "build job (macOS/Windows/Ubuntu)"
     },
     {
       "label": "zeroai-tech/zeroai-studio-releases Repository",
@@ -2335,9 +2833,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "_github_workflows_release_zeroai_studio_releases_repo",
       "community": 16,
-      "norm_label": "zeroai-tech/zeroai-studio-releases repository"
+      "norm_label": "zeroai-tech/zeroai-studio-releases repository",
+      "_origin": "semantic",
+      "id": "_github_workflows_release_zeroai_studio_releases_repo",
+      "community_name": "build job (macOS/Windows/Ubuntu)"
     },
     {
       "label": "ZeroAI Studio Desktop Architecture",
@@ -2348,9 +2848,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_zeroai_studio_desktop_app",
       "community": 8,
-      "norm_label": "zeroai studio desktop architecture"
+      "norm_label": "zeroai studio desktop architecture",
+      "_origin": "semantic",
+      "id": "readme_zeroai_studio_desktop_app",
+      "community_name": "ZeroAI Studio Desktop Architecture"
     },
     {
       "label": "Privileged app:// Scheme Architecture",
@@ -2361,9 +2863,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_electron_app_scheme",
       "community": 8,
-      "norm_label": "privileged app:// scheme architecture"
+      "norm_label": "privileged app:// scheme architecture",
+      "_origin": "semantic",
+      "id": "readme_electron_app_scheme",
+      "community_name": "ZeroAI Studio Desktop Architecture"
     },
     {
       "label": "manifest.json Catalog Distribution",
@@ -2374,9 +2878,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_manifest_json_catalog",
       "community": 8,
-      "norm_label": "manifest.json catalog distribution"
+      "norm_label": "manifest.json catalog distribution",
+      "_origin": "semantic",
+      "id": "readme_manifest_json_catalog",
+      "community_name": "ZeroAI Studio Desktop Architecture"
     },
     {
       "label": "window.__ZEROAI_DESKTOP__ Preload Bridge",
@@ -2387,9 +2893,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_window_zeroai_desktop",
       "community": 8,
-      "norm_label": "window.__zeroai_desktop__ preload bridge"
+      "norm_label": "window.__zeroai_desktop__ preload bridge",
+      "_origin": "semantic",
+      "id": "readme_window_zeroai_desktop",
+      "community_name": "ZeroAI Studio Desktop Architecture"
     },
     {
       "label": "Offline Classroom & Lab Provisioning",
@@ -2400,9 +2908,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_offline_lab_provisioning",
       "community": 8,
-      "norm_label": "offline classroom & lab provisioning"
+      "norm_label": "offline classroom & lab provisioning",
+      "_origin": "semantic",
+      "id": "readme_offline_lab_provisioning",
+      "community_name": "ZeroAI Studio Desktop Architecture"
     },
     {
       "label": "Code Signing Plan (macOS & Windows)",
@@ -2413,9 +2923,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_code_signing_plan",
       "community": 23,
-      "norm_label": "code signing plan (macos & windows)"
+      "norm_label": "code signing plan (macos & windows)",
+      "_origin": "semantic",
+      "id": "readme_code_signing_plan",
+      "community_name": "Code Signing Plan (macOS & Windows)"
     },
     {
       "label": "Activate ZeroAI Studio Legacy Page",
@@ -2426,9 +2938,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "activate_activate_page",
       "community": 6,
-      "norm_label": "activate zeroai studio legacy page"
+      "norm_label": "activate zeroai studio legacy page",
+      "_origin": "semantic",
+      "id": "activate_activate_page",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "Machine ID Display & Clipboard Copier",
@@ -2439,9 +2953,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "activate_machine_id_display",
       "community": 6,
-      "norm_label": "machine id display & clipboard copier"
+      "norm_label": "machine id display & clipboard copier",
+      "_origin": "semantic",
+      "id": "activate_machine_id_display",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "activate() Activation Handler",
@@ -2452,9 +2968,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "activate_activate_function",
       "community": 6,
-      "norm_label": "activate() activation handler"
+      "norm_label": "activate() activation handler",
+      "_origin": "semantic",
+      "id": "activate_activate_function",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "window.zeroaiLicense Preload Bridge",
@@ -2465,178 +2983,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "activate_zeroai_license_bridge",
       "community": 6,
-      "norm_label": "window.zeroailicense preload bridge"
-    },
-    {
-      "label": "Studio Launcher Shell UI",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_studio_launcher_ui",
-      "community": 21,
-      "norm_label": "studio launcher shell ui"
-    },
-    {
-      "label": "BRAND Gradient & Glow Mapping",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_brand_config",
-      "community": 9,
-      "norm_label": "brand gradient & glow mapping"
-    },
-    {
-      "label": "show(view) View Navigator",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_show_view",
-      "community": 20,
-      "norm_label": "show(view) view navigator"
-    },
-    {
-      "label": "toast(text, kind) Toast System",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_toast_function",
-      "community": 9,
-      "norm_label": "toast(text, kind) toast system"
-    },
-    {
-      "label": "row(a) App Row Renderer",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_row_builder",
-      "community": 9,
-      "norm_label": "row(a) app row renderer"
-    },
-    {
-      "label": "openMenu(rowEl, a) Overflow Action Menu",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_open_menu",
-      "community": 9,
-      "norm_label": "openmenu(rowel, a) overflow action menu"
-    },
-    {
-      "label": "install(a, rowEl) App Download & Installer",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_install_app",
-      "community": 9,
-      "norm_label": "install(a, rowel) app download & installer"
-    },
-    {
-      "label": "updateAll(outdated) Bulk Updater",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_update_all_apps",
-      "community": 9,
-      "norm_label": "updateall(outdated) bulk updater"
-    },
-    {
-      "label": "launch(a) App Execution Launcher",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_launch_app",
-      "community": 9,
-      "norm_label": "launch(a) app execution launcher"
-    },
-    {
-      "label": "renderHero(apps) Dashboard Hero Manager",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_render_hero",
-      "community": 9,
-      "norm_label": "renderhero(apps) dashboard hero manager"
-    },
-    {
-      "label": "refresh(silent) App Catalog Syncer",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_refresh_catalog",
-      "community": 9,
-      "norm_label": "refresh(silent) app catalog syncer"
-    },
-    {
-      "label": "Shell Update Check via GitHub API",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_shell_update_check",
-      "community": 19,
-      "norm_label": "shell update check via github api"
-    },
-    {
-      "label": "window.studio IPC Bridge API",
-      "file_type": "code",
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "id": "apps_studio_index_window_studio_api",
-      "community": 9,
-      "norm_label": "window.studio ipc bridge api"
+      "norm_label": "window.zeroailicense preload bridge",
+      "_origin": "semantic",
+      "id": "activate_zeroai_license_bridge",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "Ed25519 Signed Offline Licensing Architecture",
@@ -2647,9 +2998,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_readme_ed25519_licensing",
       "community": 6,
-      "norm_label": "ed25519 signed offline licensing architecture"
+      "norm_label": "ed25519 signed offline licensing architecture",
+      "_origin": "semantic",
+      "id": "license_readme_ed25519_licensing",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "Private Key (private.pem) Security Rationale",
@@ -2660,9 +3013,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_readme_private_key_management",
       "community": 6,
-      "norm_label": "private key (private.pem) security rationale"
+      "norm_label": "private key (private.pem) security rationale",
+      "_origin": "semantic",
+      "id": "license_readme_private_key_management",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "cli.js keygen & mint Tooling",
@@ -2673,9 +3028,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_readme_key_minting_cli",
       "community": 6,
-      "norm_label": "cli.js keygen & mint tooling"
+      "norm_label": "cli.js keygen & mint tooling",
+      "_origin": "semantic",
+      "id": "license_readme_key_minting_cli",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "Client-side Hardware Binding Security Rationale",
@@ -2686,9 +3043,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_readme_licensing_limitations",
       "community": 6,
-      "norm_label": "client-side hardware binding security rationale"
+      "norm_label": "client-side hardware binding security rationale",
+      "_origin": "semantic",
+      "id": "license_readme_licensing_limitations",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "License Minter Web Application",
@@ -2699,9 +3058,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_license_minter_ui",
       "community": 22,
-      "norm_label": "license minter web application"
+      "norm_label": "license minter web application",
+      "_origin": "semantic",
+      "id": "license_minter_license_minter_ui",
+      "community_name": "License Minter Web Application"
     },
     {
       "label": "b64url(bytes) Encoding Utility",
@@ -2712,9 +3073,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_b64url_helper",
       "community": 6,
-      "norm_label": "b64url(bytes) encoding utility"
+      "norm_label": "b64url(bytes) encoding utility",
+      "_origin": "semantic",
+      "id": "license_minter_b64url_helper",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "importPem(pem) WebCrypto PKCS8 Importer",
@@ -2725,9 +3088,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_import_pem_function",
       "community": 6,
-      "norm_label": "importpem(pem) webcrypto pkcs8 importer"
+      "norm_label": "importpem(pem) webcrypto pkcs8 importer",
+      "_origin": "semantic",
+      "id": "license_minter_import_pem_function",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "loadPem(pem) Key Validator",
@@ -2738,9 +3103,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_load_pem_function",
       "community": 6,
-      "norm_label": "loadpem(pem) key validator"
+      "norm_label": "loadpem(pem) key validator",
+      "_origin": "semantic",
+      "id": "license_minter_load_pem_function",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "mint(school, machine, days) License Signer",
@@ -2751,9 +3118,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_mint_function",
       "community": 6,
-      "norm_label": "mint(school, machine, days) license signer"
+      "norm_label": "mint(school, machine, days) license signer",
+      "_origin": "semantic",
+      "id": "license_minter_mint_function",
+      "community_name": "mint(school, machine, days) License Signer"
     },
     {
       "label": "gen.onclick Batch License Generator",
@@ -2764,9 +3133,11 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "license_minter_generate_handler",
       "community": 6,
-      "norm_label": "gen.onclick batch license generator"
+      "norm_label": "gen.onclick batch license generator",
+      "_origin": "semantic",
+      "id": "license_minter_generate_handler",
+      "community_name": "mint(school, machine, days) License Signer"
     }
   ],
   "links": [
@@ -3781,6 +4152,30 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "license/verifier.js",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_starttrial",
+      "target": "license_core_machineid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "license/verifier.js",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_trialstatus",
+      "target": "license_core_machineid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
       "source_file": "license/core.js",
       "source_location": "L56",
       "weight": 1.0,
@@ -3819,7 +4214,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "license/verifier.js",
-      "source_location": "L28",
+      "source_location": "L115",
       "weight": 1.0,
       "_origin": "ast",
       "source": "license_verifier_activate",
@@ -3831,7 +4226,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "license/verifier.js",
-      "source_location": "L19",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "license_verifier_status",
@@ -3841,7 +4236,19 @@
       "relation": "indirect_call",
       "confidence": "INFERRED",
       "source_file": "license/verifier.js",
-      "source_location": "L33",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "source": "license_verifier",
+      "target": "license_verifier_access",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "license/verifier.js",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "context": "collection",
@@ -3897,12 +4304,47 @@
       "relation": "indirect_call",
       "confidence": "INFERRED",
       "source_file": "license/verifier.js",
-      "source_location": "L33",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "source": "license_verifier",
+      "target": "license_verifier_starttrial",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "license/verifier.js",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "context": "collection",
       "source": "license_verifier",
       "target": "license_verifier_status",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier",
+      "target": "license_verifier_trialpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "indirect_call",
+      "confidence": "INFERRED",
+      "source_file": "license/verifier.js",
+      "source_location": "L120",
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "collection",
+      "source": "license_verifier",
+      "target": "license_verifier_trialstatus",
       "confidence_score": 0.5
     },
     {
@@ -3922,7 +4364,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "license/verifier.js",
-      "source_location": "L29",
+      "source_location": "L116",
       "weight": 1.0,
       "_origin": "ast",
       "source": "license_verifier_activate",
@@ -3934,11 +4376,71 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "license/verifier.js",
-      "source_location": "L18",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
       "source": "license_verifier_status",
       "target": "license_verifier_licensepath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L82",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_starttrial",
+      "target": "license_verifier_trialpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_trialstatus",
+      "target": "license_verifier_trialpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_access",
+      "target": "license_verifier_status",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_access",
+      "target": "license_verifier_trialstatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "license/verifier.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "license_verifier_starttrial",
+      "target": "license_verifier_trialstatus",
       "confidence_score": 1.0
     },
     {
@@ -3967,17 +4469,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L38",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "main",
-      "target": "main_apps_dir",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "main.js",
       "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
@@ -3989,7 +4480,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L446",
+      "source_location": "L569",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4000,7 +4491,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L148",
+      "source_location": "L204",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main",
+      "target": "main_clamptodisplay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L218",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4022,7 +4524,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L402",
+      "source_location": "L522",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4033,7 +4535,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L56",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4044,7 +4546,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L322",
+      "source_location": "L423",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4055,7 +4557,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L401",
+      "source_location": "L521",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4066,7 +4568,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L399",
+      "source_location": "L519",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4077,7 +4579,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L443",
+      "source_location": "L563",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4110,7 +4612,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L47",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4121,7 +4623,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L444",
+      "source_location": "L567",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4132,7 +4634,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L116",
+      "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4154,7 +4656,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L39",
+      "source_location": "L72",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4165,7 +4667,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L275",
+      "source_location": "L364",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4176,7 +4678,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L230",
+      "source_location": "L319",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4187,7 +4689,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L42",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4209,7 +4711,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L98",
+      "source_location": "L131",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4220,7 +4722,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L109",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4242,7 +4744,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L81",
+      "source_location": "L114",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4253,7 +4755,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L43",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4264,7 +4766,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L339",
+      "source_location": "L440",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4275,7 +4777,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L252",
+      "source_location": "L341",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4286,11 +4788,33 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L224",
+      "source_location": "L472",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main",
+      "target": "main_sessionpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L313",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
       "target": "main_sha256file",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L192",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main",
+      "target": "main_sizefordisplay",
       "confidence_score": 1.0
     },
     {
@@ -4308,7 +4832,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L435",
+      "source_location": "L47",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main",
+      "target": "main_studio_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L555",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4319,7 +4854,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L76",
+      "source_location": "L109",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4330,7 +4865,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L44",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main",
@@ -4342,7 +4877,19 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L123",
+      "source_location": "L161",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main_handle",
+      "target": "main_studio_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L161",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_handle",
@@ -4354,7 +4901,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L231",
+      "source_location": "L320",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installapp",
@@ -4366,7 +4913,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L263",
+      "source_location": "L352",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_seedbundledapps",
@@ -4378,7 +4925,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L43",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_readinstalled",
@@ -4390,7 +4937,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L44",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_writeinstalled",
@@ -4402,7 +4949,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L477",
+      "source_location": "L600",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_buildmenu",
@@ -4414,7 +4961,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L243",
+      "source_location": "L332",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installapp",
@@ -4426,7 +4973,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L259",
+      "source_location": "L348",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_seedbundledapps",
@@ -4438,7 +4985,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L243",
+      "source_location": "L332",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installapp",
@@ -4450,7 +4997,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L269",
+      "source_location": "L358",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_seedbundledapps",
@@ -4462,7 +5009,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L277",
+      "source_location": "L366",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installallheadless",
@@ -4474,7 +5021,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L234",
+      "source_location": "L323",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installapp",
@@ -4487,11 +5034,23 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "main.js",
-      "source_location": "L129",
+      "source_location": "L167",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_handle",
       "target": "main_needs_coi"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "main.js",
+      "source_location": "L219",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "main_createwindow",
+      "target": "main_sizefordisplay",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -4499,7 +5058,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "main.js",
-      "source_location": "L169",
+      "source_location": "L243",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_createwindow",
@@ -4510,7 +5069,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L236",
+      "source_location": "L325",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installapp",
@@ -4522,7 +5081,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L281",
+      "source_location": "L370",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_installallheadless",
@@ -4534,7 +5093,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L444",
+      "source_location": "L567",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_goto",
@@ -4546,7 +5105,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "main.js",
-      "source_location": "L461",
+      "source_location": "L584",
       "weight": 1.0,
       "_origin": "ast",
       "source": "main_buildmenu",
@@ -4590,7 +5149,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -4601,7 +5160,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -4623,7 +5182,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -4678,6 +5237,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_scripts",
+      "target": "package_scripts_bundle_hub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
@@ -4716,6 +5286,39 @@
       "_origin": "ast",
       "source": "package_scripts",
       "target": "package_scripts_dist_legacy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_scripts",
+      "target": "package_scripts_dist_legacy_linux",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_scripts",
+      "target": "package_scripts_dist_legacy_mac",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_scripts",
+      "target": "package_scripts_dist_legacy_win",
       "confidence_score": 1.0
     },
     {
@@ -4766,7 +5369,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -4777,7 +5380,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -4788,7 +5391,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L22",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4800,7 +5403,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L23",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4812,7 +5415,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -4823,7 +5426,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_dependencies",
@@ -4834,7 +5437,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L26",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4846,7 +5449,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L27",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -4858,7 +5461,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4869,7 +5472,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4880,7 +5483,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4891,7 +5494,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L106",
+      "source_location": "L109",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4902,7 +5505,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4913,7 +5516,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L78",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4924,7 +5527,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L46",
+      "source_location": "L49",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4935,7 +5538,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L74",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4946,7 +5549,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4957,7 +5560,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L99",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4968,7 +5571,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L60",
+      "source_location": "L63",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build",
@@ -4979,7 +5582,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_directories",
@@ -4990,7 +5593,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_directories",
@@ -5001,7 +5604,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5013,19 +5616,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
-      "weight": 1.0,
-      "context": "import",
-      "_origin": "ast",
-      "source": "package_build_files",
-      "target": "ref_apps",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "extends",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5037,7 +5628,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5049,7 +5640,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5061,7 +5652,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5073,7 +5664,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5085,7 +5676,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5097,7 +5688,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5109,7 +5700,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5121,7 +5712,7 @@
       "relation": "extends",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -5133,7 +5724,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L58",
+      "source_location": "L61",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_mac",
@@ -5144,7 +5735,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L56",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_mac",
@@ -5155,7 +5746,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L57",
+      "source_location": "L60",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_mac",
@@ -5166,7 +5757,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L47",
+      "source_location": "L50",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_mac",
@@ -5177,7 +5768,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L72",
+      "source_location": "L75",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_win",
@@ -5188,7 +5779,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L71",
+      "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_win",
@@ -5199,7 +5790,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L61",
+      "source_location": "L64",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_win",
@@ -5210,7 +5801,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L76",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_nsis",
@@ -5221,7 +5812,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L75",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_nsis",
@@ -5232,7 +5823,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L97",
+      "source_location": "L100",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_linux",
@@ -5243,7 +5834,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L96",
+      "source_location": "L99",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_linux",
@@ -5254,7 +5845,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L95",
+      "source_location": "L98",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_linux",
@@ -5265,7 +5856,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L79",
+      "source_location": "L82",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_build_linux",
@@ -5276,7 +5867,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "preload.js",
-      "source_location": "L19",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "preload",
+      "target": "preload_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "preload.js",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
       "source": "preload",
@@ -5314,6 +5916,96 @@
       "_origin": "ast",
       "source": "preload",
       "target": "preload_readarg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "preload.js",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "preload",
+      "target": "preload_suite",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "preload.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "preload_appid",
+      "target": "preload_suite"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "preload.js",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "preload_app",
+      "target": "preload_appid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_alias_artifacts",
+      "target": "scripts_alias_artifacts_esc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_alias_artifacts",
+      "target": "scripts_alias_artifacts_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_alias_artifacts",
+      "target": "scripts_alias_artifacts_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_alias_artifacts",
+      "target": "scripts_alias_artifacts_rel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/alias-artifacts.cjs",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_alias_artifacts",
+      "target": "scripts_alias_artifacts_rules",
       "confidence_score": 1.0
     },
     {
@@ -5568,155 +6260,111 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L15",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L42",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_apps",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_dist",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L11",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_code",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_du",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L9",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_execsync",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_execsync",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_fs",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_out",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_path",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps-legacy.cjs",
-      "source_location": "L25",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps_legacy",
-      "target": "scripts_bundle_apps_legacy_versions",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_crypto",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_fs",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
+      "source_file": "scripts/bundle-hub.cjs",
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_get",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_fs",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L10",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_https",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_hub",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L14",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_manifest",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_legacy",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L13",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_out",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_marketing_only",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "scripts/bundle-apps.cjs",
-      "source_location": "L9",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "scripts_bundle_apps",
-      "target": "scripts_bundle_apps_path",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_out",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/bundle-hub.cjs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_bundle_hub",
+      "target": "scripts_bundle_hub_pkg",
       "confidence_score": 1.0
     },
     {
@@ -5778,6 +6426,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_pack_legacy",
+      "target": "scripts_pack_legacy_editionfile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pack-legacy.cjs",
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
@@ -5794,6 +6453,28 @@
       "_origin": "ast",
       "source": "scripts_pack_legacy",
       "target": "scripts_pack_legacy_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L66",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_pack_legacy",
+      "target": "scripts_pack_legacy_hadconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L53",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_pack_legacy",
+      "target": "scripts_pack_legacy_lock",
       "confidence_score": 1.0
     },
     {
@@ -5822,17 +6503,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/pack-legacy.cjs",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "scripts_pack_legacy",
-      "target": "scripts_pack_legacy_renames",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/pack-legacy.cjs",
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
@@ -5852,12 +6522,201 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_pack_legacy",
+      "target": "scripts_pack_legacy_staged",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/pack-legacy.cjs",
+      "source_location": "L121",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_pack_legacy",
+      "target": "scripts_pack_legacy_stray",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_dir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_execfilesync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_gh",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_os",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta",
+      "target": "scripts_publish_ascolta_run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/publish-ascolta.cjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_publish_ascolta_api",
+      "target": "scripts_publish_ascolta_gh",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_fail",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_fs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_ok",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_root",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-package.cjs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "scripts_verify_package",
+      "target": "scripts_verify_package_roots",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": ".github/workflows/board-packs.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_board_packs_build_arduino_board_packs",
       "target": "_github_workflows_board_packs_job_build"
     },
@@ -5868,6 +6727,7 @@
       "source_file": ".github/workflows/board-packs.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_board_packs_build_arduino_board_packs",
       "target": "_github_workflows_board_packs_job_create_release"
     },
@@ -5878,6 +6738,7 @@
       "source_file": ".github/workflows/board-packs.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_board_packs_job_create_release",
       "target": "_github_workflows_board_packs_board_packs_release"
     },
@@ -5888,6 +6749,7 @@
       "source_file": ".github/workflows/board-packs.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_board_packs_job_build",
       "target": "_github_workflows_board_packs_board_packs_release"
     },
@@ -5898,58 +6760,9 @@
       "source_file": ".github/workflows/board-packs.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_board_packs_job_build",
       "target": "_github_workflows_board_packs_script_build_arduino_packs"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "_github_workflows_publish_apps_publish_app_bundles",
-      "target": "_github_workflows_publish_apps_job_publish"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "_github_workflows_publish_apps_job_publish",
-      "target": "_github_workflows_publish_apps_app_repos"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "_github_workflows_publish_apps_job_publish",
-      "target": "_github_workflows_publish_apps_apps_v_release"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".github/workflows/publish-apps.yml",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "_github_workflows_publish_apps_job_publish",
-      "target": "_github_workflows_publish_apps_manifest_json_bump"
-    },
-    {
-      "relation": "shares_data_with",
-      "confidence": "INFERRED",
-      "confidence_score": 0.95,
-      "source_file": "README.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "readme_manifest_json_catalog",
-      "target": "_github_workflows_publish_apps_manifest_json_bump"
     },
     {
       "relation": "calls",
@@ -5958,6 +6771,7 @@
       "source_file": ".github/workflows/release.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_release_build_installers",
       "target": "_github_workflows_release_job_build"
     },
@@ -5968,6 +6782,7 @@
       "source_file": ".github/workflows/release.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_release_job_build",
       "target": "_github_workflows_release_fetch_config_script"
     },
@@ -5978,6 +6793,7 @@
       "source_file": ".github/workflows/release.yml",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "_github_workflows_release_job_build",
       "target": "_github_workflows_release_zeroai_studio_releases_repo"
     },
@@ -5988,6 +6804,7 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_zeroai_studio_desktop_app",
       "target": "readme_electron_app_scheme"
     },
@@ -5998,6 +6815,7 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_zeroai_studio_desktop_app",
       "target": "readme_manifest_json_catalog"
     },
@@ -6008,6 +6826,7 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_zeroai_studio_desktop_app",
       "target": "readme_offline_lab_provisioning"
     },
@@ -6018,18 +6837,9 @@
       "source_file": "README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "readme_zeroai_studio_desktop_app",
       "target": "readme_window_zeroai_desktop"
-    },
-    {
-      "relation": "conceptually_related_to",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "source_file": "README.md",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "readme_manifest_json_catalog",
-      "target": "apps_studio_index_refresh_catalog"
     },
     {
       "relation": "references",
@@ -6038,6 +6848,7 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_activate_page",
       "target": "activate_activate_function"
     },
@@ -6048,6 +6859,7 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_activate_page",
       "target": "activate_machine_id_display"
     },
@@ -6058,6 +6870,7 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_machine_id_display",
       "target": "activate_zeroai_license_bridge"
     },
@@ -6068,6 +6881,7 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_activate_function",
       "target": "activate_zeroai_license_bridge"
     },
@@ -6078,6 +6892,7 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_activate_function",
       "target": "license_minter_mint_function"
     },
@@ -6088,188 +6903,9 @@
       "source_file": "activate.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "activate_zeroai_license_bridge",
       "target": "license_readme_ed25519_licensing"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_launch_app",
-      "target": "apps_studio_index_brand_config"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_row_builder",
-      "target": "apps_studio_index_brand_config"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_install_app",
-      "target": "apps_studio_index_toast_function"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_open_menu",
-      "target": "apps_studio_index_toast_function"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_refresh_catalog",
-      "target": "apps_studio_index_row_builder"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_row_builder",
-      "target": "apps_studio_index_install_app"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_row_builder",
-      "target": "apps_studio_index_launch_app"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_row_builder",
-      "target": "apps_studio_index_open_menu"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_open_menu",
-      "target": "apps_studio_index_refresh_catalog"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_open_menu",
-      "target": "apps_studio_index_window_studio_api"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_install_app",
-      "target": "apps_studio_index_refresh_catalog"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_install_app",
-      "target": "apps_studio_index_window_studio_api"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_update_all_apps",
-      "target": "apps_studio_index_install_app"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_render_hero",
-      "target": "apps_studio_index_update_all_apps"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_launch_app",
-      "target": "apps_studio_index_window_studio_api"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_render_hero",
-      "target": "apps_studio_index_launch_app"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_refresh_catalog",
-      "target": "apps_studio_index_render_hero"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "apps/studio/index.html",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "apps_studio_index_refresh_catalog",
-      "target": "apps_studio_index_window_studio_api"
     },
     {
       "relation": "implements",
@@ -6278,6 +6914,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_mint_function",
       "target": "license_readme_ed25519_licensing"
     },
@@ -6288,6 +6925,7 @@
       "source_file": "license/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_readme_ed25519_licensing",
       "target": "license_readme_key_minting_cli"
     },
@@ -6298,6 +6936,7 @@
       "source_file": "license/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_readme_ed25519_licensing",
       "target": "license_readme_licensing_limitations"
     },
@@ -6308,6 +6947,7 @@
       "source_file": "license/README.md",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_readme_ed25519_licensing",
       "target": "license_readme_private_key_management"
     },
@@ -6318,6 +6958,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_load_pem_function",
       "target": "license_readme_private_key_management"
     },
@@ -6328,6 +6969,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_mint_function",
       "target": "license_readme_key_minting_cli"
     },
@@ -6338,6 +6980,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_mint_function",
       "target": "license_minter_b64url_helper"
     },
@@ -6348,6 +6991,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_load_pem_function",
       "target": "license_minter_import_pem_function"
     },
@@ -6358,6 +7002,7 @@
       "source_file": "license/minter.html",
       "source_location": null,
       "weight": 1.0,
+      "_origin": "semantic",
       "source": "license_minter_generate_handler",
       "target": "license_minter_mint_function"
     }
@@ -6376,34 +7021,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "license/README.md"
-    },
-    {
-      "id": "github_actions_ci_cd_pipeline",
-      "label": "ZeroAI Studio GitHub Actions CI/CD Workflows",
-      "nodes": [
-        "_github_workflows_board_packs_build_arduino_board_packs",
-        "_github_workflows_publish_apps_publish_app_bundles",
-        "_github_workflows_release_build_installers"
-      ],
-      "relation": "form",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": ".github/workflows/publish-apps.yml"
-    },
-    {
-      "id": "app_catalog_management_flow",
-      "label": "App Catalog Build, Publish, and Sync Flow",
-      "nodes": [
-        "_github_workflows_publish_apps_job_publish",
-        "readme_manifest_json_catalog",
-        "apps_studio_index_refresh_catalog",
-        "apps_studio_index_install_app"
-      ],
-      "relation": "participate_in",
-      "confidence": "INFERRED",
-      "confidence_score": 0.95,
-      "source_file": "apps/studio/index.html"
     }
   ],
-  "built_at_commit": "dc5acb24172a4c199d362aa458440cba60166182"
+  "built_at_commit": "a5e2325370940386ed0aba13ce850ad3bb4f54bf"
 }
